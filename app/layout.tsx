@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { FloatingNavbar } from "./modules/common/components/floating-navbar";
+import { navItems } from "./constants";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +18,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body>
+        <main
+          className={`${inter.className} max-w-6xl mx-auto flex flex-col min-h-screen`}
+        >
+          <FloatingNavbar navItems={navItems} />
+          {children}
+        </main>
+      </body>
     </html>
   );
 }
