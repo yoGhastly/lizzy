@@ -12,7 +12,7 @@ interface Props {
 
 export const MarqueeContainer: React.FC<Props> = ({ items, speed }) => {
   return (
-    <Marquee speed={speed} gradient pauseOnHover>
+    <Marquee speed={speed} gradient pauseOnHover style={{ zIndex: 10 }}>
       {items.map(({ link, name }, idx) => (
         <MarqueeCategory key={`${name}-${idx}`} category={{ link, name }} />
       ))}
