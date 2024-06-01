@@ -10,6 +10,7 @@ import { AttractiveText } from "./attractive-text";
 import { UserIcon } from "@heroicons/react/16/solid";
 import { NavLinks } from "./navbar/nav-links";
 import Image from "next/image";
+import { Logo } from "../icons";
 
 interface Props {
   navItems: {
@@ -35,12 +36,7 @@ export const FloatingNavbar: React.FC<Props> = ({ navItems, className }) => {
         )}
       >
         <div className="relative w-10 md:w-16 h-full m-auto">
-          <Image
-            src="/assets/images/novi-logo.svg"
-            alt="Novi"
-            fill
-            className="object-contain"
-          />
+          <Logo />
         </div>
       </Link>
 
