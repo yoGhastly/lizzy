@@ -1,9 +1,9 @@
 "use client";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import React, { useMemo, useRef } from "react";
-import { cn } from "../../../utils/cn";
 import * as THREE from "three";
 import { AnimatePresence } from "framer-motion";
+import { cn } from "@/app/utils/cn";
 
 export const CanvasRevealEffect = ({
   animationSpeed = 0.4,
@@ -43,7 +43,7 @@ export const CanvasRevealEffect = ({
         />
       </div>
       {showGradient && (
-        <div className="absolute inset-0 bg-gradient-to-t from-gray-950 to-[84%]" />
+        <div className="absolute inset-0 bg-gradient-to-t from-transparent to-[84%]" />
       )}
     </div>
   );

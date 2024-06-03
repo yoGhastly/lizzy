@@ -9,20 +9,25 @@ import Link from "next/link";
 import { LinkSection } from "./link-section";
 import { footerLinks } from "@/app/constants";
 
-export const Footer = () => {
+export const Footer = ({ hideSeeCatalogueButton = false }: { hideSeeCatalogueButton?: boolean }) => {
   return (
     <footer className="relative bottom-0 flex flex-col w-full min-h-[600px]">
       <div className="border-b border-b-black/30 w-full flex justify-center items-center min-h-36">
-        <Link
-          href="#"
-          className={cn(
-            "uppercase border-2 border-black rounded-xl px-3 md:px-5 py-2.5 md:py-3 font-medium bg-transparent text-black",
-            "hover:bg-black hover:text-white cursor-pointer transition-colors duration-200 ease-in-out",
-            "text-xs md:text-sm",
-          )}
-        >
-          EXPLORA NUESTRO CATÁLOGO
-        </Link>
+        {
+          !hideSeeCatalogueButton && (
+            <Link
+              href="#"
+              className={cn(
+                "uppercase border-2 border-black rounded-xl px-3 md:px-5 py-2.5 md:py-3 font-medium bg-transparent text-black",
+                "hover:bg-black hover:text-white cursor-pointer transition-colors duration-200 ease-in-out",
+                "text-xs md:text-sm",
+              )}
+            >
+              EXPLORA NUESTRO CATÁLOGO
+            </Link>
+
+          )
+        }
       </div>
 
       <section className="w-full min-h-[300px] flex justify-center items-center">

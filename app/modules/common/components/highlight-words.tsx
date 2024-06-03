@@ -4,10 +4,13 @@ import React from "react";
 interface HighlightWordsProps {
   highlights: string[];
   text: string;
+  highlightClassname?: string;
 }
+
 
 export const HighlightWords: React.FC<HighlightWordsProps> = ({
   highlights,
+  highlightClassname,
   text,
 }) => {
   // Sort highlights by length in descending order to match longer phrases first
@@ -26,7 +29,7 @@ export const HighlightWords: React.FC<HighlightWordsProps> = ({
         sortedHighlights.some(
           (highlight) => highlight.toLowerCase() === part.toLowerCase(),
         ) ? (
-          <span key={index} className={cn("text-novi-700")}>
+          <span key={index} className={cn(highlightClassname ? highlightClassname : "text-novi-700")}>
             {part}
           </span>
         ) : (
