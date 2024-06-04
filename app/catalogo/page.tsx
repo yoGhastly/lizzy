@@ -1,20 +1,13 @@
 "use client";
-
-import { useState } from "react";
 import { DecorativeTitle } from "../modules/common/components/decorative-title";
 import { HighlightWords } from "../modules/common/components/highlight-words";
-import { AnimatePresence } from "framer-motion";
-import {
-  CanvasRevealEffect,
-  Icon,
-} from "../modules/common/components/canvas-revea-effect";
-import Image from "next/image";
 import { CanvasRevealContainerCatalogue } from "../modules/catalogue/canvas-reveal-container";
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
 import { Footer } from "../modules/common/layout/footer";
+import Link from "next/link";
+import { cn } from "../utils/cn";
 
 export default function Catalogue() {
-  const [hovered, setHovered] = useState(false);
   const text = {
     pageDescription: `
     Explora nuestro catálogo completo y descubre una amplia gama de
@@ -40,7 +33,7 @@ export default function Catalogue() {
   };
 
   return (
-    <section className="mt-14">
+    <section className="mt-14 px-5 md:px-0">
       <div className="flex flex-col gap-4">
         <DecorativeTitle decorative={false}>Catálogo</DecorativeTitle>
         <HighlightWords
@@ -48,18 +41,26 @@ export default function Catalogue() {
           highlights={wordsToHighlight.pageHighlights}
         />
         <CanvasRevealContainerCatalogue />
-        <div className="flex justify-between items-center">
-          <div className="max-w-sm">
-            <HighlightWords
-              text={text.catalogueSectionDescription}
-              highlights={wordsToHighlight.catalogueSectionHightlights}
-              highlightClassname="text-black text-lg font-medium"
-            />
-          </div>
-          <button className="flex gap-2 justify-center font-semibold items-center text-white  bg-novi-400 shadow-inner dropshadow-sm px-5 py-3 rounded-full">
-            Explorar <ArrowRightIcon className="h-5" />
-          </button>
+      </div>
+      <div className="flex flex-col md:flex-row justify-between gap-5 items-start md:items-center mt-6">
+        <div className="max-w-sm">
+          <HighlightWords
+            text={text.catalogueSectionDescription}
+            highlights={wordsToHighlight.catalogueSectionHightlights}
+            highlightClassname="text-black text-sm md:text-lg font-medium"
+          />
         </div>
+        <Link
+          href="/catalogo/productos?category=all"
+          className={
+            cn("flex gap-2 justify-center",
+              "hover:bg-novi-500 transition-colors duration-100",
+              "font-semibold items-center text-white text-sm md:text-[16px] bg-novi-400 shadow-inner dropshadow-sm",
+              "md:px-5 px-3 py-2 md:py-3 rounded-full")
+          }
+        >
+          Explorar <ArrowRightIcon className="h-5" />
+        </Link>
       </div>
       <Footer hideSeeCatalogueButton />
     </section>

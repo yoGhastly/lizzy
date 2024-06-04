@@ -24,7 +24,7 @@ export const HighlightWords: React.FC<HighlightWordsProps> = ({
   const parts = text.split(regex).filter(Boolean);
 
   return (
-    <p className="text-muted-gray max-w-[55rem]">
+    <p className="text-sm text-muted-gray max-w-[55rem]">
       {parts.map((part, index) =>
         sortedHighlights.some(
           (highlight) => highlight.toLowerCase() === part.toLowerCase(),
