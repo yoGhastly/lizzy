@@ -1,3 +1,4 @@
+import React from 'react';
 export default function ProductsPage() {
   return (
     <div className="mx-auto mt-14">

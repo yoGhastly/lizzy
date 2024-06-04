@@ -1,11 +1,11 @@
 "use client";
 import { DecorativeTitle } from "../modules/common/components/decorative-title";
 import { HighlightWords } from "../modules/common/components/highlight-words";
-import { CanvasRevealContainerCatalogue } from "../modules/catalogue/canvas-reveal-container";
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
 import { Footer } from "../modules/common/layout/footer";
 import Link from "next/link";
 import { cn } from "../utils/cn";
+import { CanvasRevealContainerCatalogue } from "../modules/catalogue/canvas-reveal-container";
 
 export default function Catalogue() {
   const text = {
@@ -52,12 +52,12 @@ export default function Catalogue() {
         </div>
         <Link
           href="/catalogo/productos?category=all"
-          className={
-            cn("flex gap-2 justify-center",
-              "hover:bg-novi-500 transition-colors duration-100",
-              "font-semibold items-center text-white text-sm md:text-[16px] bg-novi-400 shadow-inner dropshadow-sm",
-              "md:px-5 px-3 py-2 md:py-3 rounded-full")
-          }
+          className={cn(
+            "flex gap-2 justify-center",
+            "hover:bg-novi-500 transition-colors duration-100",
+            "font-semibold items-center text-white text-sm md:text-[16px] bg-novi-400 shadow-inner dropshadow-sm",
+            "md:px-5 px-3 py-2 md:py-3 rounded-full",
+          )}
         >
           Explorar <ArrowRightIcon className="h-5" />
         </Link>
