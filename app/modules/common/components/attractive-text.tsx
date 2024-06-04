@@ -9,11 +9,11 @@ export const AttractiveText = ({
   active?: boolean;
 }) => {
   return (
-    <div className="relative">
+    <span className="relative">
       <span>{element}</span>
       {active && (
         <span className="bg-novi-500 rounded-full w-1.5 h-1.5 absolute top-[0.13rem] -right-[0.10rem]" />
       )}
-    </div>
+    </span>
   );
 };

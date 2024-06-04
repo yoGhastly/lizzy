@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { FloatingNavbar } from "./modules/common/components/floating-navbar";
 import { navItems } from "./constants";
+import { Providers } from "./providers/providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,12 +20,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <main
-          className={`${inter.className} max-w-6xl mx-auto flex flex-col min-h-screen`}
-        >
-          <FloatingNavbar navItems={navItems} />
-          {children}
-        </main>
+        <Providers>
+          <main
+            className={`${inter.className} max-w-6xl mx-auto flex flex-col min-h-screen`}
+          >
+            <FloatingNavbar navItems={navItems} />
+            {children}
+          </main>
+        </Providers>
       </body>
     </html>
   );

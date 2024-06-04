@@ -4,7 +4,7 @@ import { cn } from "../../../utils/cn";
 export const DecorativeTitle = ({
   children,
   decorative = true,
-  className,
+  className = "text-novi-950",
 }: Readonly<{
   children: React.ReactNode;
   decorative?: boolean;
@@ -14,7 +14,7 @@ export const DecorativeTitle = ({
     <h1
       className={cn(
         className,
-        "text-xl md:text-4xl text-novi-950 flex gap-2 items-center font-semibold",
+        "text-xl md:text-4xl flex gap-2 items-center font-semibold",
         DMSans.className,
       )}
     >

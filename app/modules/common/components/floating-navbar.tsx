@@ -9,7 +9,6 @@ import {
 import { AttractiveText } from "./attractive-text";
 import { UserIcon } from "@heroicons/react/16/solid";
 import { NavLinks } from "./navbar/nav-links";
-import Image from "next/image";
 import { Logo } from "../icons";
 
 interface Props {
