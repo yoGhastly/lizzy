@@ -1,4 +1,4 @@
-import { DMSans, InstrumentSerif } from "../../../config/fonts";
+import { DMSans } from "../../../config/fonts";
 import { cn } from "../../../utils/cn";
 
 export const DecorativeTitle = ({
