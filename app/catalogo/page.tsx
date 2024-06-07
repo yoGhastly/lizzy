@@ -33,7 +33,7 @@ export default function Catalogue() {
   };
 
   return (
-    <section className="mt-14 px-5 md:px-0">
+    <section className="mt-14 px-5 md:px-2">
       <div className="flex flex-col gap-4">
         <DecorativeTitle decorative={false}>Catálogo</DecorativeTitle>
         <HighlightWords
