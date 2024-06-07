@@ -44,8 +44,8 @@ export const ProductsSection: React.FC<Props> = ({
         </p>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-2">
-        {products.map((_, idx) => (
-          <ProductCard key={idx} />
+        {products.map((product, idx) => (
+          <ProductCard key={idx} product={product} />
         ))}
       </div>
     </section>
