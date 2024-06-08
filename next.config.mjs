@@ -1,9 +1,4 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  experimental: {
-    // TODO: Wrap useSearchParams with Suspense
-    missingSuspenseWithCSRBailout: false,
-  }
-};
+const nextConfig = {};
 
 export default nextConfig;

@@ -3,12 +3,13 @@ import { DecorativeTitle } from "../../common/components/decorative-title";
 import { ProductCard } from "../components/card";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import type { Product } from "../types";
 
 type Description = { text: string; gradientText?: string };
 interface Props {
   title: string;
-  description: Description;
-  products: any[];
+  description?: Description;
+  products: Product[];
 }
 
 export const ProductsSection: React.FC<Props> = ({
@@ -29,19 +30,21 @@ export const ProductsSection: React.FC<Props> = ({
             <ArrowRightIcon className="h-4 text-novi-950" />
           </Link>
         </div>
-        <p className="text-base text-sm max-w-2xl inline-block">
-          {description.text}
-          {description.gradientText && (
-            <span
-              className={cn(
-                "bg-gradient-to-r from-[#22190D] via-novi-primary to-[#524D44]",
-                "text-transparent bg-clip-text ml-1",
-              )}
-            >
-              {description.gradientText}
-            </span>
-          )}
-        </p>
+        {description && (
+          <p className="text-base text-sm max-w-2xl inline-block">
+            {description.text}
+            {description.gradientText && (
+              <span
+                className={cn(
+                  "bg-gradient-to-r from-[#22190D] via-novi-primary to-[#524D44]",
+                  "text-transparent bg-clip-text ml-1",
+                )}
+              >
+                {description.gradientText}
+              </span>
+            )}
+          </p>
+        )}
       </div>
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-2">
         {products.map((product, idx) => (

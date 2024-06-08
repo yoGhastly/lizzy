@@ -20,43 +20,43 @@ export const footerLinks = {
   help: [
     {
       name: "Comprar online",
-      href: "#",
+      href: "/hola",
     },
     {
       name: "Pago",
-      href: "#",
+      href: "/hola2",
     },
     {
       name: "Envío",
-      href: "#",
+      href: "/hola3",
     },
   ],
   aboutUs: [
     {
       name: "Sobre Nosotros",
-      href: "#",
+      href: "/hola4",
     },
     {
       name: "Política de privacidad",
-      href: "#",
+      href: "/hola5",
     },
     {
       name: "Política de envio",
-      href: "#",
+      href: "/hola6",
     },
   ],
   socials: [
     {
       icon: Instagram,
-      href: "#",
+      href: "/hola7",
     },
     {
       icon: Facebook,
-      href: "#",
+      href: "/hola8",
     },
     {
       icon: Twitter,
-      href: "#",
+      href: "/hola9",
     },
   ],
 };
@@ -145,6 +145,21 @@ export const productsMock = [
   {
     id: 3,
     name: "Option3",
+    price: 100,
+  },
+  {
+    id: 4,
+    name: "Option4",
+    price: 100,
+  },
+  {
+    id: 5,
+    name: "Option5",
+    price: 100,
+  },
+  {
+    id: 6,
+    name: "Option6",
     price: 100,
   },
 ];

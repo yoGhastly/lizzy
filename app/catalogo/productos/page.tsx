@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 import { ProductCard } from "@/app/modules/products/components/card";
 import { DecorativeTitle } from "@/app/modules/common/components/decorative-title";
 import {
@@ -52,7 +52,9 @@ export default function ProductsPage({
     <div className="mx-auto mt-14 flex flex-col w-full px-5">
       <section className="flex w-full h-full gap-16">
         <aside className="w-fit h-screen hidden md:block">
-          <CategoryCollapsibleMenu category={displayCategory} />
+          <Suspense>
+            <CategoryCollapsibleMenu category={displayCategory} />
+          </Suspense>
         </aside>
         <main className="flex flex-col w-full gap-4">
           <DecorativeTitle

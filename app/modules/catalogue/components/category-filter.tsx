@@ -33,7 +33,7 @@ export const CategoryFilter: React.FC<Props> = ({ filterOptions }) => {
             onClick={() => handleFilterClick(category.name)}
             className={cn(
               "btn btn-outline md:btn-outline btn-sm md:btn",
-              "opacity-50 text-xs md:text-sm font-normal",
+              "text-xs md:text-sm font-normal",
               "hover:bg-white hover:text-black hover:opacity-100",
               {
                 "opacity-100":
@@ -51,10 +51,10 @@ export const CategoryFilter: React.FC<Props> = ({ filterOptions }) => {
         className={cn(
           "btn btn-outline md:btn-outline btn-sm md:btn",
           "text-xs md:text-sm font-normal",
-          "hover:bg-white hover:text-black hover:opacity-100",
+          "hover:bg-white",
         )}
       >
-        <AdjustmentsHorizontalIcon className="h-4 md:h-6" />
+        <AdjustmentsHorizontalIcon className="h-4 md:h-6 text-black" />
       </button>
     </div>
   );

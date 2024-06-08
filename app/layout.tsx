@@ -4,6 +4,7 @@ import "./globals.css";
 import { FloatingNavbar } from "./modules/common/components/floating-navbar";
 import { navItems } from "./constants";
 import { Providers } from "./providers/providers";
+import { Suspense } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,7 +25,9 @@ export default function RootLayout({
           <main
             className={`${inter.className} max-w-6xl mx-auto flex flex-col min-h-screen`}
           >
-            <FloatingNavbar navItems={navItems} />
+            <Suspense>
+              <FloatingNavbar navItems={navItems} />
+            </Suspense>
             {children}
           </main>
         </Providers>

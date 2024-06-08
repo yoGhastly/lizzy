@@ -14,7 +14,7 @@ export const DecorativeTitle = ({
     <h1
       className={cn(
         className,
-        "text-xl md:text-4xl flex gap-2 items-center font-semibold",
+        "text-xl md:text-3xl flex gap-2 items-center font-semibold",
         DMSans.className,
       )}
     >
