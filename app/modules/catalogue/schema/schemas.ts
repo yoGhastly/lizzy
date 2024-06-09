@@ -1,9 +1,7 @@
 import { z } from "zod";
 
-export const categorySchema = z.string({
-  required_error: "Category is required",
-});
+export const categorySchema = z.string().default("all");
 
 export const searchParamsSchema = z.object({
-  category: categorySchema,
+  category: categorySchema.optional(),
 });

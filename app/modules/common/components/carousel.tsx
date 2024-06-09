@@ -33,7 +33,6 @@ export const ProductsCarousel: React.FC<Props> = ({ products }) => {
       sliderClass="gap-4"
       centerMode
       slidesToSlide={2}
-      infinite
     >
       {products.map((product) => (
         <ProductCard key={product.id} product={product} />

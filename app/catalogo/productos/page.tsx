@@ -15,7 +15,7 @@ import { searchParamsSchema } from "@/app/modules/catalogue/schema/schemas";
 import { useCatalogueStore } from "@/app/modules/catalogue/store/catalogue.store";
 
 interface SearchParams {
-  category: string;
+  category?: string;
 }
 
 export default function ProductsPage({
@@ -26,6 +26,8 @@ export default function ProductsPage({
   const setCategory = useCatalogueStore((state) => state.setCategory);
 
   useEffect(() => {
+    console.log("searchParams:", searchParams);
+
     const result = searchParamsSchema.safeParse(searchParams);
     if (!result.success) {
       console.error(result.error.errors);
@@ -34,7 +36,9 @@ export default function ProductsPage({
     }
 
     const paramCategory =
-      searchParams.category === "all" ? "Ver Todo" : searchParams.category;
+      searchParams.category === "all"
+        ? "Ver Todo"
+        : searchParams.category || "Ver Todo";
     setCategory(paramCategory);
   }, [searchParams, setCategory]);
 
