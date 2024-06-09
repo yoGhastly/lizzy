@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export const FlaoatingProductInfo = () => {
   return (
-    <div className="sticky bottom-16 mx-auto z-[1000] inset-x-0 max-w-4xl w-full h-10 border">
+    <div className="sticky bottom-16 mx-auto z-[1000] inset-x-0 max-w-4xl w-full h-10">
       <section className="bg-white px-4 py-2 md:px-8 md:py-5 drop-shadow-md rounded-md flex items-center justify-between">
         <div className="flex gap-6 items-center">
           <Avatar>
