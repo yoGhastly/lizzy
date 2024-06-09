@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^2.0.4",
     "@heroicons/react": "^2.1.3",
     "@nextui-org/scroll-shadow": "^2.1.16",
     "@nextui-org/system": "^2.2.1",
