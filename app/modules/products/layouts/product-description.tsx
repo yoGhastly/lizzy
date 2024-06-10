@@ -1,13 +1,15 @@
 "use client";
-
 import {
   BuildingStorefrontIcon,
   HeartIcon,
   ShoppingBagIcon,
   TruckIcon,
 } from "@heroicons/react/24/outline";
+import { useCartStore } from "../../cart/store/cart.store";
 
 export const ProductDescription = () => {
+  const { toggleCart } = useCartStore((state) => state);
+
   return (
     <div className="flex flex-col gap-3">
       <section className="flex flex-col gap-12">
@@ -32,7 +34,10 @@ export const ProductDescription = () => {
         </div>
 
         <div className="flex flex-col gap-4">
-          <button className="btn bg-novi-400 text-white text-[16px] font-medium hover:bg-novi-400 hover:bg-opacity-90">
+          <button
+            onClick={toggleCart}
+            className="btn bg-novi-400 text-white text-[16px] font-medium hover:bg-novi-400 hover:bg-opacity-90"
+          >
             <ShoppingBagIcon className="h-4" />
             Agregar
           </button>

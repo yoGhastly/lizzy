@@ -27,7 +27,7 @@ export default function Home() {
           text: "Descubre los productos más queridos por nuestros clientes. Estos artículos han sido probados y",
           gradientText: "amados por personas como tú.",
         }}
-        products={productsMock}
+        products={productsMock.slice(0, 5)}
       />
 
       <ProductsSection
@@ -35,7 +35,7 @@ export default function Home() {
         description={{
           text: "Mantente al día con las novedades y descubre los productos más emocionantes para actualizar tu rutina de cuidado personal.",
         }}
-        products={productsMock}
+        products={productsMock.slice(0, 5)}
       />
 
       <Footer />

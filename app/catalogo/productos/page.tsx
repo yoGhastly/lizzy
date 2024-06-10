@@ -26,15 +26,6 @@ export default function ProductsPage({
   const setCategory = useCatalogueStore((state) => state.setCategory);
 
   useEffect(() => {
-    console.log("searchParams:", searchParams);
-
-    const result = searchParamsSchema.safeParse(searchParams);
-    if (!result.success) {
-      console.error(result.error.errors);
-      setCategory("Ver Todo"); // Default to 'Ver Todo' if validation fails
-      return;
-    }
-
     const paramCategory =
       searchParams.category === "all"
         ? "Ver Todo"

@@ -6,7 +6,6 @@ import {
   DialogTitle,
   Transition,
 } from "@headlessui/react";
-import { PencilIcon, TrashIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { ModalHeader } from "./modal/header";
 import { ModalDescription } from "./modal/description";
 import { CartFooter } from "./modal/cart-footer";
@@ -30,7 +29,7 @@ export const Modal = ({ open = false, onClose }: Props) => {
       >
         <Dialog
           onClose={onClose}
-          className="fixed inset-0 z-50 overflow-hidden"
+          className="fixed inset-0 z-[10000] overflow-hidden"
         >
           <div
             className="fixed inset-0 bg-white bg-opacity-25 backdrop-blur-sm"

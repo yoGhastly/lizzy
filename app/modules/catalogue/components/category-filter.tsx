@@ -14,10 +14,21 @@ interface Props {
 }
 
 export const CategoryFilter: React.FC<Props> = ({ filterOptions }) => {
-  const [searchParams, setSearchParams] = useState({ category: "all" });
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
 
-  const handleFilterClick = (category: string) => {
-    setSearchParams({ category: category.toLowerCase() });
+  const handleCategorySelection = (category: string) => {
+    setSelectedCategory(category);
+  };
+
+  const memoizedClassName = (category: string) => {
+    return cn(
+      "btn btn-outline md:btn-outline btn-sm md:btn",
+      "text-xs md:text-sm font-normal",
+      "hover:bg-white hover:text-black hover:opacity-100",
+      {
+        "opacity-100": category.toLowerCase() === selectedCategory,
+      },
+    );
   };
 
   return (
@@ -30,18 +41,8 @@ export const CategoryFilter: React.FC<Props> = ({ filterOptions }) => {
         {filterOptions.map((category) => (
           <button
             key={category.id}
-            onClick={() => handleFilterClick(category.name)}
-            className={cn(
-              "btn btn-outline md:btn-outline btn-sm md:btn",
-              "text-xs md:text-sm font-normal",
-              "hover:bg-white hover:text-black hover:opacity-100",
-              {
-                "opacity-100":
-                  (category.name === "Ver Todo" &&
-                    searchParams.category === "all") ||
-                  category.name.toLowerCase() === searchParams.category,
-              },
-            )}
+            className={memoizedClassName(category.name.toLowerCase())}
+            onClick={() => handleCategorySelection(category.name.toLowerCase())}
           >
             {category.name}
           </button>

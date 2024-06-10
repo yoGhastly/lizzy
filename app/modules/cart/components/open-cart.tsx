@@ -1,20 +1,19 @@
 "use client";
 
 import { ShoppingCartIcon } from "@heroicons/react/24/solid";
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { Modal } from "./modal";
+import { useCartStore } from "../store/cart.store";
 
 export const OpenCart = () => {
-  const [open, setOpen] = useState(false);
-  const onClose = () => setOpen(false);
-  const onOpen = () => setOpen(true);
+  const { openCart, toggleCart } = useCartStore((state) => state);
 
   return (
     <Fragment>
-      <button className="flex items-center" onClick={onOpen}>
+      <button className="flex items-center" onClick={toggleCart}>
         <ShoppingCartIcon className="h-6 text-muted-gray" />
       </button>
-      <Modal open={open} onClose={onClose} />
+      <Modal open={openCart} onClose={toggleCart} />
     </Fragment>
   );
 };
