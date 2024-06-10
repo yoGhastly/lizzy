@@ -9,7 +9,9 @@ import { productsMock } from "./constants";
 
 export default function Home() {
   const [speeds] = useState(() => [35, 28, 30]);
-  const isSm = useMediaQuery("(max-width: 640px)");
+  const sm = useMediaQuery("(max-width: 640px)");
+  const products = sm ? productsMock : productsMock.slice(0, 5);
+
   return (
     <div className="flex flex-col items-center w-full gap-12 md:gap-24 mt-14 md:mt-24 mx-auto px-5">
       <header className="w-full flex flex-col gap-12 md:gap-24 justify-center">
@@ -27,7 +29,7 @@ export default function Home() {
           text: "Descubre los productos más queridos por nuestros clientes. Estos artículos han sido probados y",
           gradientText: "amados por personas como tú.",
         }}
-        products={productsMock.slice(0, 5)}
+        products={products}
       />
 
       <ProductsSection
@@ -35,7 +37,7 @@ export default function Home() {
         description={{
           text: "Mantente al día con las novedades y descubre los productos más emocionantes para actualizar tu rutina de cuidado personal.",
         }}
-        products={productsMock.slice(0, 5)}
+        products={products}
       />
 
       <Footer />

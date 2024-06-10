@@ -54,7 +54,7 @@ export default function Catalogue() {
           href="/catalogo/productos?category=all"
           className={cn(
             "flex gap-2 justify-center",
-            "hover:bg-novi-500 transition-colors duration-100",
+            "hover:opacity-90 transition-opacity duration-100",
             "font-semibold items-center text-white text-sm md:text-[16px] bg-novi-400 shadow-inner dropshadow-sm",
             "md:px-5 px-3 py-2 md:py-3 rounded-full",
           )}

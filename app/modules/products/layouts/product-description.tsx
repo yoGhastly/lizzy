@@ -6,16 +6,18 @@ import {
   TruckIcon,
 } from "@heroicons/react/24/outline";
 import { useCartStore } from "../../cart/store/cart.store";
+import { Button } from "../../common/components/button";
+import { Product } from "../domain/Product";
 
-export const ProductDescription = () => {
+export const ProductDescription = ({ product }: { product: Product }) => {
   const { toggleCart } = useCartStore((state) => state);
 
   return (
-    <div className="flex flex-col gap-3">
+    <form className="flex flex-col gap-3">
       <section className="flex flex-col gap-12">
         <div className="header-container flex flex-col gap-2">
           <div className="product_header flex  justify-between items-center">
-            <p className="font-bold text-[16px]">Small precision sponge</p>
+            <p className="font-bold text-[16px]">{product.name}</p>
             <HeartIcon className="h-6" />
           </div>
 
@@ -34,13 +36,10 @@ export const ProductDescription = () => {
         </div>
 
         <div className="flex flex-col gap-4">
-          <button
-            onClick={toggleCart}
-            className="btn bg-novi-400 text-white text-[16px] font-medium hover:bg-novi-400 hover:bg-opacity-90"
-          >
+          <Button type="button" onClick={toggleCart}>
             <ShoppingBagIcon className="h-4" />
             Agregar
-          </button>
+          </Button>
 
           <div className="flex flex-col gap-0">
             <button className="btn btn-outline pointer-events-none justify-start text-muted-gray rounded-b-none hover:bg-white hover:text-muted-gray border border-muted-gray/50 rounded-md">
@@ -63,17 +62,9 @@ export const ProductDescription = () => {
 
         <div className="border-t flex flex-col gap-3 border-t-muted-gray/50 p-5">
           <p className="text-novi-950 font-semibold">Descripción</p>
-          <p className="mx-auto text-muted-gray">
-            Commodo Lorem nisi tempor elit excepteur minim ad ut in id
-            adipisicing laborum ad dolore sunt. Quis duis fugiat sit pariatur
-            mollit ad aliquip velit fugiat id. Excepteur aute aute aliqua
-            pariatur incididunt anim commodo voluptate consectetur. In minim
-            veniam id enim proident cupidatat sunt laborum aliquip. Et officia
-            aliqua sunt velit in quis magna amet esse nisi sint magna aute
-            labore irure.
-          </p>
+          <p className="mx-auto text-muted-gray">{product.description}</p>
         </div>
       </section>
-    </div>
+    </form>
   );
 };
