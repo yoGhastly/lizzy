@@ -6,6 +6,7 @@ export interface Product {
   id: number;
   name: string;
   description: string;
+  price: number;
   brand: string;
   category: string;
   variants: ProductVariant[];

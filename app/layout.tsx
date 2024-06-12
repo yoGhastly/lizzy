@@ -5,6 +5,7 @@ import { FloatingNavbar } from "./modules/common/components/floating-navbar";
 import { navItems } from "./constants";
 import { Providers } from "./providers/providers";
 import { Suspense } from "react";
+import { auth } from "@clerk/nextjs/server";
 
 const inter = Inter({ subsets: ["latin"] });
 

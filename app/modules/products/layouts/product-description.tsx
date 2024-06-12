@@ -8,12 +8,33 @@ import {
 import { useCartStore } from "../../cart/store/cart.store";
 import { Button } from "../../common/components/button";
 import { Product } from "../domain/Product";
+import {
+  startTransition,
+  useActionState,
+  useState,
+  useTransition,
+} from "react";
+import { useFormStatus } from "react-dom";
 
-export const ProductDescription = ({ product }: { product: Product }) => {
+interface Props {
+  product: Product;
+  addProductToCart: () => void;
+}
+
+export const ProductDescription: React.FC<Props> = ({
+  product,
+  addProductToCart,
+}) => {
   const { toggleCart } = useCartStore((state) => state);
+  const { pending } = useFormStatus();
+
+  function addToCart() {
+    addProductToCart();
+    toggleCart();
+  }
 
   return (
-    <form className="flex flex-col gap-3">
+    <form action={addToCart} className="flex flex-col gap-3">
       <section className="flex flex-col gap-12">
         <div className="header-container flex flex-col gap-2">
           <div className="product_header flex  justify-between items-center">
@@ -22,7 +43,7 @@ export const ProductDescription = ({ product }: { product: Product }) => {
           </div>
 
           <div className="product_price_variants flex flex-col gap-4">
-            <p className="text-xl">$299.00</p>
+            <p className="text-xl">${product.price}</p>
             <div className="flex gap-2">
               {["green", "red", "blue"].map((color) => (
                 <div
@@ -36,8 +57,12 @@ export const ProductDescription = ({ product }: { product: Product }) => {
         </div>
 
         <div className="flex flex-col gap-4">
-          <Button type="button" onClick={toggleCart}>
-            <ShoppingBagIcon className="h-4" />
+          <Button type="submit">
+            {pending ? (
+              <span className="loading loading-spinner loading-xs"></span>
+            ) : (
+              <ShoppingBagIcon className="h-4" />
+            )}
             Agregar
           </Button>
 

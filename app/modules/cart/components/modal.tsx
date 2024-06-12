@@ -9,6 +9,7 @@ import {
 import { ModalHeader } from "./modal/header";
 import { ModalDescription } from "./modal/description";
 import { CartFooter } from "./modal/cart-footer";
+import { useCookies } from "next-client-cookies";
 
 interface Props {
   open: boolean;
@@ -16,6 +17,10 @@ interface Props {
 }
 
 export const Modal = ({ open = false, onClose }: Props) => {
+  const cookies = useCookies();
+  const cartId = cookies.get("cart");
+  console.log("Cart: ", JSON.parse(cartId || "{}"));
+
   return (
     <>
       <Transition

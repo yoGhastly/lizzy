@@ -1,13 +1,14 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { cn } from "../../../utils/cn";
 import Link from "next/link";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
+import { MagnifyingGlassIcon, TruckIcon } from "@heroicons/react/24/solid";
 import { AttractiveText } from "./attractive-text";
 import { UserIcon } from "@heroicons/react/16/solid";
 import { NavLinks } from "./navbar/nav-links";
 import { Logo } from "../icons";
 import { OpenCart } from "../../cart/components/open-cart";
+import { AccountDropDownMenu } from "./dropdown-menu";
 
 interface Props {
   navItems: {
@@ -61,7 +62,9 @@ export const FloatingNavbar: React.FC<Props> = ({ navItems, className }) => {
             "hidden md:block rounded-none w-[0.05rem] h-4 bg-muted-gray/30",
           )}
         />
-        <UserIcon className="h-5 md:h-6 text-muted-gray" />
+        <AccountDropDownMenu
+          triggerElement={<UserIcon className="h-5 md:h-6 text-muted-gray" />}
+        />
       </div>
     </div>
   );

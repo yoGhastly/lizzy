@@ -3,7 +3,7 @@ import { Cart, CartItem, CartRepository } from "../domain/Cart";
 import { sql } from "@vercel/postgres";
 
 export class MySqlCartsRepository implements CartRepository {
-  async create(cart: Cart): Promise<void> {
+  async create(cart: Cart): Promise<number> {
     const { user_id, session_id, created_at, updated_at } = cart;
     const formattedCreatedAt = formatDate(created_at);
     const formattedUpdatedAt = formatDate(updated_at);
@@ -14,6 +14,10 @@ export class MySqlCartsRepository implements CartRepository {
       RETURNING id
     `;
     cart.id = result.rows[0].id;
+
+    console.log({ cart });
+
+    return cart.id;
   }
 
   async getCartByUserId(userId: number): Promise<Cart | null> {
@@ -69,6 +73,65 @@ export class MySqlCartsRepository implements CartRepository {
         INSERT INTO cart_items (cart_id, product_id, variant_id, quantity, price)
         VALUES (${cartId}, ${product_id}, ${variant_id}, ${quantity}, ${price})
       `;
+    }
+  }
+
+  async getCartById(id: string): Promise<Cart | null> {
+    if (!id) {
+      return null;
+    }
+
+    const cartResult = await sql`
+      SELECT * FROM carts WHERE id = ${id}
+    `;
+
+    if (cartResult.rows.length === 0) {
+      return null;
+    }
+
+    const cartRow = cartResult.rows[0];
+    const itemsResult = await sql`
+      SELECT * FROM cart_items WHERE cart_id = ${cartRow.id}
+    `;
+
+    const items: CartItem[] = itemsResult.rows.map((row: any) => ({
+      product_id: row.product_id,
+      variant_id: row.variant_id,
+      quantity: row.quantity,
+      price: row.price,
+    }));
+
+    const cart: Cart = {
+      id: cartRow.id,
+      user_id: cartRow.user_id,
+      session_id: cartRow.session_id,
+      created_at: cartRow.created_at,
+      updated_at: cartRow.updated_at,
+      items: items,
+    };
+
+    return cart;
+  }
+
+  async addItemToCartForUser(userId: number, item: CartItem): Promise<void> {
+    let cart = await this.getCartByUserId(userId);
+
+    if (!cart) {
+      const newCart: Cart = {
+        id: 0, // This will be set in the create method
+        user_id: userId,
+        session_id: "", // Set session ID as needed
+        created_at: new Date(),
+        updated_at: new Date(),
+        items: [],
+      };
+
+      const cartId = await this.create(newCart);
+      cart = await this.getCartById(cartId.toString());
+    }
+
+    if (cart) {
+      await this.addItemToCart(cart.id, item);
     }
   }
 }

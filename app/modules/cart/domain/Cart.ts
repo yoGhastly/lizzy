@@ -15,7 +15,8 @@ export interface CartItem {
 }
 
 export interface CartRepository {
-  create(cart: Cart): Promise<void>;
+  create(cart: Cart): Promise<number>;
   getCartByUserId(userId: number): Promise<Cart | null>;
+  getCartById(id: string): Promise<Cart | null>;
   addItemToCart(cartId: number, item: CartItem): Promise<void>;
 }

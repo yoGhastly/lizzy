@@ -6,12 +6,12 @@ export const navItems = [
     link: "/",
   },
   {
-    name: "Catalogo",
+    name: "Catálogo",
     link: "/catalogo",
     attractive: true,
   },
   {
-    name: "Conocenos",
+    name: "Conócenos",
     link: "/nosotros",
   },
 ];
