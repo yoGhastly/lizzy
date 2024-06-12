@@ -68,14 +68,52 @@ export default async function ProductPage({
           <DecorativeTitle decorative={false} className="text-xl text-novi-950">
             Otras personas también compraron
           </DecorativeTitle>
-          <ProductsCarousel products={productsMock} />
+          <ProductsCarousel
+            products={[
+              {
+                id: 1,
+                name: "Producto 1",
+                price: 100,
+                description: "Descripción del producto",
+                brand: "Marca",
+                category: "Categoría",
+                variants: [
+                  {
+                    id: 1,
+                    name: "Variante 1",
+                    price: 100,
+                    stock: 10,
+                  },
+                ],
+              },
+            ]}
+          />
         </section>
 
         <section className="flex flex-col w-full gap-8 mx-auto px-5">
           <DecorativeTitle decorative={false} className="text-xl text-novi-950">
             Te puede interesar
           </DecorativeTitle>
-          <ProductsCarousel products={productsMock} />
+          <ProductsCarousel
+            products={[
+              {
+                id: 1,
+                name: "Producto 1",
+                price: 100,
+                description: "Descripción del producto",
+                brand: "Marca",
+                category: "Categoría",
+                variants: [
+                  {
+                    id: 1,
+                    name: "Variante 1",
+                    price: 100,
+                    stock: 10,
+                  },
+                ],
+              },
+            ]}
+          />
         </section>
         <Suspense>
           <FlaoatingProductInfo product={product} />
