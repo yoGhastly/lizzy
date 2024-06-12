@@ -1,8 +1,8 @@
 "use client";
-import { Product } from "../../products/types";
 import { ProductCard } from "../../products/components/card";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import { Product } from "../../products/domain/Product";
 
 interface Props {
   products: Product[];
