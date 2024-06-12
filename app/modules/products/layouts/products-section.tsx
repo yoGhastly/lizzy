@@ -3,7 +3,7 @@ import { DecorativeTitle } from "../../common/components/decorative-title";
 import { ProductCard } from "../components/card";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import type { Product } from "../types";
+import { Product } from "../domain/Product";
 
 type Description = { text: string; gradientText?: string };
 interface Props {
