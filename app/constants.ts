@@ -1,4 +1,5 @@
 import { Facebook, Instagram, Twitter } from "./modules/common/icons";
+import { Product } from "./modules/products/domain/Product";
 
 export const navItems = [
   {
@@ -131,35 +132,101 @@ export const mockNailsOptions = [
   },
 ];
 
-export const productsMock = [
+export const productsMock: Product[] = [
   {
     id: 1,
     name: "Option1",
+    description: "Description",
     price: 100,
+    brand: "Brand",
+    category: "Category",
+    variants: [
+      {
+        id: 1,
+        name: "Option1Variant1",
+        price: 100,
+        stock: 10,
+      },
+    ],
   },
   {
     id: 2,
     name: "Option2",
+    description: "Description",
     price: 100,
+    brand: "Brand",
+    category: "Category",
+    variants: [
+      {
+        id: 1,
+        name: "Option1Variant1",
+        price: 100,
+        stock: 10,
+      },
+    ],
   },
   {
     id: 3,
     name: "Option3",
+    description: "Description",
     price: 100,
+    brand: "Brand",
+    category: "Category",
+    variants: [
+      {
+        id: 1,
+        name: "Option1Variant1",
+        price: 100,
+        stock: 10,
+      },
+    ],
   },
   {
     id: 4,
     name: "Option4",
+    description: "Description",
     price: 100,
+    brand: "Brand",
+    category: "Category",
+    variants: [
+      {
+        id: 1,
+        name: "Option1Variant1",
+        price: 100,
+        stock: 10,
+      },
+    ],
   },
   {
     id: 5,
     name: "Option5",
+    description: "Description",
     price: 100,
+    brand: "Brand",
+    category: "Category",
+    variants: [
+      {
+        id: 1,
+        name: "Option1Variant1",
+        price: 100,
+        stock: 10,
+      },
+    ],
   },
   {
     id: 6,
     name: "Option6",
+    description: "Description",
     price: 100,
+    brand: "Brand",
+    category: "Category",
+    variants: [
+      {
+        id: 1,
+        name: "Option1Variant1",
+        price: 100,
+        stock: 10,
+      },
+    ],
   },
 ];
