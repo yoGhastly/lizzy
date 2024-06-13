@@ -1,5 +1,4 @@
 import { unstable_noStore as noStore } from "next/cache";
-import { productsMock } from "@/app/constants";
 import { ProductsCarousel } from "@/app/modules/common/components/carousel";
 import { DecorativeTitle } from "@/app/modules/common/components/decorative-title";
 import { Footer } from "@/app/modules/common/layout/footer";
@@ -11,6 +10,7 @@ import { Suspense } from "react";
 import { MySqlCartsRepository } from "@/app/modules/cart/infrastructure/CartsRepository";
 import { cookies } from "next/headers";
 import { FlaoatingProductInfo } from "@/app/modules/products/components/floating-product-info";
+import { productsMock } from "@/app/constants";
 
 const carts = new MySqlCartsRepository();
 
@@ -68,52 +68,14 @@ export default async function ProductPage({
           <DecorativeTitle decorative={false} className="text-xl text-novi-950">
             Otras personas también compraron
           </DecorativeTitle>
-          <ProductsCarousel
-            products={[
-              {
-                id: 1,
-                name: "Producto 1",
-                price: 100,
-                description: "Descripción del producto",
-                brand: "Marca",
-                category: "Categoría",
-                variants: [
-                  {
-                    id: 1,
-                    name: "Variante 1",
-                    price: 100,
-                    stock: 10,
-                  },
-                ],
-              },
-            ]}
-          />
+          <ProductsCarousel products={productsMock} />
         </section>
 
         <section className="flex flex-col w-full gap-8 mx-auto px-5">
           <DecorativeTitle decorative={false} className="text-xl text-novi-950">
             Te puede interesar
           </DecorativeTitle>
-          <ProductsCarousel
-            products={[
-              {
-                id: 1,
-                name: "Producto 1",
-                price: 100,
-                description: "Descripción del producto",
-                brand: "Marca",
-                category: "Categoría",
-                variants: [
-                  {
-                    id: 1,
-                    name: "Variante 1",
-                    price: 100,
-                    stock: 10,
-                  },
-                ],
-              },
-            ]}
-          />
+          <ProductsCarousel products={productsMock} />
         </section>
         <Suspense>
           <FlaoatingProductInfo product={product} />

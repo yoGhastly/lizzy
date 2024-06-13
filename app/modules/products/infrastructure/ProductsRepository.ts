@@ -8,4 +8,13 @@ export class MySqlProductsRepository implements ProductsRepository {
     `;
     return products as Product[];
   }
+  async get(id: number): Promise<Product | null> {
+    const { rows: products } = await sql`
+      SELECT * FROM products WHERE id = ${id}
+    `;
+    if (products.length === 0) {
+      return null;
+    }
+    return products[0] as Product;
+  }
 }

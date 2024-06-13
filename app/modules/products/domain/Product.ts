@@ -1,5 +1,6 @@
 export interface ProductsRepository {
   getAll(): Promise<Product[]>;
+  get(id: number): Promise<Product | null>;
 }
 
 export interface Product {

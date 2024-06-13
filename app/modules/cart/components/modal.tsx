@@ -1,59 +1,36 @@
-"use client";
-import {
-  Description,
-  Dialog,
-  DialogPanel,
-  DialogTitle,
-  Transition,
-} from "@headlessui/react";
-import { ModalHeader } from "./modal/header";
+import { cn } from "@/app/utils/cn";
+import { Cart } from "../domain/Cart";
+import { CartLayoutBody } from "../layouts/cart-layout-body";
+import { CartLayoutHeader } from "../layouts/cart-layout-header";
+import { ProductCart } from "../layouts/product-cart";
+import { CartLayout } from "./cart-layout";
 import { ModalDescription } from "./modal/description";
-import { CartFooter } from "./modal/cart-footer";
-import { useCookies } from "next-client-cookies";
 
 interface Props {
-  open: boolean;
-  onClose: () => void;
+  cart: Cart | null;
 }
 
-export const Modal = ({ open = false, onClose }: Props) => {
-  const cookies = useCookies();
-  const cartId = cookies.get("cart");
-  console.log("Cart: ", JSON.parse(cartId || "{}"));
-
+export const Modal: React.FC<Props> = async ({ cart }) => {
   return (
-    <>
-      <Transition
-        show={open}
-        enter="duration-100 ease-out"
-        enterFrom="opacity-0"
-        enterTo="opacity-100"
-        leave="duration-300 ease-out"
-        leaveFrom="opacity-100"
-        leaveTo="opacity-0"
-      >
-        <Dialog
-          onClose={onClose}
-          className="fixed inset-0 z-[10000] overflow-hidden"
-        >
-          <div
-            className="fixed inset-0 bg-white bg-opacity-25 backdrop-blur-sm"
-            aria-hidden="true"
-          />
-          <div className="fixed inset-0 flex items-center justify-end md:p-3">
-            <DialogPanel className="w-full max-w-md h-full space-y-4 md:rounded-md border bg-white p-12 shadow-lg flex flex-col">
-              <DialogTitle className="font-bold">
-                <ModalHeader closeCart={onClose} />
-              </DialogTitle>
-              <div className="divider" />
-              <Description className="h-full overflow-y-auto p-3">
-                <ModalDescription />
-              </Description>
-              <CartFooter />
-            </DialogPanel>
-          </div>
-        </Dialog>
-      </Transition>
-    </>
+    <CartLayout>
+      <CartLayoutHeader>
+        <p className="text-center font-bold w-full">
+          Cesta
+          <span className={cn({ hidden: !cart })}>({cart?.items.length})</span>
+        </p>
+      </CartLayoutHeader>
+      <div className="divider" />
+      <CartLayoutBody>
+        <ModalDescription>
+          {cart?.items.map((item) => (
+            <ProductCart
+              key={item.product_id}
+              product={item}
+              quantity={item.quantity}
+            />
+          ))}
+        </ModalDescription>
+      </CartLayoutBody>
+    </CartLayout>
   );
 };

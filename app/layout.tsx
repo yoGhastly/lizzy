@@ -5,7 +5,7 @@ import { FloatingNavbar } from "./modules/common/components/floating-navbar";
 import { navItems } from "./constants";
 import { Providers } from "./providers/providers";
 import { Suspense } from "react";
-import { auth } from "@clerk/nextjs/server";
+import { OpenCart } from "./modules/cart/components/open-cart";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,7 +27,7 @@ export default function RootLayout({
             className={`${inter.className} max-w-6xl mx-auto flex flex-col min-h-screen`}
           >
             <Suspense>
-              <FloatingNavbar navItems={navItems} />
+              <FloatingNavbar navItems={navItems} cart={<OpenCart />} />
             </Suspense>
             {children}
           </main>

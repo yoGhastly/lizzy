@@ -3,10 +3,16 @@
 import { ArrowUpRightIcon, PencilSquareIcon } from "@heroicons/react/24/solid";
 import { AccountLayout } from "../modules/auth/account/account-layout";
 import { DecorativeTitle } from "../modules/common/components/decorative-title";
-import { Button } from "../modules/common/components/button";
 import { cn } from "../utils/cn";
+import { SignOutButton, useAuth } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 
 export default function AccountPage() {
+  const router = useRouter();
+  const { isSignedIn } = useAuth();
+
+  if (!isSignedIn) router.push("/sign-in", { scroll: false });
+
   return (
     <AccountLayout>
       <header className="bg-[#fafafa] rounded-xl flex flex-col md:flex-row justify-center items-center w-full mx-auto px-3 h-[400px] gap-8 md:gap-0">
@@ -23,6 +29,11 @@ export default function AccountPage() {
               <PencilSquareIcon className="h-4 text-[#fafafa]" />
             </button>
           </div>
+          <SignOutButton redirectUrl="/">
+            <button className="btn btn-sm btn-link text-muted-gray w-fit p-0">
+              Cerrar Sesión
+            </button>
+          </SignOutButton>
         </section>
 
         <section className="flex flex-col gap-10 w-full md:px-10">

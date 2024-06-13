@@ -1,13 +1,15 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { Suspense } from "react";
 import { cn } from "../../../utils/cn";
 import Link from "next/link";
-import { MagnifyingGlassIcon, TruckIcon } from "@heroicons/react/24/solid";
+import {
+  MagnifyingGlassIcon,
+  ShoppingCartIcon,
+} from "@heroicons/react/24/solid";
 import { AttractiveText } from "./attractive-text";
 import { UserIcon } from "@heroicons/react/16/solid";
 import { NavLinks } from "./navbar/nav-links";
 import { Logo } from "../icons";
-import { OpenCart } from "../../cart/components/open-cart";
 import { AccountDropDownMenu } from "./dropdown-menu";
 
 interface Props {
@@ -18,9 +20,14 @@ interface Props {
     icon?: JSX.Element;
   }[];
   className?: string;
+  cart: JSX.Element;
 }
 
-export const FloatingNavbar: React.FC<Props> = ({ navItems, className }) => {
+export const FloatingNavbar: React.FC<Props> = ({
+  navItems,
+  className,
+  cart,
+}) => {
   return (
     <div
       className={cn("flex gap-2 max-w-fit sticky top-5 mx-auto z-50 inset-x-0")}
@@ -56,7 +63,16 @@ export const FloatingNavbar: React.FC<Props> = ({ navItems, className }) => {
             "hidden md:block rounded-none w-[0.05rem] h-4 bg-muted-gray/30",
           )}
         />
-        <AttractiveText element={<OpenCart />} active={false} />
+        <AttractiveText
+          element={
+            <Suspense
+              fallback={<ShoppingCartIcon className="h-6 text-muted-gray" />}
+            >
+              {cart}
+            </Suspense>
+          }
+          active={false}
+        />
         <span
           className={cn(
             "hidden md:block rounded-none w-[0.05rem] h-4 bg-muted-gray/30",

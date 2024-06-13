@@ -1,19 +1,25 @@
-"use client";
-
-import { ShoppingCartIcon } from "@heroicons/react/24/solid";
 import { Fragment } from "react";
 import { Modal } from "./modal";
-import { useCartStore } from "../store/cart.store";
+import { OpenCartButton } from "./open-cart-button";
+import { MySqlCartsRepository } from "../infrastructure/CartsRepository";
+import { Cart } from "../domain/Cart";
+import { cookies } from "next/headers";
 
-export const OpenCart = () => {
-  const { openCart, toggleCart } = useCartStore((state) => state);
+const carts = new MySqlCartsRepository();
+
+export const OpenCart = async () => {
+  let cart: Cart | null = null;
+  const c = cookies();
+  const cartId = c.get("cart")?.value;
+
+  if (cartId) {
+    cart = await carts.getCartById(cartId);
+  }
 
   return (
     <Fragment>
-      <button className="flex items-center" onClick={toggleCart}>
-        <ShoppingCartIcon className="h-6 text-muted-gray" />
-      </button>
-      <Modal open={openCart} onClose={toggleCart} />
+      <OpenCartButton />
+      <Modal cart={cart} />
     </Fragment>
   );
 };

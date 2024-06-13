@@ -1,7 +1,6 @@
 "use client";
+import { PropsWithChildren } from "react";
 
-import { ProductCart } from "../../layouts/product-cart";
-
-export const ModalDescription = () => {
-  return <ProductCart />;
+export const ModalDescription: React.FC<PropsWithChildren> = ({ children }) => {
+  return <div className="flex flex-col gap-2">{children}</div>;
 };
