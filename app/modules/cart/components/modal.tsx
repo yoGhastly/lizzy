@@ -5,6 +5,7 @@ import { CartLayoutHeader } from "../layouts/cart-layout-header";
 import { ProductCart } from "../layouts/product-cart";
 import { CartLayout } from "./cart-layout";
 import { ModalDescription } from "./modal/description";
+import { CartLengthLabel } from "./modal/cart-length-label";
 
 interface Props {
   cart: Cart | null;
@@ -16,7 +17,7 @@ export const Modal: React.FC<Props> = async ({ cart }) => {
       <CartLayoutHeader>
         <p className="text-center font-bold w-full">
           Cesta
-          <span className={cn({ hidden: !cart })}>({cart?.items.length})</span>
+          <CartLengthLabel length={cart?.items.length ?? 0} />
         </p>
       </CartLayoutHeader>
       <div className="divider" />

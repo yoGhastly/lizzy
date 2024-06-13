@@ -1,12 +1,17 @@
-import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
+import { PencilIcon } from "@heroicons/react/24/solid";
 import { Product } from "../../products/domain/Product";
 import { getProduct } from "../../products/actions";
+import { CartItem } from "../domain/Cart";
+import { DeleteItemButton } from "./delete-item-button";
+import { EditItemButton } from "./edit-item-button";
 
 export const CartProduct = async ({
   productId,
+  item,
   quantity,
 }: {
   productId: number;
+  item: Omit<CartItem, "quantity" | "price">;
   quantity: number;
 }) => {
   let product: Product = {} as Product;
@@ -27,9 +32,9 @@ export const CartProduct = async ({
               MXN {product.price}
             </span>
             <div className="flex gap-2">
-              <PencilIcon className="h-4 text-black/60" />
+              <EditItemButton />
               <div className="h-4 w-[2px] bg-muted-gray/50"></div>
-              <TrashIcon className="h-4 text-black/60" />
+              <DeleteItemButton item={item} />
             </div>
           </div>
           <p className="text-xs font-medium">

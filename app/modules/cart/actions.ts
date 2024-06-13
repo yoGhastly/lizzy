@@ -1,6 +1,9 @@
-import { Product, ProductVariant } from "../products/domain/Product";
+"use server";
+import { cookies } from "next/headers";
+import { Product } from "../products/domain/Product";
 import { Cart, CartItem } from "./domain/Cart";
 import { MySqlCartsRepository } from "./infrastructure/CartsRepository";
+import { revalidatePath } from "next/cache";
 
 const cartRepository = new MySqlCartsRepository();
 
@@ -10,9 +13,6 @@ export async function addToCart(
   variantId: number,
   quantity: number,
 ): Promise<void> {
-  "use server";
-
-  // Fetch or create the cart
   let cart = await cartRepository.getCartByUserId(userId);
   if (!cart) {
     const newCart: Cart = {
@@ -61,4 +61,23 @@ export async function addToCart(
     cart.id,
     existingItem || cart.items[cart.items.length - 1],
   );
+  revalidatePath("/");
+}
+
+export async function deleteItem(
+  item: Pick<CartItem, "product_id" | "variant_id">,
+) {
+  const cartId = cookies().get("cart")?.value;
+  if (!cartId) {
+    throw new Error("Cart not found");
+  }
+  await cartRepository.deleteItem(Number(cartId), item);
+}
+
+export async function editItem(item: CartItem) {
+  const cartId = cookies().get("cart")?.value;
+  if (!cartId) {
+    throw new Error("Cart not found");
+  }
+  await cartRepository.editItem(Number(cartId), item);
 }

@@ -1,6 +1,7 @@
 import { formatDate } from "@/app/utils/formatDate";
 import { Cart, CartItem, CartRepository } from "../domain/Cart";
 import { sql } from "@vercel/postgres";
+import { revalidatePath } from "next/cache";
 
 export class MySqlCartsRepository implements CartRepository {
   async create(cart: Cart): Promise<number> {
@@ -133,5 +134,35 @@ export class MySqlCartsRepository implements CartRepository {
     if (cart) {
       await this.addItemToCart(cart.id, item);
     }
+  }
+  async deleteItem(
+    cartId: number,
+    item: Pick<CartItem, "product_id" | "variant_id">,
+  ): Promise<void> {
+    await sql`
+      DELETE FROM cart_items
+      WHERE cart_id = ${cartId} AND product_id = ${item.product_id} AND variant_id = ${item.variant_id}
+    `;
+
+    // If the cart is empty, delete the cart
+    const itemsResult = await sql`
+      SELECT * FROM cart_items WHERE cart_id = ${cartId}
+    `;
+    if (itemsResult.rows.length === 0) {
+      await sql`
+        DELETE FROM carts WHERE id = ${cartId}
+      `;
+    }
+
+    // NOTE: This mutates data so modal updates UI to reflect the change in cart
+    revalidatePath("/");
+  }
+  async editItem(cartId: number, item: CartItem): Promise<void> {
+    await sql`
+      UPDATE cart_items
+      SET quantity = ${item.quantity}
+      WHERE cart_id = ${cartId} AND product_id = ${item.product_id} AND variant_id = ${item.variant_id}
+    `;
+    revalidatePath("/");
   }
 }

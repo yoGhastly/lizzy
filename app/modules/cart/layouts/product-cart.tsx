@@ -8,5 +8,12 @@ export const ProductCart = ({
   product: CartItem;
   quantity: number;
 }) => {
-  return <CartProduct productId={product.product_id} quantity={quantity} />;
+  const { product_id, variant_id } = product;
+  return (
+    <CartProduct
+      item={{ product_id, variant_id }}
+      productId={product.product_id}
+      quantity={quantity}
+    />
+  );
 };

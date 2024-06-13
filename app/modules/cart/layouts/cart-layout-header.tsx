@@ -9,7 +9,9 @@ const CartLayoutHeader = ({ children }: { children: React.ReactNode }) => {
   return (
     <DialogTitle className="flex items-center justify-between">
       {children}
-      <XMarkIcon className="h-6 w-6 text-black/60" onClick={toggleCart} />
+      <button onClick={toggleCart}>
+        <XMarkIcon className="h-6 w-6 text-black/60" />
+      </button>
     </DialogTitle>
   );
 };

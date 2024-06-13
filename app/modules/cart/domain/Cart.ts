@@ -19,4 +19,6 @@ export interface CartRepository {
   getCartByUserId(userId: number): Promise<Cart | null>;
   getCartById(id: string): Promise<Cart | null>;
   addItemToCart(cartId: number, item: CartItem): Promise<void>;
+  deleteItem(cartId: number, item: CartItem): Promise<void>;
+  editItem(cartId: number, item: CartItem): Promise<void>;
 }
