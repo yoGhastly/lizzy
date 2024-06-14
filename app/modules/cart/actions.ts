@@ -74,7 +74,9 @@ export async function deleteItem(
   await cartRepository.deleteItem(Number(cartId), item);
 }
 
-export async function editItem(item: CartItem) {
+export async function editItem(
+  item: Pick<CartItem, "product_id" | "quantity">,
+) {
   const cartId = cookies().get("cart")?.value;
   if (!cartId) {
     throw new Error("Cart not found");

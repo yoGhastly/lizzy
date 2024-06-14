@@ -1,9 +1,9 @@
-import { PencilIcon } from "@heroicons/react/24/solid";
-import { Product } from "../../products/domain/Product";
+import type { Product } from "../../products/domain/Product";
+import type { CartItem } from "../domain/Cart";
 import { getProduct } from "../../products/actions";
-import { CartItem } from "../domain/Cart";
 import { DeleteItemButton } from "./delete-item-button";
 import { EditItemButton } from "./edit-item-button";
+import { ProductQuantityLabel } from "../../products/components/product-quantity-label";
 
 export const CartProduct = async ({
   productId,
@@ -32,18 +32,17 @@ export const CartProduct = async ({
               MXN {product.price}
             </span>
             <div className="flex gap-2">
-              <EditItemButton />
+              <EditItemButton productId={product.id} />
               <div className="h-4 w-[2px] bg-muted-gray/50"></div>
               <DeleteItemButton item={item} />
             </div>
           </div>
           <p className="text-xs font-medium">
             {product.name}
-            <span className="text-black/50 ml-2">x{quantity}</span>
+            <ProductQuantityLabel quantity={quantity} />
           </p>
-          <p className="text-black/50 text-xs">{product.description}</p>
         </div>
-        <p className="text-xs font-medium">Mover a favoritos</p>
+        <p className="text-xs">Mover a favoritos</p>
       </section>
     </div>
   );

@@ -35,7 +35,9 @@ export default async function ProductPage({
 
     const cart = await carts.getCartByUserId(1);
     if (cart) {
-      cookies().set("cart", cart.id.toString());
+      cookies().set("cart", cart.id.toString(), {
+        expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
+      });
       console.log("Product added to cart with id: ", cart.id);
     }
   };

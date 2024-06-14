@@ -157,11 +157,16 @@ export class MySqlCartsRepository implements CartRepository {
     // NOTE: This mutates data so modal updates UI to reflect the change in cart
     revalidatePath("/");
   }
-  async editItem(cartId: number, item: CartItem): Promise<void> {
+  async editItem(
+    cartId: number,
+    item: Pick<CartItem, "quantity" | "product_id">,
+  ): Promise<void> {
+    if (!cartId) return;
+    // edit item quantity in cart
     await sql`
       UPDATE cart_items
       SET quantity = ${item.quantity}
-      WHERE cart_id = ${cartId} AND product_id = ${item.product_id} AND variant_id = ${item.variant_id}
+      WHERE cart_id = ${cartId} AND product_id = ${item.product_id}
     `;
     revalidatePath("/");
   }

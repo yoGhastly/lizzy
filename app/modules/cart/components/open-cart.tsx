@@ -5,7 +5,7 @@ import { MySqlCartsRepository } from "../infrastructure/CartsRepository";
 import { Cart } from "../domain/Cart";
 import { cookies } from "next/headers";
 
-const carts = new MySqlCartsRepository();
+const repository = new MySqlCartsRepository();
 
 export const OpenCart = async () => {
   let cart: Cart | null = null;
@@ -13,7 +13,7 @@ export const OpenCart = async () => {
   const cartId = c.get("cart")?.value;
 
   if (cartId) {
-    cart = await carts.getCartById(cartId);
+    cart = await repository.getCartById(cartId);
   }
 
   return (

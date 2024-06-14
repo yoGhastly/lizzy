@@ -1,5 +1,4 @@
-import { cn } from "@/app/utils/cn";
-import { Cart } from "../domain/Cart";
+import type { Cart } from "../domain/Cart";
 import { CartLayoutBody } from "../layouts/cart-layout-body";
 import { CartLayoutHeader } from "../layouts/cart-layout-header";
 import { ProductCart } from "../layouts/product-cart";

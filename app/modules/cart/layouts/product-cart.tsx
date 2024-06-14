@@ -8,7 +8,9 @@ export const ProductCart = ({
   product: CartItem;
   quantity: number;
 }) => {
+  if (!product) return null;
   const { product_id, variant_id } = product;
+
   return (
     <CartProduct
       item={{ product_id, variant_id }}

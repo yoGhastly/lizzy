@@ -1,28 +1,17 @@
 "use client";
+import type { PropsWithChildren } from "react";
 
-export const CartFooter = () => {
+export const CartFooter: React.FC<
+  PropsWithChildren<{ buttonLabel?: string; action?: () => void }>
+> = ({ children, buttonLabel, action: onClick }) => {
   return (
     <footer className="flex flex-col gap-6">
-      <section className="flex flex-col items-center">
-        <div className="font-medium flex justify-between w-full">
-          <p>Subtotal</p>
-          <p className="text-sm">$299.00</p>
-        </div>
-
-        <div className="font-medium flex justify-between w-full">
-          <p>Gastos de envio</p>
-          <p className="text-black/50 text-sm">Calculado en checkout</p>
-        </div>
-
-        <div className="font-medium flex justify-between w-full">
-          <p>
-            Total <span className="text-black/50 text-sm">(IVA incluido)</span>
-          </p>
-          <p className="text-sm">MXN 900.00</p>
-        </div>
-      </section>
-      <button className="btn bg-novi-400 text-white text-[16px] font-medium hover:bg-novi-400 hover:bg-opacity-90">
-        <p className="uppercase">Tramitar pedido</p>
+      <section className="flex flex-col items-center">{children}</section>
+      <button
+        className="btn bg-novi-400 text-white text-[16px] font-medium hover:bg-novi-400 hover:bg-opacity-90"
+        onClick={onClick}
+      >
+        <p className="uppercase">{buttonLabel ?? "Tramitar pedido"}</p>
       </button>
     </footer>
   );

@@ -1,17 +1,53 @@
 "use client";
 import React from "react";
 import { DialogTitle } from "@headlessui/react";
-import { XMarkIcon } from "@heroicons/react/24/solid";
+import { ArrowLeftIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { useCartStore } from "../store/cart.store";
+import { cn } from "@/app/utils/cn";
 
-const CartLayoutHeader = ({ children }: { children: React.ReactNode }) => {
-  const { toggleCart } = useCartStore((state) => state);
+function GoBackIcon() {
+  const { setModalContentType } = useCartStore((state) => state);
+  const goBack = () => {
+    setModalContentType("cart");
+  };
+
   return (
-    <DialogTitle className="flex items-center justify-between">
+    <button onClick={goBack}>
+      <ArrowLeftIcon className="h-5" />
+    </button>
+  );
+}
+
+function CloseIcon() {
+  const { toggleCart } = useCartStore((state) => state);
+  const close = () => {
+    toggleCart();
+  };
+
+  return (
+    <button onClick={close}>
+      <XMarkIcon className="h-5" />
+    </button>
+  );
+}
+
+const CartLayoutHeader = ({
+  children,
+  flexReverse = false,
+}: {
+  children: React.ReactNode;
+  flexReverse?: boolean;
+}) => {
+  const { modalContentType } = useCartStore((state) => state);
+
+  return (
+    <DialogTitle
+      className={cn("flex items-center justify-between w-full", {
+        "flex-wrap-reverse": flexReverse,
+      })}
+    >
       {children}
-      <button onClick={toggleCart}>
-        <XMarkIcon className="h-6 w-6 text-black/60" />
-      </button>
+      {modalContentType === "cart" ? <CloseIcon /> : <GoBackIcon />}
     </DialogTitle>
   );
 };
