@@ -7,11 +7,7 @@ export const ProductQuantityLabel = ({ quantity }: { quantity: number }) => {
 
   useEffect(() => {
     setItemQuantity(quantity);
-  }, [quantity]);
-
-  if (quantity === 0) {
-    return null;
-  }
+  }, [quantity, setItemQuantity]);
 
   return <span className="text-black/50 ml-2">x{quantity}</span>;
 };

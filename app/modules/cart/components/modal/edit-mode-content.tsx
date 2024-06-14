@@ -17,8 +17,6 @@ export const EditModeContent = () => {
   const c = useCookies();
   const cartId = c.get("cart");
 
-  if (!cartId) return null;
-
   function saveChanges() {
     if (!itemId) return;
     startTransition(async () => {
