@@ -1,19 +1,23 @@
 "use client";
 import { PencilIcon } from "@heroicons/react/24/solid";
 import { useCartStore } from "../store/cart.store";
+import { useEffect } from "react";
 
 export const EditItemButton = ({ productId }: { productId: number }) => {
-  const { setModalContentType, setItemId, modalContentType } = useCartStore(
-    (state) => state,
-  );
+  const { setModalContentType, setItemId } = useCartStore((state) => state);
 
-  console.log(modalContentType);
-
-  function changeModalContentType() {
-    if (modalContentType === "edit") return;
-    setModalContentType("edit");
+  useEffect(() => {
     setItemId(productId);
-  }
+  }, [productId]);
+
+  const changeModalContentType = () => {
+    try {
+      setModalContentType("edit");
+      console.log("modalContentType set to 'edit' successfully");
+    } catch (error) {
+      console.error("Error setting modalContentType:", error);
+    }
+  };
 
   return (
     <button onClick={changeModalContentType}>

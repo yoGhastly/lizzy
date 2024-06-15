@@ -1,14 +1,44 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect, useTransition } from "react";
 import { Dialog, DialogPanel, Transition } from "@headlessui/react";
-import { CartFooter } from "./modal/cart-footer";
 import { useCartStore } from "../store/cart.store";
-import { EditModeContent } from "./modal/edit-mode-content";
+import { editItem } from "../actions";
+import { EditItem } from "./modal/edit-item";
+import { ProductList } from "./modal/product-list";
 
 const CartLayout = ({ children }: { children: React.ReactNode }) => {
-  const { toggleCart, openCart, modalContentType } = useCartStore(
-    (state) => state,
-  );
+  const {
+    toggleCart,
+    openCart,
+    modalContentType,
+    itemQuantity,
+    itemId,
+    setModalContentType,
+  } = useCartStore((state) => state);
+  const [contentType, setContent] = useState<"cart" | "edit" | null>(null);
+  const [quantity, setQuantity] = useState<number>(itemQuantity);
+  const [isPending, startTransition] = useTransition();
+
+  useEffect(() => {
+    setContent(modalContentType);
+    setQuantity(itemQuantity);
+  }, [modalContentType]);
+
+  const handleIncrement = () => setQuantity(quantity + 1);
+  const handleDecrement = () => quantity > 0 && setQuantity(quantity - 1);
+
+  const saveChanges = () => {
+    if (!itemId) return;
+    startTransition(async () => {
+      try {
+        await editItem({ product_id: itemId, quantity });
+        setModalContentType("cart");
+      } catch (error) {
+        console.error("Could not update item");
+      }
+    });
+  };
+
   return (
     <Transition
       show={openCart}
@@ -28,36 +58,19 @@ const CartLayout = ({ children }: { children: React.ReactNode }) => {
           aria-hidden="true"
         />
         <div className="fixed inset-0 flex items-center justify-end md:p-3">
-          {modalContentType === "cart" ? (
-            <DialogPanel className="w-full max-w-md h-full space-y-4 md:rounded-md border bg-white p-12 shadow-lg flex flex-col">
-              {children}
-              <CartFooter>
-                <div className="font-medium flex items-center justify-between w-full">
-                  <p>Subtotal</p>
-                  <p className="text-sm">$299.00</p>
-                </div>
-
-                <div className="font-medium flex justify-between items-center w-full">
-                  <p>Gastos de envio</p>
-                  <p className="text-black/50 text-sm">Calculado en checkout</p>
-                </div>
-
-                <div className="font-medium flex justify-between items-center w-full">
-                  <p>
-                    Total{" "}
-                    <span className="text-black/50 text-sm">
-                      (IVA incluido)
-                    </span>
-                  </p>
-                  <p className="text-sm">MXN 900.00</p>
-                </div>
-              </CartFooter>
-            </DialogPanel>
-          ) : modalContentType === "edit" ? (
-            <DialogPanel className="w-full max-w-md h-full space-y-4 md:rounded-md border bg-white p-12 shadow-lg flex flex-col">
-              <EditModeContent />
-            </DialogPanel>
-          ) : null}
+          <DialogPanel className="w-full max-w-md h-full space-y-4 md:rounded-md border bg-white p-12 shadow-lg flex flex-col">
+            {contentType === "cart" ? (
+              <ProductList>{children}</ProductList>
+            ) : contentType === "edit" ? (
+              <EditItem
+                quantity={quantity}
+                loading={isPending}
+                handleIncrement={handleIncrement}
+                handleDecrement={handleDecrement}
+                saveChanges={saveChanges}
+              />
+            ) : null}
+          </DialogPanel>
         </div>
       </Dialog>
     </Transition>
