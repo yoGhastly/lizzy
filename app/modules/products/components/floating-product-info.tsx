@@ -18,7 +18,7 @@ export const FlaoatingProductInfo = ({ product }: { product: Product }) => {
 
   return (
     <FloatingProductInfoLayout>
-      <section className="bg-white px-4 py-3 md:px-8 md:py-5 drop-shadow-md rounded-md flex items-center justify-between">
+      <section className="bg-white border border-base/20 px-4 py-3 md:px-8 md:py-5 drop-shadow-sm rounded-md flex items-center justify-between">
         <div className="flex gap-6 items-center">
           <Avatar>
             <Image

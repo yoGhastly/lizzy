@@ -5,12 +5,13 @@ import { ProductCart } from "../layouts/product-cart";
 import { CartLayout } from "./cart-layout";
 import { ModalDescription } from "./modal/description";
 import { CartLengthLabel } from "./modal/cart-length-label";
+import { CartFallback } from "./cart-fallback";
 
 interface Props {
   cart: Cart | null;
 }
 
-export const Modal: React.FC<Props> = async ({ cart }) => {
+export const Modal: React.FC<Props> = ({ cart }) => {
   return (
     <CartLayout>
       <CartLayoutHeader>

@@ -1,5 +1,7 @@
 import { create } from "zustand";
 
+export type ModalContentType = "cart" | "edit" | "filter" | null;
+
 interface CartStore {
   openCart: boolean;
   itemId: number;
@@ -7,8 +9,8 @@ interface CartStore {
   itemQuantity: number;
   setItemQuantity: (itemQuantity: number) => void;
   toggleCart: () => void;
-  modalContentType: "cart" | "edit";
-  setModalContentType: (modalContentType: "cart" | "edit") => void;
+  modalContentType: ModalContentType;
+  setModalContentType: (modalContentType: ModalContentType) => void;
 }
 
 export const useCartStore = create<CartStore>((set) => ({
@@ -18,8 +20,8 @@ export const useCartStore = create<CartStore>((set) => ({
   toggleCart: () => set((state) => ({ openCart: !state.openCart })),
   itemQuantity: 0,
   setItemQuantity: (itemQuantity) =>
-    set((state) => ({
-      itemQuantity: Math.max(0, itemQuantity), // Ensure itemQuantity is not negative
+    set((_state) => ({
+      itemQuantity: Math.max(0, itemQuantity),
     })),
   modalContentType: "cart",
   setModalContentType: (modalContentType) => set({ modalContentType }),

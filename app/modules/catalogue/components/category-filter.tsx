@@ -3,6 +3,7 @@ import { cn } from "@/app/utils/cn";
 import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline";
 import { ScrollShadow } from "@nextui-org/scroll-shadow";
 import React, { useState } from "react";
+import { useCartStore } from "../../cart/store/cart.store";
 
 interface Option {
   id: number;
@@ -15,9 +16,15 @@ interface Props {
 
 export const CategoryFilter: React.FC<Props> = ({ filterOptions }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const { toggleCart, setModalContentType } = useCartStore();
 
   const handleCategorySelection = (category: string) => {
     setSelectedCategory(category);
+  };
+
+  const toggleFilter = () => {
+    setModalContentType("filter");
+    toggleCart();
   };
 
   const memoizedClassName = (category: string) => {
@@ -49,6 +56,7 @@ export const CategoryFilter: React.FC<Props> = ({ filterOptions }) => {
         ))}
       </ScrollShadow>
       <button
+        onClick={toggleFilter}
         className={cn(
           "btn btn-outline md:btn-outline btn-sm md:btn",
           "text-xs md:text-sm font-normal",

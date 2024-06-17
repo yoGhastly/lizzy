@@ -11,7 +11,6 @@ import {
 } from "@/app/constants";
 import { CategoryCollapsibleMenu } from "@/app/modules/catalogue/components/category-collapsible-menu";
 import { CategoryFilter } from "@/app/modules/catalogue/components/category-filter";
-import { searchParamsSchema } from "@/app/modules/catalogue/schema/schemas";
 import { useCatalogueStore } from "@/app/modules/catalogue/store/catalogue.store";
 
 interface SearchParams {

@@ -1,0 +1,26 @@
+"use client";
+import { cn } from "@/app/utils/cn";
+import Image from "next/image";
+
+export const CartFallback = () => {
+  return (
+    <div
+      className={cn(
+        "flex flex-col gap-2 m-auto w-full justify-center items-center",
+        "min-h-96 h-full",
+      )}
+    >
+      <div className="w-24 h-24 relative">
+        <Image
+          src="/assets/images/empty-state.svg"
+          alt="Empty cart"
+          className="object-cover w-full h-full"
+          fill
+        />
+      </div>
+      <p className="text-muted-gray text-center max-w-[200px]">
+        Parece que aún no has agregado nada a tu cesta.
+      </p>
+    </div>
+  );
+};

@@ -1,10 +1,19 @@
 "use client";
 import React, { useState, useEffect, useTransition } from "react";
 import { Dialog, DialogPanel, Transition } from "@headlessui/react";
-import { useCartStore } from "../store/cart.store";
+import { ModalContentType, useCartStore } from "../store/cart.store";
 import { editItem } from "../actions";
 import { EditItem } from "./modal/edit-item";
 import { ProductList } from "./modal/product-list";
+import { CartLayoutHeader } from "../layouts/cart-layout-header";
+import { CartLayoutBody } from "../layouts/cart-layout-body";
+import { CartFooter } from "./modal/cart-footer";
+import { Avatar } from "../../common/components/avatar";
+import { CategoryFilter } from "../../catalogue/components/category-filter";
+import { FilterButton } from "../../common/components/filter-button";
+import { OrderByFilters } from "../../catalogue/store/filters.store";
+import { ScrollShadow } from "@nextui-org/scroll-shadow";
+import { FiltersContent } from "./modal/filters-content";
 
 const CartLayout = ({ children }: { children: React.ReactNode }) => {
   const {
@@ -15,7 +24,7 @@ const CartLayout = ({ children }: { children: React.ReactNode }) => {
     itemId,
     setModalContentType,
   } = useCartStore((state) => state);
-  const [contentType, setContent] = useState<"cart" | "edit" | null>(null);
+  const [contentType, setContent] = useState<ModalContentType>(null);
   const [quantity, setQuantity] = useState<number>(itemQuantity);
   const [isPending, startTransition] = useTransition();
 
@@ -69,6 +78,8 @@ const CartLayout = ({ children }: { children: React.ReactNode }) => {
                 handleDecrement={handleDecrement}
                 saveChanges={saveChanges}
               />
+            ) : contentType === "filter" ? (
+              <FiltersContent />
             ) : null}
           </DialogPanel>
         </div>
