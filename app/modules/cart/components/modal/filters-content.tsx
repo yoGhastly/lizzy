@@ -2,7 +2,6 @@
 import { Button } from "@/app/modules/common/components/button";
 import { CartLayoutBody } from "../../layouts/cart-layout-body";
 import { CartLayoutHeader } from "../../layouts/cart-layout-header";
-import { CartFooter } from "./cart-footer";
 import { ColorSection } from "./filters/color-section";
 import { OrderBySection } from "./filters/order-by-section";
 

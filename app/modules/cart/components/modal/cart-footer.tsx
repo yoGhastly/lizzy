@@ -15,7 +15,7 @@ export const CartFooter: React.FC<
       <section className="flex flex-col items-center">{children}</section>
       <div className="w-full flex gap-5">
         <Button
-          className={cn({
+          className={cn("w-full", {
             "cursor-not-allowed pointer-events-none opacity-50": loading,
           })}
           onClick={onClick}

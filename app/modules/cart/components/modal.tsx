@@ -23,13 +23,17 @@ export const Modal: React.FC<Props> = ({ cart }) => {
       <div className="divider" />
       <CartLayoutBody>
         <ModalDescription>
-          {cart?.items.map((item) => (
-            <ProductCart
-              key={item.product_id}
-              product={item}
-              quantity={item.quantity}
-            />
-          ))}
+          {!cart?.items ? (
+            <CartFallback />
+          ) : (
+            cart?.items.map((item) => (
+              <ProductCart
+                key={item.product_id}
+                product={item}
+                quantity={item.quantity}
+              />
+            ))
+          )}
         </ModalDescription>
       </CartLayoutBody>
     </CartLayout>

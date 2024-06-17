@@ -11,6 +11,7 @@ import { UserIcon } from "@heroicons/react/16/solid";
 import { NavLinks } from "./navbar/nav-links";
 import { Logo } from "../icons";
 import { AccountDropDownMenu } from "./dropdown-menu";
+import { useCartStore } from "../../cart/store/cart.store";
 
 interface Props {
   navItems: {
@@ -28,6 +29,7 @@ export const FloatingNavbar: React.FC<Props> = ({
   className,
   cart,
 }) => {
+  const { itemQuantity } = useCartStore();
   return (
     <div
       className={cn("flex gap-2 max-w-fit sticky top-5 mx-auto z-50 inset-x-0")}
@@ -63,16 +65,11 @@ export const FloatingNavbar: React.FC<Props> = ({
             "hidden md:block rounded-none w-[0.05rem] h-4 bg-muted-gray/30",
           )}
         />
-        <AttractiveText
-          element={
-            <Suspense
-              fallback={<ShoppingCartIcon className="h-6 text-muted-gray" />}
-            >
-              {cart}
-            </Suspense>
-          }
-          active={false}
-        />
+        <Suspense
+          fallback={<ShoppingCartIcon className="h-4 text-muted-gray" />}
+        >
+          <AttractiveText element={cart} active={itemQuantity > 0} />
+        </Suspense>
         <span
           className={cn(
             "hidden md:block rounded-none w-[0.05rem] h-4 bg-muted-gray/30",

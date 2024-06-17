@@ -5,14 +5,6 @@ import { ModalContentType, useCartStore } from "../store/cart.store";
 import { editItem } from "../actions";
 import { EditItem } from "./modal/edit-item";
 import { ProductList } from "./modal/product-list";
-import { CartLayoutHeader } from "../layouts/cart-layout-header";
-import { CartLayoutBody } from "../layouts/cart-layout-body";
-import { CartFooter } from "./modal/cart-footer";
-import { Avatar } from "../../common/components/avatar";
-import { CategoryFilter } from "../../catalogue/components/category-filter";
-import { FilterButton } from "../../common/components/filter-button";
-import { OrderByFilters } from "../../catalogue/store/filters.store";
-import { ScrollShadow } from "@nextui-org/scroll-shadow";
 import { FiltersContent } from "./modal/filters-content";
 
 const CartLayout = ({ children }: { children: React.ReactNode }) => {
