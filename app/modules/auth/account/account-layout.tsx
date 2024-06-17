@@ -1,6 +1,5 @@
 "use client";
-
-import { PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
 
 export const AccountLayout: React.FC<PropsWithChildren> = ({ children }) => {
   return (

@@ -30,6 +30,7 @@ export const ProductDescription: React.FC<Props> = ({
 
   function addToCart() {
     addProductToCart();
+    if (pending) return;
     toggleCart();
   }
 
@@ -57,7 +58,7 @@ export const ProductDescription: React.FC<Props> = ({
         </div>
 
         <div className="flex flex-col gap-4">
-          <Button type="submit">
+          <Button type="submit" disabled={pending}>
             {pending ? (
               <span className="loading loading-spinner loading-xs"></span>
             ) : (

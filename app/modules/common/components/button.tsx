@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/app/utils/cn";
-import {
+import type {
   ButtonHTMLAttributes,
   DetailedHTMLProps,
   PropsWithChildren,

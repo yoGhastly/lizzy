@@ -12,7 +12,7 @@ export const ProductCard: React.FC<Props> = ({ product }) => {
   return (
     <Link
       href={`/catalogo/productos/${product.id}`}
-      className="flex flex-col gap-2 group overflow-hidden"
+      className="flex flex-col gap-2 group overflow-hidden max-w-[200px]"
     >
       <picture className="relative aspect-[1/1.2] bg-[#fafafa]">
         <Image

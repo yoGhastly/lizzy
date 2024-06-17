@@ -29,12 +29,12 @@ export const CategoryFilter: React.FC<Props> = ({ filterOptions }) => {
 
   const memoizedClassName = (category: string) => {
     return cn(
-      "btn btn-outline md:btn-outline btn-sm md:btn",
-      "text-xs md:text-sm font-normal",
-      "hover:bg-white hover:text-black hover:opacity-100",
       {
         "opacity-100": category.toLowerCase() === selectedCategory,
       },
+      "btn btn-outline md:btn-outline btn-sm md:btn",
+      "text-xs md:text-sm font-normal",
+      "hover:bg-white hover:text-black hover:opacity-100",
     );
   };
 

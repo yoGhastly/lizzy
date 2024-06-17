@@ -6,8 +6,12 @@ import { useCartStore } from "../store/cart.store";
 import { cn } from "@/app/utils/cn";
 
 function GoBackIcon() {
-  const { setModalContentType } = useCartStore((state) => state);
+  const { setModalContentType, modalContentType, toggleCart } = useCartStore(
+    (state) => state,
+  );
   const goBack = () => {
+    if (modalContentType === "cart") return;
+    if (modalContentType === "filter") toggleCart();
     setModalContentType("cart");
   };
 

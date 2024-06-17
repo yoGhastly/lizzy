@@ -25,7 +25,6 @@ export default async function ProductPage({
 
   const addProductToCart = async () => {
     "use server";
-
     await carts.addItemToCartForUser(1, {
       product_id: product.id,
       variant_id: 1,
@@ -38,7 +37,6 @@ export default async function ProductPage({
       cookies().set("cart", cart.id.toString(), {
         expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
       });
-      console.log("Product added to cart with id: ", cart.id);
     }
   };
 

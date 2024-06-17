@@ -1,6 +1,6 @@
 "use client";
+import React, { type PropsWithChildren } from "react";
 import { Footer } from "@/app/modules/common/layout/footer";
-import React, { PropsWithChildren } from "react";
 import { Testimonials } from "../common/components/testimonials";
 
 export const AuthLayout: React.FC<PropsWithChildren> = ({ children }) => {
