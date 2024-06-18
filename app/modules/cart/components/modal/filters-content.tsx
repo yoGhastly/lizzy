@@ -8,7 +8,7 @@ import { OrderBySection } from "./filters/order-by-section";
 export const FiltersContent = () => {
   return (
     <div className="flex flex-col justify-between h-full w-full">
-      <CartLayoutHeader>
+      <CartLayoutHeader flexReverse>
         <p className="text-center font-bold w-full">Filtrar</p>
       </CartLayoutHeader>
       <div className="divider" />
