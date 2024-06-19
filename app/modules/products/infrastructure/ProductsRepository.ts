@@ -15,6 +15,11 @@ export class MySqlProductsRepository implements ProductsRepository {
     if (products.length === 0) {
       return null;
     }
+    // get product variants
+    const { rows: variants } = await sql`
+      SELECT * FROM product_variants WHERE product_id = ${id}
+    `;
+    products[0].variants = variants;
     return products[0] as Product;
   }
 }

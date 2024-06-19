@@ -7,7 +7,7 @@ export const CartFallback = () => {
     <div
       className={cn(
         "flex flex-col gap-2 m-auto w-full justify-center items-center",
-        "min-h-96 h-full",
+        "h-[calc(80vh-4rem)]",
       )}
     >
       <div className="w-24 h-24 relative">

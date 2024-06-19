@@ -9,7 +9,7 @@ import { Button } from "../../common/components/button";
 import { FloatingProductInfoLayout } from "../layouts/floating-product-info-layout";
 import { Product } from "../domain/Product";
 
-export const FlaoatingProductInfo = ({ product }: { product: Product }) => {
+export const FloatingProductInfo = ({ product }: { product: Product }) => {
   const { toggleCart } = useCartStore((state) => state);
 
   const addProduct = () => {

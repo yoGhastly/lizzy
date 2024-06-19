@@ -42,7 +42,10 @@ export const FloatingNavbar: React.FC<Props> = ({
           "py-1.5 md:py-2.5 px-2 md:px-5 items-center",
         )}
       >
-        <div className="relative w-10 md:w-16 h-full m-auto">
+        <div
+          aria-label="Novi Logo"
+          className="relative w-10 md:w-16 h-full m-auto"
+        >
           <Logo />
         </div>
       </Link>
@@ -58,7 +61,11 @@ export const FloatingNavbar: React.FC<Props> = ({
       >
         <NavLinks items={navItems} />
         <button className="flex justify-center items-center bg-[#737373]/40 rounded-full w-8 h-8 md:w-10 md:h-10">
-          <MagnifyingGlassIcon className="h-5 md:h-6 text-[#fafafa]" />
+          <MagnifyingGlassIcon
+            name="Search Icon"
+            aria-label="Search Icon Button"
+            className="h-5 md:h-6 text-[#fafafa]"
+          />
         </button>
         <span
           className={cn(
@@ -66,7 +73,12 @@ export const FloatingNavbar: React.FC<Props> = ({
           )}
         />
         <Suspense
-          fallback={<ShoppingCartIcon className="h-4 text-muted-gray" />}
+          fallback={
+            <ShoppingCartIcon
+              name="Shopping Cart"
+              className="h-4 text-muted-gray"
+            />
+          }
         >
           <AttractiveText element={cart} active={itemQuantity > 0} />
         </Suspense>

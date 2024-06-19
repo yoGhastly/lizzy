@@ -11,6 +11,17 @@ export interface Product {
   brand: string;
   category: string;
   variants: ProductVariant[];
+  metadata: ProductMetadata;
+}
+
+export interface ProductMetadata {
+  type: string;
+  subcategory: string;
+  quantity: number;
+  colors: `${string}-${string}` | `N/A`;
+  mililitros: string;
+  miligramos: string;
+  longitud: string;
 }
 
 export interface ProductVariant {
@@ -18,4 +29,5 @@ export interface ProductVariant {
   name: string;
   price: number;
   stock: number;
+  type: string;
 }

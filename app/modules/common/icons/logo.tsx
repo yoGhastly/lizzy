@@ -3,6 +3,7 @@
 export const Logo = () => {
   return (
     <svg
+      name="Logo"
       style={{ width: "100%", height: "100%" }}
       viewBox="0 0 70 35"
       fill="none"

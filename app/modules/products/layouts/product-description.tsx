@@ -8,13 +8,8 @@ import {
 import { useCartStore } from "../../cart/store/cart.store";
 import { Button } from "../../common/components/button";
 import { Product } from "../domain/Product";
-import {
-  startTransition,
-  useActionState,
-  useState,
-  useTransition,
-} from "react";
 import { useFormStatus } from "react-dom";
+import { ProductVariants } from "./product-variants";
 
 interface Props {
   product: Product;
@@ -30,9 +25,12 @@ export const ProductDescription: React.FC<Props> = ({
 
   function addToCart() {
     addProductToCart();
-    if (pending) return;
-    toggleCart();
+    if (!pending) {
+      toggleCart();
+    }
   }
+
+  console.log(product);
 
   return (
     <form action={addToCart} className="flex flex-col gap-3">
@@ -46,13 +44,7 @@ export const ProductDescription: React.FC<Props> = ({
           <div className="product_price_variants flex flex-col gap-4">
             <p className="text-xl">${product.price}</p>
             <div className="flex gap-2">
-              {["green", "red", "blue"].map((color) => (
-                <div
-                  key={color}
-                  className="w-8 h-8"
-                  style={{ backgroundColor: color }}
-                ></div>
-              ))}
+              <ProductVariants metadata={product.metadata} />
             </div>
           </div>
         </div>
