@@ -1,19 +1,33 @@
 "use client";
-import React, { useState, useEffect, useTransition } from "react";
+import React, {
+  useState,
+  useEffect,
+  useTransition,
+  PropsWithChildren,
+} from "react";
 import { Dialog, DialogPanel, Transition } from "@headlessui/react";
 import { ModalContentType, useCartStore } from "../store/cart.store";
 import { editItem } from "../actions";
 import { EditItem } from "./modal/edit-item";
 import { ProductList } from "./modal/product-list";
 import { FiltersContent } from "./modal/filters-content";
+import type { Cart } from "../domain/Cart";
 
-const CartLayout = ({ children }: { children: React.ReactNode }) => {
+interface Props {
+  items?: Cart["items"] | null;
+}
+
+const CartLayout: React.FC<PropsWithChildren<Props>> = ({
+  children,
+  items,
+}) => {
   const {
     toggleCart,
     openCart,
     modalContentType,
     itemQuantity,
     itemId,
+    setSubtotal,
     setModalContentType,
   } = useCartStore((state) => state);
   const [contentType, setContent] = useState<ModalContentType>(null);
@@ -24,6 +38,15 @@ const CartLayout = ({ children }: { children: React.ReactNode }) => {
     setContent(modalContentType);
     setQuantity(itemQuantity);
   }, [modalContentType]);
+
+  useEffect(() => {
+    if (!items) return;
+    const subtotal = items.reduce(
+      (acc, item) => acc + item.price * item.quantity,
+      0,
+    );
+    setSubtotal(subtotal);
+  }, [items]);
 
   const handleIncrement = () => setQuantity(quantity + 1);
   const handleDecrement = () => quantity > 0 && setQuantity(quantity - 1);

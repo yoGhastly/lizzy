@@ -13,7 +13,7 @@ interface Props {
 
 export const Modal: React.FC<Props> = ({ cart }) => {
   return (
-    <CartLayout>
+    <CartLayout items={cart?.items}>
       <CartLayoutHeader>
         <p className="text-center font-bold w-full">
           Cesta

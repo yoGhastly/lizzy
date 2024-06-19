@@ -9,6 +9,8 @@ interface CartStore {
   itemQuantity: number;
   setItemQuantity: (itemQuantity: number) => void;
   toggleCart: () => void;
+  subtotal: number;
+  setSubtotal: (subtotal: number) => void;
   modalContentType: ModalContentType;
   setModalContentType: (modalContentType: ModalContentType) => void;
 }
@@ -23,6 +25,8 @@ export const useCartStore = create<CartStore>((set) => ({
     set((_state) => ({
       itemQuantity: Math.max(0, itemQuantity),
     })),
+  subtotal: 0,
+  setSubtotal: (subtotal) => set({ subtotal }),
   modalContentType: "cart",
   setModalContentType: (modalContentType) => set({ modalContentType }),
 }));

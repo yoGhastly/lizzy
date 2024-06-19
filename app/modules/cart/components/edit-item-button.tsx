@@ -20,7 +20,11 @@ export const EditItemButton = ({ productId }: { productId: number }) => {
   };
 
   return (
-    <button onClick={changeModalContentType}>
+    <button
+      title="Editar Producto"
+      aria-label="Editar Producto"
+      onClick={changeModalContentType}
+    >
       <PencilIcon className="h-4 text-black/60" />
     </button>
   );
