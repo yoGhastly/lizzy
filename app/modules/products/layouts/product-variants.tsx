@@ -62,8 +62,6 @@ export const ProductVariants: React.FC<Props> = ({ metadata }) => {
               key={index}
               unitVariant={longitudVariant.trim()}
               unit="longitud"
-              activeVariant={activeVariant} // Pass active variant prop
-              setActiveVariant={setActiveVariant} // Pass setActiveVariant function
             />
           ))}
         </VariantSection>
