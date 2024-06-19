@@ -9,7 +9,6 @@ export interface Cart {
 
 export interface CartItem {
   product_id: number;
-  variant_id: number;
   quantity: number;
   price: number;
 }

@@ -8,7 +8,7 @@ export async function getProducts() {
   return allProducts;
 }
 
-export async function getProduct(id: number) {
+export async function getProduct({ id }: { id: number }) {
   const product = await products.get(id);
   return product;
 }

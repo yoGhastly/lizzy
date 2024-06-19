@@ -29,9 +29,7 @@ export async function addToCart(
   revalidatePath("/");
 }
 
-export async function deleteItem(
-  item: Pick<CartItem, "product_id" | "variant_id">,
-) {
+export async function deleteItem(item: Pick<CartItem, "product_id">) {
   const cartId = cookies().get("cart")?.value;
   if (!cartId) {
     throw new Error("Cart not found");

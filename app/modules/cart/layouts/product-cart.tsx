@@ -9,11 +9,11 @@ export const ProductCart = ({
   quantity: number;
 }) => {
   if (!product) return null;
-  const { product_id, variant_id } = product;
+  const { product_id } = product;
 
   return (
     <CartProduct
-      item={{ product_id, variant_id }}
+      item={{ product_id }}
       productId={product.product_id}
       quantity={quantity}
     />

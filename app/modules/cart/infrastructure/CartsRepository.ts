@@ -16,8 +16,6 @@ export class MySqlCartsRepository implements CartRepository {
     `;
     cart.id = result.rows[0].id;
 
-    console.log({ cart });
-
     return cart.id;
   }
 
@@ -55,11 +53,11 @@ export class MySqlCartsRepository implements CartRepository {
   }
 
   async addItemToCart(cartId: number, item: CartItem): Promise<void> {
-    const { product_id, variant_id, quantity, price } = item;
+    const { product_id, quantity, price } = item;
 
     const existingItemResult = await sql`
       SELECT * FROM cart_items
-      WHERE cart_id = ${cartId} AND product_id = ${product_id} AND variant_id = ${variant_id}
+      WHERE cart_id = ${cartId} AND product_id = ${product_id}
     `;
 
     if (existingItemResult.rows.length > 0) {
@@ -71,8 +69,8 @@ export class MySqlCartsRepository implements CartRepository {
       `;
     } else {
       await sql`
-        INSERT INTO cart_items (cart_id, product_id, variant_id, quantity, price)
-        VALUES (${cartId}, ${product_id}, ${variant_id}, ${quantity}, ${price})
+        INSERT INTO cart_items (cart_id, product_id, quantity, price)
+        VALUES (${cartId}, ${product_id}, ${quantity}, ${price})
       `;
     }
   }
@@ -97,7 +95,6 @@ export class MySqlCartsRepository implements CartRepository {
 
     const items: CartItem[] = itemsResult.rows.map((row: any) => ({
       product_id: row.product_id,
-      variant_id: row.variant_id,
       quantity: row.quantity,
       price: row.price,
     }));
@@ -137,11 +134,11 @@ export class MySqlCartsRepository implements CartRepository {
   }
   async deleteItem(
     cartId: number,
-    item: Pick<CartItem, "product_id" | "variant_id">,
+    item: Pick<CartItem, "product_id">,
   ): Promise<void> {
     await sql`
       DELETE FROM cart_items
-      WHERE cart_id = ${cartId} AND product_id = ${item.product_id} AND variant_id = ${item.variant_id}
+      WHERE cart_id = ${cartId} AND product_id = ${item.product_id}
     `;
 
     // If the cart is empty, delete the cart

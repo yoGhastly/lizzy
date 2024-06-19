@@ -14,7 +14,7 @@ const responsive = {
   },
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
-    items: 3,
+    items: 5,
   },
   tablet: {
     breakpoint: { max: 1024, min: 464 },
@@ -32,8 +32,7 @@ export const ProductsCarousel: React.FC<Props> = ({ products }) => {
       responsive={responsive}
       itemClass="max-w-[200px]"
       sliderClass="gap-4"
-      slidesToSlide={2}
-      infinite
+      slidesToSlide={1}
       centerMode
     >
       {products.map((product) => (

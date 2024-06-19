@@ -8,7 +8,7 @@ import { useCartStore } from "../store/cart.store";
 export const DeleteItemButton = ({
   item,
 }: {
-  item: Pick<CartItem, "product_id" | "variant_id">;
+  item: Pick<CartItem, "product_id">;
 }) => {
   const { setItemQuantity, toggleCart } = useCartStore((state) => state);
 

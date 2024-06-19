@@ -17,7 +17,7 @@ export const CartProduct = async ({
   let product: Product = {} as Product;
 
   if (productId) {
-    const details = await getProduct(productId);
+    const details = await getProduct({ id: productId });
     if (!details) return null;
     product = details;
   }

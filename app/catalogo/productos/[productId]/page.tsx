@@ -2,7 +2,7 @@ import { unstable_noStore as noStore } from "next/cache";
 import { ProductsCarousel } from "@/app/modules/common/components/carousel";
 import { DecorativeTitle } from "@/app/modules/common/components/decorative-title";
 import { Footer } from "@/app/modules/common/layout/footer";
-import { getProduct, getProducts } from "@/app/modules/products/actions";
+import { getProduct } from "@/app/modules/products/actions";
 import { ProductBreadcrumb } from "@/app/modules/products/components/product-breadcrumb";
 import { TileImage } from "@/app/modules/products/components/tile-image";
 import { ProductDescription } from "@/app/modules/products/layouts/product-description";
@@ -21,14 +21,13 @@ export default async function ProductPage({
 }) {
   // HACK: This function can be used to declaratively opt out of static rendering.
   noStore();
-  const product = await getProduct(2);
+  let product = await getProduct({ id: Number(params.productId) });
 
   const addProductToCart = async () => {
     "use server";
     if (!product) return;
     await carts.addItemToCartForUser(1, {
       product_id: product.id,
-      variant_id: 1,
       quantity: 1,
       price: product.price,
     });

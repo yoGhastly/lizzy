@@ -30,8 +30,6 @@ export const ProductDescription: React.FC<Props> = ({
     }
   }
 
-  console.log(product);
-
   return (
     <form action={addToCart} className="flex flex-col gap-3">
       <section className="flex flex-col gap-12">
