@@ -140,14 +140,15 @@ export const productsMock: Product[] = [
     price: 100,
     brand: "Brand",
     category: "Category",
-    variants: [
-      {
-        id: 1,
-        name: "Option1Variant1",
-        price: 100,
-        stock: 10,
-      },
-    ],
+    metadata: {
+      type: "Type",
+      subcategory: "Subcategory",
+      quantity: 1,
+      colors: "Color1-Color2",
+      mililitros: "Mililitros",
+      miligramos: "Miligramos",
+      longitud: "Longitud",
+    },
   },
   {
     id: 2,
@@ -156,14 +157,15 @@ export const productsMock: Product[] = [
     price: 100,
     brand: "Brand",
     category: "Category",
-    variants: [
-      {
-        id: 1,
-        name: "Option1Variant1",
-        price: 100,
-        stock: 10,
-      },
-    ],
+    metadata: {
+      type: "Type",
+      subcategory: "Subcategory",
+      quantity: 1,
+      colors: "Color1-Color2",
+      mililitros: "Mililitros",
+      miligramos: "Miligramos",
+      longitud: "Longitud",
+    },
   },
   {
     id: 3,
@@ -172,14 +174,15 @@ export const productsMock: Product[] = [
     price: 100,
     brand: "Brand",
     category: "Category",
-    variants: [
-      {
-        id: 1,
-        name: "Option1Variant1",
-        price: 100,
-        stock: 10,
-      },
-    ],
+    metadata: {
+      type: "Type",
+      subcategory: "Subcategory",
+      quantity: 1,
+      colors: "Color1-Color2",
+      mililitros: "Mililitros",
+      miligramos: "Miligramos",
+      longitud: "Longitud",
+    },
   },
   {
     id: 4,
@@ -188,14 +191,15 @@ export const productsMock: Product[] = [
     price: 100,
     brand: "Brand",
     category: "Category",
-    variants: [
-      {
-        id: 1,
-        name: "Option1Variant1",
-        price: 100,
-        stock: 10,
-      },
-    ],
+    metadata: {
+      type: "Type",
+      subcategory: "Subcategory",
+      quantity: 1,
+      colors: "Color1-Color2",
+      mililitros: "Mililitros",
+      miligramos: "Miligramos",
+      longitud: "Longitud",
+    },
   },
   {
     id: 5,
@@ -204,14 +208,15 @@ export const productsMock: Product[] = [
     price: 100,
     brand: "Brand",
     category: "Category",
-    variants: [
-      {
-        id: 1,
-        name: "Option1Variant1",
-        price: 100,
-        stock: 10,
-      },
-    ],
+    metadata: {
+      type: "Type",
+      subcategory: "Subcategory",
+      quantity: 1,
+      colors: "Color1-Color2",
+      mililitros: "Mililitros",
+      miligramos: "Miligramos",
+      longitud: "Longitud",
+    },
   },
   {
     id: 6,
@@ -220,13 +225,14 @@ export const productsMock: Product[] = [
     price: 100,
     brand: "Brand",
     category: "Category",
-    variants: [
-      {
-        id: 1,
-        name: "Option1Variant1",
-        price: 100,
-        stock: 10,
-      },
-    ],
+    metadata: {
+      type: "Type",
+      subcategory: "Subcategory",
+      quantity: 1,
+      colors: "Color1-Color2",
+      mililitros: "Mililitros",
+      miligramos: "Miligramos",
+      longitud: "Longitud",
+    },
   },
 ];

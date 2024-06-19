@@ -10,7 +10,6 @@ export interface Product {
   price: number;
   brand: string;
   category: string;
-  variants: ProductVariant[];
   metadata: ProductMetadata;
 }
 
