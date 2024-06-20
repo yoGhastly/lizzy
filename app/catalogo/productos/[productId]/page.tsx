@@ -11,6 +11,7 @@ import { MySqlCartsRepository } from "@/app/modules/cart/infrastructure/CartsRep
 import { cookies } from "next/headers";
 import { FloatingProductInfo } from "@/app/modules/products/components/floating-product-info";
 import { productsMock } from "@/app/constants";
+import { addToCart } from "@/app/modules/cart/actions";
 
 const carts = new MySqlCartsRepository();
 
@@ -80,7 +81,10 @@ export default async function ProductPage({
           <ProductsCarousel products={productsMock} />
         </section>
         <Suspense>
-          <FloatingProductInfo product={product} />
+          <FloatingProductInfo
+            product={product}
+            onAddProductToCart={addProductToCart}
+          />
         </Suspense>
       </div>
       <div className="w-full px-5">

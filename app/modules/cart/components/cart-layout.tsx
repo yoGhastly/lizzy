@@ -36,8 +36,11 @@ const CartLayout: React.FC<PropsWithChildren<Props>> = ({
 
   useEffect(() => {
     setContent(modalContentType);
-    setQuantity(itemQuantity);
-  }, [modalContentType]);
+    if (!items) return;
+    // get item quantity
+    const item = items.find((item) => item.product_id === itemId);
+    setQuantity(item?.quantity || 0);
+  }, [modalContentType, itemQuantity, items]);
 
   useEffect(() => {
     if (!items) return;

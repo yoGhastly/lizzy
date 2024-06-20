@@ -13,7 +13,6 @@ export const EditItemButton = ({ productId }: { productId: number }) => {
   const changeModalContentType = () => {
     try {
       setModalContentType("edit");
-      console.log("modalContentType set to 'edit' successfully");
     } catch (error) {
       console.error("Error setting modalContentType:", error);
     }
