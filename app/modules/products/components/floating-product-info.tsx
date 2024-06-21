@@ -8,6 +8,7 @@ import { ProductTitle } from "./product-title";
 import { Button } from "../../common/components/button";
 import { FloatingProductInfoLayout } from "../layouts/floating-product-info-layout";
 import { Product } from "../domain/Product";
+import { useModalStore } from "../../modal/modal.store";
 
 export const FloatingProductInfo = ({
   product,
@@ -16,11 +17,11 @@ export const FloatingProductInfo = ({
   product: Product;
   onAddProductToCart: () => void;
 }) => {
-  const { toggleCart } = useCartStore((state) => state);
+  const { toggleModal } = useModalStore((state) => state);
 
   const addProduct = () => {
     onAddProductToCart();
-    toggleCart();
+    toggleModal();
   };
 
   return (

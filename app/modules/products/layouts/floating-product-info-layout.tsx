@@ -1,22 +1,21 @@
 "use client";
-
 import { cn } from "@/app/utils/cn";
-import { useCartStore } from "../../cart/store/cart.store";
-import { PropsWithChildren, useEffect, useState } from "react";
+import { type PropsWithChildren, useEffect, useState } from "react";
+import { useModalStore } from "../../modal/modal.store";
 
 export const FloatingProductInfoLayout: React.FC<PropsWithChildren> = ({
   children,
 }) => {
   const [hideInfo, setHideInfo] = useState(false);
-  const { openCart } = useCartStore((state) => state);
+  const { isModalOpen } = useModalStore((state) => state);
 
   useEffect(() => {
-    setHideInfo(openCart);
+    setHideInfo(isModalOpen);
 
     return () => {
       setHideInfo(false);
     };
-  }, [openCart]);
+  }, [isModalOpen]);
 
   return (
     <div

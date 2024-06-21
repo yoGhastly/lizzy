@@ -4,6 +4,7 @@ import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline";
 import { ScrollShadow } from "@nextui-org/scroll-shadow";
 import React, { useState } from "react";
 import { useCartStore } from "../../cart/store/cart.store";
+import { useModalStore } from "../../modal/modal.store";
 
 interface Option {
   id: number;
@@ -16,7 +17,7 @@ interface Props {
 
 export const CategoryFilter: React.FC<Props> = ({ filterOptions }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const { toggleCart, setModalContentType } = useCartStore();
+  const { toggleModal, setModalContentType } = useModalStore();
 
   const handleCategorySelection = (category: string) => {
     setSelectedCategory(category);
@@ -24,7 +25,7 @@ export const CategoryFilter: React.FC<Props> = ({ filterOptions }) => {
 
   const toggleFilter = () => {
     setModalContentType("filter");
-    toggleCart();
+    toggleModal();
   };
 
   const memoizedClassName = (category: string) => {

@@ -1,15 +1,15 @@
 "use client";
 import { XMarkIcon } from "@heroicons/react/24/solid";
-import { useCartStore } from "../../store/cart.store";
+import { useModalStore } from "@/app/modules/modal/modal.store";
 
 export const ModalHeader = ({
   cartItemsLength,
 }: {
   cartItemsLength: number;
 }) => {
-  const { toggleCart } = useCartStore((state) => state);
+  const { toggleModal } = useModalStore((state) => state);
   function closeCart() {
-    toggleCart();
+    toggleModal();
   }
 
   return (

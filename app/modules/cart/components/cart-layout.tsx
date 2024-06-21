@@ -3,15 +3,16 @@ import React, {
   useState,
   useEffect,
   useTransition,
-  PropsWithChildren,
+  type PropsWithChildren,
 } from "react";
+import type { Cart } from "../domain/Cart";
+import { type ModalContentType, useModalStore } from "../../modal/modal.store";
 import { Dialog, DialogPanel, Transition } from "@headlessui/react";
-import { ModalContentType, useCartStore } from "../store/cart.store";
+import { useCartStore } from "../store/cart.store";
 import { editItem } from "../actions";
 import { EditItem } from "./modal/edit-item";
 import { ProductList } from "./modal/product-list";
 import { FiltersContent } from "./modal/filters-content";
-import type { Cart } from "../domain/Cart";
 
 interface Props {
   items?: Cart["items"] | null;
@@ -21,15 +22,9 @@ const CartLayout: React.FC<PropsWithChildren<Props>> = ({
   children,
   items,
 }) => {
-  const {
-    toggleCart,
-    openCart,
-    modalContentType,
-    itemQuantity,
-    itemId,
-    setSubtotal,
-    setModalContentType,
-  } = useCartStore((state) => state);
+  const { itemQuantity, itemId, setSubtotal } = useCartStore((state) => state);
+  const { isModalOpen, modalContentType, toggleModal, setModalContentType } =
+    useModalStore((state) => state);
   const [contentType, setContent] = useState<ModalContentType>(null);
   const [quantity, setQuantity] = useState<number>(itemQuantity);
   const [isPending, startTransition] = useTransition();
@@ -68,7 +63,7 @@ const CartLayout: React.FC<PropsWithChildren<Props>> = ({
 
   return (
     <Transition
-      show={openCart}
+      show={isModalOpen}
       enter="duration-100 ease-out"
       enterFrom="opacity-0"
       enterTo="opacity-100"
@@ -77,7 +72,7 @@ const CartLayout: React.FC<PropsWithChildren<Props>> = ({
       leaveTo="opacity-0"
     >
       <Dialog
-        onClose={toggleCart}
+        onClose={toggleModal}
         className="fixed inset-0 z-[10000] overflow-hidden"
       >
         <div

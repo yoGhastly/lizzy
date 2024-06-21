@@ -10,6 +10,7 @@ import { Button } from "../../common/components/button";
 import { Product } from "../domain/Product";
 import { useFormStatus } from "react-dom";
 import { ProductVariants } from "./product-variants";
+import { useModalStore } from "../../modal/modal.store";
 
 interface Props {
   product: Product;
@@ -20,13 +21,13 @@ export const ProductDescription: React.FC<Props> = ({
   product,
   addProductToCart,
 }) => {
-  const { toggleCart } = useCartStore((state) => state);
+  const { toggleModal } = useModalStore((state) => state);
   const { pending } = useFormStatus();
 
   function addToCart() {
     addProductToCart();
     if (!pending) {
-      toggleCart();
+      toggleModal();
     }
   }
 

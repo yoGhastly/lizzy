@@ -2,16 +2,16 @@
 import React from "react";
 import { DialogTitle } from "@headlessui/react";
 import { ArrowLeftIcon, XMarkIcon } from "@heroicons/react/24/solid";
-import { useCartStore } from "../store/cart.store";
 import { cn } from "@/app/utils/cn";
+import { useModalStore } from "../../modal/modal.store";
 
 function GoBackIcon() {
-  const { setModalContentType, modalContentType, toggleCart } = useCartStore(
+  const { setModalContentType, modalContentType, toggleModal } = useModalStore(
     (state) => state,
   );
   const goBack = () => {
     if (modalContentType === "cart") return;
-    if (modalContentType === "filter") toggleCart();
+    if (modalContentType === "filter") toggleModal();
     setModalContentType("cart");
   };
 
@@ -23,9 +23,9 @@ function GoBackIcon() {
 }
 
 function CloseIcon() {
-  const { toggleCart } = useCartStore((state) => state);
+  const { toggleModal } = useModalStore((state) => state);
   const close = () => {
-    toggleCart();
+    toggleModal();
   };
 
   return (
@@ -42,7 +42,7 @@ const CartLayoutHeader = ({
   children: React.ReactNode;
   flexReverse?: boolean;
 }) => {
-  const { modalContentType } = useCartStore((state) => state);
+  const { modalContentType } = useModalStore((state) => state);
 
   return (
     <DialogTitle
