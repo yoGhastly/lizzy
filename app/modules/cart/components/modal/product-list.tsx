@@ -5,21 +5,21 @@ import { useCartStore } from "../../store/cart.store";
 import { CartFooterInfo } from "./cart-footer-info";
 
 export const ProductList: React.FC<PropsWithChildren> = ({ children }) => {
-  const { itemQuantity } = useCartStore((state) => state);
-  const [hideInfo, setHideInfo] = useState(false);
+  const [showInfo, setShowInfo] = useState(true);
+  const { cartLength } = useCartStore((state) => state);
 
   useEffect(() => {
-    if (itemQuantity === 0) {
-      setHideInfo(true);
+    if (cartLength === 0) {
+      setShowInfo(false);
     } else {
-      setHideInfo(false);
+      setShowInfo(true);
     }
-  }, [itemQuantity]);
+  }, [cartLength]);
 
   return (
     <Fragment>
       {children}
-      {!hideInfo && (
+      {showInfo && (
         <CartFooter>
           <CartFooterInfo />
         </CartFooter>

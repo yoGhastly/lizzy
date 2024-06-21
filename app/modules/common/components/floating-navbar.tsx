@@ -29,7 +29,7 @@ export const FloatingNavbar: React.FC<Props> = ({
   className,
   cart,
 }) => {
-  const { itemQuantity } = useCartStore();
+  const { cartLength } = useCartStore((state) => state);
   return (
     <div
       className={cn("flex gap-2 max-w-fit sticky top-5 mx-auto z-50 inset-x-0")}
@@ -80,7 +80,7 @@ export const FloatingNavbar: React.FC<Props> = ({
             />
           }
         >
-          <AttractiveText element={cart} active={itemQuantity > 0} />
+          <AttractiveText element={cart} active={cartLength > 0} />
         </Suspense>
         <span
           className={cn(
