@@ -22,8 +22,8 @@ interface Props {
 
 function AccountItems() {
   return [
-    { name: "Mi cuenta", link: "/account" },
-    { name: "Mis pedidos", link: "/orders" },
+    { name: "Mi cuenta", link: "/mi-cuenta" },
+    { name: "Mis pedidos", link: "/mis-pedidos" },
   ];
 }
 
@@ -36,6 +36,7 @@ function InitialItems() {
 
 export const AccountDropDownMenu: React.FC<Props> = ({ triggerElement }) => {
   const { isSignedIn } = useAuth();
+  console.log(isSignedIn);
   const accountItems = AccountItems();
   const initialItems = InitialItems();
 
@@ -53,27 +54,27 @@ export const AccountDropDownMenu: React.FC<Props> = ({ triggerElement }) => {
           anchor="bottom end"
           className="z-[10000] bg-background w-[300px] mt-2 rounded-md drop-shadow-lg"
         >
-          {!isSignedIn
+          {isSignedIn
             ? accountItems.map(({ name, link }) => (
-              <MenuItem key={name}>
-                <Link
-                  className="flex text-muted-gray z-[100000] items-center data-[focus]:bg-[#fafafa] data-[focus]:transition-colors data-[focus]:duration-200 px-5 border-b py-3"
-                  href={link ? link : "#"}
-                >
-                  {name}
-                </Link>
-              </MenuItem>
-            ))
+                <MenuItem key={name}>
+                  <Link
+                    className="flex text-muted-gray z-[100000] items-center data-[focus]:bg-[#fafafa] data-[focus]:transition-colors data-[focus]:duration-200 px-5 border-b py-3"
+                    href={link ? link : "#"}
+                  >
+                    {name}
+                  </Link>
+                </MenuItem>
+              ))
             : initialItems.map(({ name, link }) => (
-              <MenuItem key={name}>
-                <Link
-                  className="flex text-muted-gray z-[100000] items-center data-[focus]:bg-[#fafafa] data-[focus]:transition-colors data-[focus]:duration-200 px-5 border-b py-3"
-                  href={link ? link : "#"}
-                >
-                  {name}
-                </Link>
-              </MenuItem>
-            ))}
+                <MenuItem key={name}>
+                  <Link
+                    className="flex text-muted-gray z-[100000] items-center data-[focus]:bg-[#fafafa] data-[focus]:transition-colors data-[focus]:duration-200 px-5 border-b py-3"
+                    href={link ? link : "#"}
+                  >
+                    {name}
+                  </Link>
+                </MenuItem>
+              ))}
         </MenuItems>
       </Transition>
     </Menu>
