@@ -2,9 +2,11 @@
 import { PencilIcon } from "@heroicons/react/24/solid";
 import { useCartStore } from "../store/cart.store";
 import { useEffect } from "react";
+import { useModalStore } from "../../modal/modal.store";
 
 export const EditItemButton = ({ productId }: { productId: number }) => {
-  const { setModalContentType, setItemId } = useCartStore((state) => state);
+  const { setItemId } = useCartStore((state) => state);
+  const { setModalContentType } = useModalStore((state) => state);
 
   useEffect(() => {
     setItemId(productId);

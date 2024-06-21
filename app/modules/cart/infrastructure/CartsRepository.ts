@@ -1,5 +1,5 @@
 import { formatDate } from "@/app/utils/formatDate";
-import { Cart, CartItem, CartRepository } from "../domain/Cart";
+import type { Cart, CartItem, CartRepository } from "../domain/Cart";
 import { sql } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
 

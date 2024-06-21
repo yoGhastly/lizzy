@@ -2,7 +2,7 @@ import { Fragment } from "react";
 import { Modal } from "./modal";
 import { OpenCartButton } from "./open-cart-button";
 import { MySqlCartsRepository } from "../infrastructure/CartsRepository";
-import { Cart } from "../domain/Cart";
+import type { Cart } from "../domain/Cart";
 import { cookies } from "next/headers";
 
 const repository = new MySqlCartsRepository();
