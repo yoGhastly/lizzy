@@ -31,11 +31,6 @@ export const UserDetails = () => {
           <PencilSquareIcon className="h-4 text-[#fafafa]" />
         </button>
       </div>
-      <SignOutButton redirectUrl="/">
-        <button className="btn btn-sm btn-link text-muted-gray w-fit p-0">
-          Cerrar Sesión
-        </button>
-      </SignOutButton>
     </section>
   );
 };

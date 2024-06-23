@@ -13,6 +13,7 @@ import { editItem } from "../actions";
 import { EditItem } from "./modal/edit-item";
 import { ProductList } from "./modal/product-list";
 import { FiltersContent } from "./modal/filters-content";
+import { UserFavoriteProducts } from "../../modal/components/user-favorite-products";
 
 interface Props {
   items?: Cart["items"] | null;
@@ -93,7 +94,11 @@ const CartLayout: React.FC<PropsWithChildren<Props>> = ({
               />
             ) : contentType === "filter" ? (
               <FiltersContent />
-            ) : null}
+            ) : contentType === "favorites" ? (
+              <UserFavoriteProducts />
+            ) : (
+              <div>Content not found</div>
+            )}
           </DialogPanel>
         </div>
       </Dialog>
