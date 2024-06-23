@@ -51,7 +51,13 @@ const CartLayoutHeader = ({
       })}
     >
       {children}
-      {modalContentType === "cart" ? <CloseIcon /> : <GoBackIcon />}
+      {modalContentType === "cart" ? (
+        <CloseIcon />
+      ) : modalContentType === "edit" ? (
+        <GoBackIcon />
+      ) : (
+        <CloseIcon />
+      )}
     </DialogTitle>
   );
 };

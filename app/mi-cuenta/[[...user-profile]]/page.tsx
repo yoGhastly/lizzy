@@ -1,5 +1,6 @@
 "use client";
 import { productsMock } from "@/app/constants";
+import { Button } from "@/app/modules/common/components/button";
 import { useModalStore } from "@/app/modules/modal/modal.store";
 import { ProductCard } from "@/app/modules/products/components/card";
 import { waitUntil } from "@/app/utils/waitUntil";
@@ -32,23 +33,20 @@ export default function AccountPage() {
   }
 
   return (
-    <div className="flex w-full h-auto items-start mt-12 gap-5">
+    <div className="flex flex-col md:flex-row w-full h-auto justify-center items-center md:items-start mt-12 gap-5 p-5 md:p-0">
       <UserProfile />
-      <aside className="flex-grow flex flex-col gap-5 justify-between">
+      <aside className="flex-grow flex flex-col gap-5 justify-between w-full">
         <div className="flex flex-col bg-white drop-shadow-sm border p-5 rounded-xl gap-2">
           <p className="font-semibold text-lg">Tus Favoritos</p>
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-5">
             <ProductCard product={productsMock[0]} />
-            <button
-              onClick={handleOpenFavorites}
-              className="btn self-start p-0 btn-link no-underline text-novi-400"
-            >
-              Ver Todos
-            </button>
+            <Button onClick={handleOpenFavorites}>Ver Todos</Button>
           </div>
         </div>
         <SignOutButton redirectUrl="/">
-          <button className="btn  hover:bg-[#fafafa]">Cerrar Sesión</button>
+          <button className="btn bg-black text-white hover:bg-black/80 hover:text-white">
+            Cerrar Sesión
+          </button>
         </SignOutButton>
       </aside>
     </div>
