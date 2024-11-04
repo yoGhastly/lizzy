@@ -21,7 +21,7 @@ export const CartFooterInfo = () => {
     <Fragment>
       <div className="font-medium flex items-center justify-between w-full">
         <p>Subtotal</p>
-        <p className="text-sm">MXN {subtotal}</p>
+        <p className="text-sm">MXN {subtotal / 100}</p>
       </div>
       <div className="font-medium flex justify-between items-center w-full">
         <p>Gastos de envio</p>
@@ -31,7 +31,7 @@ export const CartFooterInfo = () => {
         <p>
           Total <span className="text-black/50 text-sm">(IVA incluido)</span>
         </p>
-        <p className="text-sm">MXN {total}</p>
+        <p className="text-sm">MXN {total / 100}</p>
       </div>
     </Fragment>
   );

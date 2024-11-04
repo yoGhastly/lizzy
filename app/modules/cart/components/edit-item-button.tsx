@@ -4,7 +4,7 @@ import { useCartStore } from "../store/cart.store";
 import { useEffect } from "react";
 import { useModalStore } from "../../modal/modal.store";
 
-export const EditItemButton = ({ productId }: { productId: number }) => {
+export const EditItemButton = ({ productId }: { productId: string }) => {
   const { setItemId } = useCartStore((state) => state);
   const { setModalContentType } = useModalStore((state) => state);
 

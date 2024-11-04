@@ -1,35 +1,30 @@
-"use client";
-import { DecorativeTitle } from "./modules/common/components/decorative-title";
-import { HomeMarqueeCategory } from "./modules/common/components/marquee";
-import { useState } from "react";
 import { ProductsSection } from "./modules/products/layouts/products-section";
-import { useMediaQuery } from "./hooks/useMediaQuery";
 import { Footer } from "./modules/common/layout/footer";
-import { productsMock } from "./constants";
+import { Header } from "./modules/home/header";
+import { unstable_cache } from "next/cache";
+import { MySqlProductsRepository } from "./modules/products/infrastructure/ProductsRepository";
 
-export default function Home() {
-  const [speeds] = useState(() => [35, 28, 30]);
-  const sm = useMediaQuery("(max-width: 640px)");
-  const products = sm ? productsMock : productsMock.slice(0, 5);
+const productsRepository = new MySqlProductsRepository();
+
+const getProducts = unstable_cache(
+  async () => await productsRepository.getAll(),
+  ["products"],
+  { revalidate: 60, tags: ["products"] },
+);
+
+export default async function Home() {
+  const allProducts = await getProducts();
 
   return (
     <div className="flex flex-col items-center w-full gap-12 md:gap-24 mt-14 md:mt-24 mx-auto px-5">
-      <header className="w-full flex flex-col gap-12 md:gap-24 justify-center">
-        <DecorativeTitle>Descubre Nuestras Categorías</DecorativeTitle>
-        <div className="flex flex-col gap-4">
-          {speeds.map((speed, idx) => (
-            <HomeMarqueeCategory key={idx} speed={speed} />
-          ))}
-        </div>
-      </header>
-
+      <Header />
       <ProductsSection
         title="Favoritos de los Clientes"
         description={{
           text: "Descubre los productos más queridos por nuestros clientes. Estos artículos han sido probados y",
           gradientText: "amados por personas como tú.",
         }}
-        products={products}
+        products={allProducts.slice(0, 5)}
       />
 
       <ProductsSection
@@ -37,7 +32,7 @@ export default function Home() {
         description={{
           text: "Mantente al día con las novedades y descubre los productos más emocionantes para actualizar tu rutina de cuidado personal.",
         }}
-        products={products}
+        products={allProducts.slice(5, 10)}
       />
 
       <Footer />

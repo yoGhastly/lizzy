@@ -8,7 +8,7 @@ export interface Cart {
 }
 
 export interface CartItem {
-  product_id: number;
+  product_id: string;
   quantity: number;
   price: number;
 }

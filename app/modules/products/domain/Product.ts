@@ -1,14 +1,15 @@
 export interface ProductsRepository {
   getAll(): Promise<Product[]>;
-  get(id: number): Promise<Product | null>;
+  get(id: string): Promise<Product | null>;
 }
 
 export interface Product {
-  id: number;
+  id: string;
   name: string;
   description: string;
   price: number;
   brand: string;
+  images: string[];
   category: string;
   metadata: ProductMetadata;
 }
@@ -17,7 +18,7 @@ export interface ProductMetadata {
   type: string;
   subcategory: string;
   quantity: number;
-  colors: `${string}-${string}` | `N/A`;
+  colores: `${string}-${string}` | `N/A`;
   mililitros: string;
   miligramos: string;
   longitud: string;

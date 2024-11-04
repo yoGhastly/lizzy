@@ -36,7 +36,6 @@ function InitialItems() {
 
 export const AccountDropDownMenu: React.FC<Props> = ({ triggerElement }) => {
   const { isSignedIn } = useAuth();
-  console.log(isSignedIn);
   const accountItems = AccountItems();
   const initialItems = InitialItems();
 

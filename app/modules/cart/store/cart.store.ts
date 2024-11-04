@@ -1,8 +1,8 @@
 import { create } from "zustand";
 
 interface CartStore {
-  itemId: number;
-  setItemId: (itemId: number) => void;
+  itemId: string;
+  setItemId: (itemId: string) => void;
   itemQuantity: number;
   setItemQuantity: (itemQuantity: number) => void;
   subtotal: number;
@@ -12,7 +12,7 @@ interface CartStore {
 }
 
 export const useCartStore = create<CartStore>((set) => ({
-  itemId: 0,
+  itemId: "",
   setItemId: (itemId) => set({ itemId }),
   itemQuantity: 0,
   setItemQuantity: (itemQuantity) =>

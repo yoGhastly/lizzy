@@ -10,6 +10,7 @@ export const TileImage = ({ src, alt }: { src: string; alt: string }) => {
         alt={alt}
         fill
         className="object-contain transition duration-300 ease-in-out group-hover:scale-105"
+        sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
       />
     </div>
   );

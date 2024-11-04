@@ -1,5 +1,4 @@
 "use client";
-
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 
@@ -17,7 +16,11 @@ export const ProductBreadcrumb = ({
             Volver al Catálogo
           </Link>
         </li>
-        <li>{productCategory}</li>
+        <li>
+          <span className="first-letter:capitalize font-semibold">
+            {productCategory}
+          </span>
+        </li>
       </ul>
     </div>
   );
