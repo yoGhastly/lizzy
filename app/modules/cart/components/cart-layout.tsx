@@ -39,7 +39,11 @@ const CartLayout: React.FC<PropsWithChildren<Props>> = ({
   }, [modalContentType, itemQuantity, items]);
 
   useEffect(() => {
-    if (!items) return;
+    if (!items || items.length === 0) {
+      setSubtotal(0);
+      return;
+    }
+
     const subtotal = items.reduce(
       (acc, item) => acc + item.price * item.quantity,
       0,

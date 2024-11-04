@@ -36,12 +36,12 @@ export const ProductDescription: React.FC<Props> = ({
       <section className="flex flex-col gap-12">
         <div className="header-container flex flex-col gap-2">
           <div className="product_header flex  justify-between items-center">
-            <p className="font-bold text-[16px]">{product.name}</p>
+            <p className="font-bold text-[16px] capitalize">{product.name}</p>
             <HeartIcon className="h-6" />
           </div>
 
           <div className="product_price_variants flex flex-col gap-4">
-            <p className="text-xl">${product.price}</p>
+            <p className="text-xl">${product.price / 100} MXN</p>
             <div className="flex gap-2">
               <ProductVariants metadata={product.metadata} />
             </div>
@@ -79,7 +79,9 @@ export const ProductDescription: React.FC<Props> = ({
 
         <div className="border-t flex flex-col gap-3 border-t-muted-gray/50 p-5">
           <p className="text-novi-950 font-semibold">Descripción</p>
-          <p className="mx-auto text-muted-gray">{product.description}</p>
+          <p className="mx-auto text-muted-gray first-letter:capitalize">
+            {product.description}
+          </p>
         </div>
       </section>
     </form>

@@ -3,12 +3,14 @@ import { Product, ProductsRepository } from "../domain/Product";
 
 export class MySqlProductsRepository implements ProductsRepository {
   async getAll(): Promise<Product[]> {
+    "use server";
     const { rows: products } = await sql`
       SELECT * FROM products
     `;
     return products as Product[];
   }
-  async get(id: number): Promise<Product | null> {
+  async get(id: string): Promise<Product | null> {
+    "use server";
     const { rows: products } = await sql`
       SELECT * FROM products WHERE id = ${id}
     `;

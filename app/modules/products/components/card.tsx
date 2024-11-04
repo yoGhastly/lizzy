@@ -16,17 +16,21 @@ export const ProductCard: React.FC<Props> = ({ product }) => {
     >
       <picture className="relative aspect-[1/1.2] bg-[#fafafa]">
         <Image
-          src="/next.svg"
-          alt="Product"
-          fill
           className="object-contain transition duration-300 ease-in-out group-hover:scale-105"
+          src={product.images[0]}
+          loading="lazy"
+          placeholder="blur"
+          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkAAIAAAoAAv/lPAAAAA=="
+          alt="Product"
+          sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
+          fill
         />
         <HeartIcon className="absolute bottom-2 right-2 h-6" />
       </picture>
       <section className="flex flex-col gap-2">
         <div className="flex flex-col gap-1">
-          <h3 className="text-sm font-medium">{product.name}</h3>
-          <span className="text-[15px]">${product.price}</span>
+          <h3 className="text-sm font-medium capitalize">{product.name}</h3>
+          <span className="text-[15px]">${product.price / 100} MXN</span>
         </div>
         <div className="flex gap-1">
           {[0, 1, 2].map((_, idx) => (

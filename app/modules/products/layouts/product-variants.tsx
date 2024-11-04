@@ -14,7 +14,7 @@ function VariantSection({ children }: { children: ReactNode }) {
 }
 
 export const ProductVariants: React.FC<Props> = ({ metadata }) => {
-  const { colors, mililitros, miligramos, longitud } = metadata;
+  const { colores: colors, mililitros, miligramos, longitud } = metadata;
 
   const colorVariants = colors.split(",");
   const millilitersVariants = mililitros.split(",");
