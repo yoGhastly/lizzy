@@ -1,5 +1,4 @@
 "use client";
-import { productsMock } from "@/app/constants";
 import { Button } from "@/app/modules/common/components/button";
 import { useModalStore } from "@/app/modules/modal/modal.store";
 import { ProductCard } from "@/app/modules/products/components/card";
@@ -39,7 +38,7 @@ export default function AccountPage() {
         <div className="flex flex-col bg-white drop-shadow-sm border p-5 rounded-xl gap-2">
           <p className="font-semibold text-lg">Tus Favoritos</p>
           <div className="flex flex-col gap-5">
-            <ProductCard product={productsMock[0]} />
+            {/* <ProductCard product={productsMock[0]} /> */}
             <Button onClick={handleOpenFavorites}>Ver Todos</Button>
           </div>
         </div>
