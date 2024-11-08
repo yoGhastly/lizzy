@@ -1,15 +1,14 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { cn } from "@/app/utils/cn";
 import { useCartStore } from "../../store/cart.store";
 
 export const CartLengthLabel = ({ length }: { length: number }) => {
   const { setCartLength } = useCartStore((state) => state);
-  const [cartLength] = useState(() => length);
 
   useEffect(() => {
     setCartLength(length);
-  }, [length]);
+  }, [length, setCartLength]);
 
-  return <span className={cn({ hidden: length === 0 })}>({cartLength})</span>;
+  return <span className={cn({ hidden: length === 0 })}>({length})</span>;
 };

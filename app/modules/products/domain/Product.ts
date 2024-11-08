@@ -1,6 +1,7 @@
 export interface ProductsRepository {
   getAll(): Promise<Product[]>;
   get(id: string): Promise<Product | null>;
+  getByCategory(category: string): Promise<Product[]>;
 }
 
 export interface Product {

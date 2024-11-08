@@ -24,4 +24,27 @@ export class MySqlProductsRepository implements ProductsRepository {
     products[0].variants = variants;
     return products[0] as Product;
   }
+
+  async getByCategory(category: string): Promise<Product[]> {
+    try {
+      const result = await sql`
+      SELECT * FROM products
+      WHERE category = ${category};
+    `;
+
+      return result.rows.map((row) => ({
+        id: row.id,
+        name: row.name,
+        description: row.description,
+        price: row.price,
+        brand: row.brand,
+        category: row.category,
+        metadata: row.metadata,
+        images: row.images,
+      }));
+    } catch (error) {
+      console.error("Error fetching products by category:", error);
+      throw new Error("Failed to fetch products by category");
+    }
+  }
 }

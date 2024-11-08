@@ -1,10 +1,12 @@
 import { ProductsSection } from "./modules/products/layouts/products-section";
 import { Footer } from "./modules/common/layout/footer";
-import { Header } from "./modules/home/header";
 import { unstable_cache } from "next/cache";
 import { MySqlProductsRepository } from "./modules/products/infrastructure/ProductsRepository";
+import { CategoriesMarquee } from "./modules/home/categories-marquee";
+import { MySqlCategoriesRepository } from "./modules/categories/infrastructure/CategoriesRepository";
 
 const productsRepository = new MySqlProductsRepository();
+const categoriesRepository = new MySqlCategoriesRepository();
 
 const getProducts = unstable_cache(
   async () => await productsRepository.getAll(),
@@ -12,12 +14,19 @@ const getProducts = unstable_cache(
   { revalidate: 60, tags: ["products"] },
 );
 
+const getCategories = unstable_cache(
+  async () => await categoriesRepository.getAll(),
+  ["categories"],
+  { revalidate: 3600, tags: ["categories"] },
+);
+
 export default async function Home() {
   const allProducts = await getProducts();
+  const allCategories = await getCategories();
 
   return (
     <div className="flex flex-col items-center w-full gap-12 md:gap-24 mt-14 md:mt-24 mx-auto px-5">
-      <Header />
+      <CategoriesMarquee categories={allCategories as any} />
       <ProductsSection
         title="Favoritos de los Clientes"
         description={{
@@ -34,7 +43,6 @@ export default async function Home() {
         }}
         products={allProducts.slice(5, 10)}
       />
-
       <Footer />
     </div>
   );

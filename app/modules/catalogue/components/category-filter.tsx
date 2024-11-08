@@ -3,8 +3,7 @@ import { cn } from "@/app/utils/cn";
 import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline";
 import { ScrollShadow } from "@nextui-org/scroll-shadow";
 import React, { useState } from "react";
-import { useCartStore } from "../../cart/store/cart.store";
-import { useModalStore } from "../../modal/modal.store";
+import { useModalStore } from "../../modal/modal.store"; // Access the modal store here
 
 interface Option {
   id: number;
@@ -17,6 +16,8 @@ interface Props {
 
 export const CategoryFilter: React.FC<Props> = ({ filterOptions }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
+
+  // Use modal store in client component
   const { toggleModal, setModalContentType } = useModalStore();
 
   const handleCategorySelection = (category: string) => {
