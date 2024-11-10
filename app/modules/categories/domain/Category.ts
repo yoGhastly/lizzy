@@ -6,5 +6,4 @@ export interface Category {
 
 export interface CategoryRepository {
   getAll(): Promise<Category[]>;
-  getSubcategories(categoryId: number): Promise<{ id: number; name: string }[]>;
 }
