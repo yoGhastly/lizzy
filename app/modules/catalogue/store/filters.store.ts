@@ -1,9 +1,6 @@
 import { create } from "zustand";
 
-export type OrderByFilters =
-  | "Novedades"
-  | "Precio ascendente"
-  | "Precio descendente";
+export type OrderByFilters = "Precio ascendente" | "Precio descendente";
 
 interface FiltersStore {
   orderBy: OrderByFilters;
@@ -11,6 +8,6 @@ interface FiltersStore {
 }
 
 export const useFiltersStore = create<FiltersStore>((set) => ({
-  orderBy: "Novedades", // Set a default value that matches the type
+  orderBy: "Precio ascendente", // Set a default value that matches the type
   setOrderBy: (orderBy: OrderByFilters) => set({ orderBy }),
 }));

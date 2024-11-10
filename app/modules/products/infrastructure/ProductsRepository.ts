@@ -4,9 +4,8 @@ import { Product, ProductsRepository } from "../domain/Product";
 export class MySqlProductsRepository implements ProductsRepository {
   async getAll(): Promise<Product[]> {
     "use server";
-    const { rows: products } = await sql`
-      SELECT * FROM products
-    `;
+    let query = sql`SELECT * FROM products`;
+    const { rows: products } = await query;
     return products as Product[];
   }
   async get(id: string): Promise<Product | null> {
@@ -26,12 +25,12 @@ export class MySqlProductsRepository implements ProductsRepository {
   }
 
   async getByCategory(category: string): Promise<Product[]> {
+    "use server";
     try {
       const result = await sql`
-      SELECT * FROM products
-      WHERE category = ${category};
+      SELECT p.* FROM products p
+      WHERE p.subcategoria = ${category} OR p.category = ${category};
     `;
-
       return result.rows.map((row) => ({
         id: row.id,
         name: row.name,
@@ -41,6 +40,7 @@ export class MySqlProductsRepository implements ProductsRepository {
         category: row.category,
         metadata: row.metadata,
         images: row.images,
+        subcategoria: row.subcategoria,
       }));
     } catch (error) {
       console.error("Error fetching products by category:", error);

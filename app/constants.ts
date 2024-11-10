@@ -62,24 +62,31 @@ export const footerLinks = {
   ],
 };
 
-type CategoryKey =
-  | "ver todo"
-  | "pestañas"
-  | "uñas"
-  | "option1"
-  | "option2"
-  | "option3";
+export function validateCategory(
+  categoryOrSubcategory: string,
+  categories: { name: string; subcategories: { name: string }[] }[],
+): string {
+  const lowerCategory = categoryOrSubcategory.toLowerCase();
 
-const categoryMap: Record<CategoryKey, string> = {
-  "ver todo": "Ver Todo",
-  pestañas: "Pestañas",
-  uñas: "Uñas",
-  option1: "Option1",
-  option2: "Option2",
-  option3: "Option3",
-};
+  // Check if it matches a category first
+  const validCategory = categories.find(
+    (cat) => cat.name.toLowerCase() === lowerCategory,
+  );
 
-export function validateCategory(category: string): string {
-  const lowerCategory = category.toLowerCase() as CategoryKey;
-  return categoryMap[lowerCategory] || "Ver Todo";
+  if (validCategory) {
+    return validCategory.name; // Return the matching category
+  }
+
+  // If no valid category is found, check if it matches a subcategory
+  for (const category of categories) {
+    const validSubcategory = category.subcategories.find(
+      (subcat) => subcat.name.toLowerCase() === lowerCategory,
+    );
+    if (validSubcategory) {
+      return validSubcategory.name; // Return the matching subcategory
+    }
+  }
+
+  // Fallback to "Ver Todo" if no valid category or subcategory is found
+  return "Ver Todo";
 }

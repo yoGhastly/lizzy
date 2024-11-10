@@ -9,11 +9,25 @@ import { CartFallback } from "./cart-fallback";
 
 interface Props {
   cart: Cart | null;
+  subcategories: { name: string; id: number }[];
+  allCategories: {
+    id: number;
+    name: string;
+    subcategories: { id: number; name: string }[];
+  }[];
 }
 
-export const Modal: React.FC<Props> = ({ cart }) => {
+export const Modal: React.FC<Props> = ({
+  cart,
+  subcategories,
+  allCategories,
+}) => {
   return (
-    <CartLayout items={cart?.items}>
+    <CartLayout
+      items={cart?.items}
+      subcategories={subcategories}
+      allCategories={allCategories}
+    >
       <CartLayoutHeader>
         <p className="text-center font-bold w-full">
           Cesta

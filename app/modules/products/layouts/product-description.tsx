@@ -82,6 +82,10 @@ export const ProductDescription: React.FC<Props> = ({
           <p className="mx-auto text-muted-gray first-letter:capitalize">
             {product.description}
           </p>
+          <p className="text-novi-950 font-semibold">Marca</p>
+          <p className="text-muted-gray first-letter:capitalize">
+            {product.brand}
+          </p>
         </div>
       </section>
     </form>

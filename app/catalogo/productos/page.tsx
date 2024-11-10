@@ -1,15 +1,11 @@
-import { DecorativeTitle } from "@/app/modules/common/components/decorative-title";
-import { CategoryCollapsibleMenu } from "@/app/modules/catalogue/components/category-collapsible-menu";
-import { CategoryFilter } from "@/app/modules/catalogue/components/category-filter";
-import { ProductCard } from "@/app/modules/products/components/card";
-import { validateCategory } from "@/app/constants";
+import { unstable_cache } from "next/cache";
 import { MySqlProductsRepository } from "@/app/modules/products/infrastructure/ProductsRepository";
 import { MySqlCategoriesRepository } from "@/app/modules/categories/infrastructure/CategoriesRepository";
-import { unstable_cache } from "next/cache";
-
-interface SearchParams {
-  category?: string;
-}
+import { validateCategory } from "@/app/constants";
+import { CategoryCollapsibleMenu } from "@/app/modules/catalogue/components/category-collapsible-menu";
+import { DecorativeTitle } from "@/app/modules/common/components/decorative-title";
+import { CategoryFilter } from "@/app/modules/catalogue/components/category-filter";
+import { ProductCard } from "@/app/modules/products/components/card";
 
 const productsRepository = new MySqlProductsRepository();
 const categoriesRepository = new MySqlCategoriesRepository();
@@ -35,24 +31,31 @@ const getCategories = unstable_cache(
 export default async function ProductsPage({
   searchParams,
 }: {
-  searchParams: SearchParams;
+  searchParams: { category?: string; orderBy?: string };
 }) {
-  const categoryParam = searchParams.category || "Ver Todo";
-  const displayCategory = validateCategory(categoryParam);
-
-  // Fetch the categories dynamically
+  const { category, orderBy } = searchParams;
   const categories = await getCategories();
+
+  const displayCategory = validateCategory(category || "Ver Todo", categories);
 
   const products =
     displayCategory === "Ver Todo"
       ? await getAllProducts()
-      : await getProductsByCategory(displayCategory);
+      : await getProductsByCategory(displayCategory.toLowerCase());
 
-  const options = [
-    { id: 1, name: "Todos" },
-    { id: 2, name: "Hombres" },
-    { id: 3, name: "Mujeres" },
-  ];
+  // Get filter options based on selected category
+  const options =
+    displayCategory === "Ver Todo"
+      ? categories.map((category) => ({
+          id: category.id,
+          name: category.name,
+        }))
+      : categories
+          .find((category) => category.name === displayCategory.toLowerCase())
+          ?.subcategories.map((subcategory) => ({
+            id: subcategory.id,
+            name: subcategory.name,
+          })) || [];
 
   return (
     <div className="mx-auto mt-14 flex flex-col w-full px-5">
@@ -70,12 +73,26 @@ export default async function ProductsPage({
           >
             {displayCategory}
           </DecorativeTitle>
-          <CategoryFilter filterOptions={options} />
+          <CategoryFilter
+            filterOptions={options}
+            selectedCategory={displayCategory}
+          />
           <div className="w-full h-screen">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-4">
-              {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
+              {
+                // if orderBy is not defined, sort normally otherwise sort by price
+                products
+                  .sort((a, b) =>
+                    orderBy === "asc"
+                      ? a.price - b.price
+                      : orderBy === "desc"
+                        ? b.price - a.price
+                        : 0,
+                  )
+                  .map((product) => (
+                    <ProductCard key={product.id} product={product} />
+                  ))
+              }
             </div>
           </div>
         </main>

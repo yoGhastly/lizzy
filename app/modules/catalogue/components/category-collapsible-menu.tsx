@@ -1,54 +1,40 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { cn } from "@/app/utils/cn";
-import { useEffect, useState } from "react";
+import { validateCategory } from "@/app/constants";
 
 interface Props {
   category: string;
   categories: {
     id: number;
     name: string;
-    subcategories: { id: number; name: string }[]; // Categories with subcategories
-  }[]; // Adjusted structure for subcategories
+    subcategories: { id: number; name: string }[];
+  }[];
 }
 
 export const CategoryCollapsibleMenu: React.FC<Props> = ({
   category,
   categories,
 }) => {
-  const [openTabs, setOpenTabs] = useState<{ [key: string]: boolean }>({});
   const router = useRouter();
 
-  useEffect(() => {
-    setOpenTabs((prev) => ({
-      ...prev,
-      [category]: true,
-    }));
-  }, [category]);
-
-  // Add the "Ver Todo" category to the front of the categories list
   const allCategories = [
     { id: 0, name: "Ver Todo", subcategories: [] },
     ...categories,
   ];
 
-  // Function to update the URL
   const handleCategoryClick = (categoryName: string) => {
-    router.push(`/catalogo/productos?category=${categoryName}`, {
-      scroll: false,
-    });
+    const validatedCategory = validateCategory(categoryName, allCategories);
+    router.push(
+      `/catalogo/productos?category=${encodeURIComponent(validatedCategory)}`,
+      { scroll: false },
+    );
   };
 
-  // Function to update the URL for subcategory
-  const handleSubcategoryClick = (
-    categoryName: string,
-    subcategoryName: string,
-  ) => {
+  const handleSubcategoryClick = (subcategoryName: string) => {
     router.push(
-      `/catalogo/productos?category=${categoryName}/${subcategoryName}`,
-      {
-        scroll: false,
-      },
+      `/catalogo/productos?category=${encodeURIComponent(subcategoryName)}`,
+      { scroll: false },
     );
   };
 
@@ -56,32 +42,40 @@ export const CategoryCollapsibleMenu: React.FC<Props> = ({
     <ul className="menu w-56">
       {allCategories.map((categoryItem) => (
         <li key={categoryItem.id}>
-          {/* Render the details only if the category is not "Ver Todo" */}
           {categoryItem.name !== "Ver Todo" ? (
-            <details open={openTabs[categoryItem.name] || false}>
+            <details
+              ref={(detailsRef) => {
+                if (detailsRef) {
+                  detailsRef.ontoggle = () => {
+                    if (detailsRef.open) {
+                      handleCategoryClick(categoryItem.name);
+                    }
+                  };
+                }
+              }}
+            >
               <summary
                 className={cn(
-                  {
-                    "font-semibold": category === categoryItem.name,
-                  },
+                  { "font-semibold": category === categoryItem.name },
                   "capitalize",
                 )}
-                onClick={() => handleCategoryClick(categoryItem.name)} // Update the URL on category click
+                onClick={(e) => {
+                  e.preventDefault();
+                  const details = e.currentTarget
+                    .parentElement as HTMLDetailsElement;
+                  details.open = !details.open;
+                }}
               >
                 {categoryItem.name}
               </summary>
               <ul>
-                {/* Render subcategories */}
                 {categoryItem.subcategories?.map((subcategory) => (
                   <li key={subcategory.id}>
                     <a
-                      href={`#`} // Prevent default action; handled by router
+                      href="#"
                       onClick={(e) => {
-                        e.preventDefault(); // Prevent page reload
-                        handleSubcategoryClick(
-                          categoryItem.name,
-                          subcategory.name,
-                        ); // Update the URL for subcategory
+                        e.preventDefault();
+                        handleSubcategoryClick(subcategory.name);
                       }}
                       className="capitalize"
                     >
@@ -94,7 +88,7 @@ export const CategoryCollapsibleMenu: React.FC<Props> = ({
           ) : (
             <span
               className={cn({ "font-semibold": category === "Ver Todo" })}
-              onClick={() => handleCategoryClick("Ver Todo")} // Update the URL on "Ver Todo" click
+              onClick={() => handleCategoryClick("Ver Todo")}
             >
               {categoryItem.name}
             </span>

@@ -17,11 +17,19 @@ import { UserFavoriteProducts } from "../../modal/components/user-favorite-produ
 
 interface Props {
   items?: Cart["items"] | null;
+  subcategories?: { name: string; id: number }[];
+  allCategories?: {
+    id: number;
+    name: string;
+    subcategories: { id: number; name: string }[];
+  }[];
 }
 
 const CartLayout: React.FC<PropsWithChildren<Props>> = ({
   children,
   items,
+  subcategories,
+  allCategories,
 }) => {
   const { itemQuantity, itemId, setSubtotal } = useCartStore((state) => state);
   const { isModalOpen, modalContentType, toggleModal, setModalContentType } =
@@ -97,7 +105,13 @@ const CartLayout: React.FC<PropsWithChildren<Props>> = ({
                 saveChanges={saveChanges}
               />
             ) : contentType === "filter" ? (
-              <FiltersContent />
+              subcategories &&
+              allCategories && (
+                <FiltersContent
+                  subcategories={subcategories}
+                  allCategories={allCategories}
+                />
+              )
             ) : contentType === "favorites" ? (
               <UserFavoriteProducts />
             ) : (

@@ -1,9 +1,9 @@
 "use client";
+import { useRouter } from "next/navigation";
 import { cn } from "@/app/utils/cn";
 import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline";
 import { ScrollShadow } from "@nextui-org/scroll-shadow";
-import React, { useState } from "react";
-import { useModalStore } from "../../modal/modal.store"; // Access the modal store here
+import { useModalStore } from "../../modal/modal.store";
 
 interface Option {
   id: number;
@@ -12,32 +12,34 @@ interface Option {
 
 interface Props {
   filterOptions: Option[];
+  selectedCategory: string;
 }
 
-export const CategoryFilter: React.FC<Props> = ({ filterOptions }) => {
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
-
-  // Use modal store in client component
-  const { toggleModal, setModalContentType } = useModalStore();
+export const CategoryFilter: React.FC<Props> = ({
+  filterOptions,
+  selectedCategory,
+}) => {
+  const router = useRouter();
+  const { setModalContentType, toggleModal } = useModalStore();
 
   const handleCategorySelection = (category: string) => {
-    setSelectedCategory(category);
-  };
-
-  const toggleFilter = () => {
-    setModalContentType("filter");
-    toggleModal();
+    router.push(`/catalogo/productos?category=${category}`, { scroll: false });
   };
 
   const memoizedClassName = (category: string) => {
     return cn(
       {
-        "opacity-100": category.toLowerCase() === selectedCategory,
+        "opacity-100": category === selectedCategory.toLowerCase(),
       },
       "btn btn-outline md:btn-outline btn-sm md:btn",
-      "text-xs md:text-sm font-normal",
+      "text-xs md:text-sm font-normal capitalize",
       "hover:bg-white hover:text-black hover:opacity-100",
     );
+  };
+
+  const handleFilterButtonClick = () => {
+    setModalContentType("filter");
+    toggleModal();
   };
 
   return (
@@ -50,20 +52,16 @@ export const CategoryFilter: React.FC<Props> = ({ filterOptions }) => {
         {filterOptions.map((category) => (
           <button
             key={category.id}
-            className={memoizedClassName(category.name.toLowerCase())}
-            onClick={() => handleCategorySelection(category.name.toLowerCase())}
+            className={memoizedClassName(category.name)}
+            onClick={() => handleCategorySelection(category.name)}
           >
             {category.name}
           </button>
         ))}
       </ScrollShadow>
       <button
-        onClick={toggleFilter}
-        className={cn(
-          "btn btn-outline md:btn-outline btn-sm md:btn",
-          "text-xs md:text-sm font-normal",
-          "hover:bg-white",
-        )}
+        className="btn btn-outline md:btn-outline btn-sm md:btn text-xs md:text-sm font-normal hover:bg-white"
+        onClick={handleFilterButtonClick}
       >
         <AdjustmentsHorizontalIcon className="h-4 md:h-6 text-black" />
       </button>

@@ -30,9 +30,10 @@ export async function GET() {
           product.prices.length > 0 ? product.prices[0].unit_amount : null;
         const brand = product.metadata?.marca || null;
         const category = product.metadata?.categoria || null;
+        const subcategory = product.metadata?.subcategoria || null; // Extract subcategoria from metadata
 
         await sql`
-        INSERT INTO products (id, name, description, price, brand, category, metadata, images)
+        INSERT INTO products (id, name, description, price, brand, category, metadata, images, subcategoria)
         VALUES (
           ${product.id},
           ${product.name},
@@ -41,7 +42,8 @@ export async function GET() {
           ${brand},
           ${category},
           ${JSON.stringify(product.metadata)}::jsonb,
-          ${JSON.stringify(product.images)}::jsonb
+          ${JSON.stringify(product.images)}::jsonb,
+          ${subcategory} -- Insert subcategoria into the new column
         )
         ON CONFLICT (id) DO UPDATE
         SET
@@ -51,7 +53,8 @@ export async function GET() {
           brand = EXCLUDED.brand,
           category = EXCLUDED.category,
           metadata = EXCLUDED.metadata,
-          images = EXCLUDED.images;
+          images = EXCLUDED.images,
+          subcategoria = EXCLUDED.subcategoria; -- Update subcategoria if it changes
       `;
       }),
     );

@@ -49,4 +49,12 @@ export class MySqlCategoriesRepository implements CategoryRepository {
       subcategories: category.subcategories,
     })) as unknown as Category[];
   }
+
+  async getAllSubcategories(): Promise<{ id: number; name: string }[]> {
+    "use server";
+    const { rows } = await sql`
+      SELECT id, name FROM subcategories;
+    `;
+    return rows as { id: number; name: string }[];
+  }
 }

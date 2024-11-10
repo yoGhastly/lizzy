@@ -30,14 +30,18 @@ export const FloatingProductInfo = ({
         <div className="flex gap-6 items-center">
           <Avatar>
             <Image
-              src="/next.svg"
-              alt="Avatar"
+              src={product.images[0]}
+              alt={product.name}
               fill
+              sizes="(max-width: 640px) 100vw, 640px"
               className="w-full h-full"
             />
           </Avatar>
           <Suspense>
             <ProductTitle productName={product.name} />
+            <span>
+              <p className="text-md">${product.price / 100} MXN</p>
+            </span>
           </Suspense>
         </div>
         <Button onClick={addProduct}>
