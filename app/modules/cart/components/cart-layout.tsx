@@ -78,7 +78,6 @@ const CartLayout: React.FC<PropsWithChildren<Props>> = ({
   };
 
   const handleCheckoutOrder = async () => {
-    console.log("handleCheckoutOrder called"); // Debugging statement
     try {
       const res = await fetch("/api/create-checkout-session", {
         method: "POST",
@@ -87,12 +86,10 @@ const CartLayout: React.FC<PropsWithChildren<Props>> = ({
         },
         body: JSON.stringify({ cart }), // Ensure cart is correctly passed
       });
-      console.log("API response:", res); // Debugging statement
       if (!res.ok) {
         throw new Error("Failed to create checkout session");
       }
       const data = await res.json();
-      console.log("Checkout session data:", data); // Debugging statement
       const stripe = await getStripe();
 
       if (!stripe) {

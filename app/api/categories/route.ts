@@ -32,9 +32,6 @@ export async function GET() {
 
     const uniqueCategories = Array.from(categoriesSet);
 
-    console.log("Categories Set:", uniqueCategories);
-    console.log("Subcategories Map:", subcategoriesMap);
-
     // Create the categories table if it doesn't exist
     await sql`
       CREATE TABLE IF NOT EXISTS categories (
@@ -66,15 +63,10 @@ export async function GET() {
           const categoryId =
             categoryIdQuery.rows.length > 0 ? categoryIdQuery.rows[0].id : null;
 
-          console.log(`Category: ${category}, Category ID: ${categoryId}`);
-
           if (categoryId) {
             // Insert each subcategory and link it to the category
             await Promise.all(
               subcategories.map(async (subcategory) => {
-                console.log(
-                  `Inserting subcategory: ${subcategory} for Category ID: ${categoryId}`,
-                );
                 await sql`
                   INSERT INTO subcategories (name, category_id)
                   VALUES (${subcategory}, ${categoryId})

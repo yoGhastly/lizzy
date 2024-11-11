@@ -32,9 +32,6 @@ export default async function ProductPage({
   noStore();
   const { userId } = auth();
 
-  console.log("user id exists", userId !== null);
-  console.log("user id", userId);
-
   const product = await getProduct({ id: params.productId });
   const allProducts = await getProducts();
 
@@ -46,19 +43,16 @@ export default async function ProductPage({
     if (!sessionId) {
       const { sessionId: newSessionId } = createServerSession();
       sessionId = newSessionId;
-      console.log("New session id", sessionId);
       cookies().set("session_id", sessionId, {
         expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
       });
     } else {
-      console.log("Existing session id", sessionId);
+      console.log("Existing session id");
     }
 
     const cart = await carts.getCartBySessionId(sessionId);
-    console.log("Fetched Cart:", cart);
 
     if (!cart) {
-      console.log("No cart found. Creating a new cart...");
       await carts.addItemToCartForSessionOrUser(userId || null, sessionId, {
         product_id: product.id,
         variant_id: variantId,
@@ -72,14 +66,11 @@ export default async function ProductPage({
         product.id,
         variantId,
       );
-      console.log("Existing Item:", existingItem);
 
       if (existingItem) {
         const updatedQuantity = existingItem.quantity + 1;
-        console.log("Updating item quantity:", updatedQuantity);
         await carts.updateCartItemQuantity(existingItem.id, updatedQuantity);
       } else {
-        console.log("Adding new item to cart");
         await carts.addItemToCart(cart.id, {
           product_id: product.id,
           variant_id: variantId,
@@ -90,7 +81,6 @@ export default async function ProductPage({
     }
 
     const updatedCart = await carts.getCartBySessionId(sessionId);
-    console.log("Updated Cart:", updatedCart);
     if (updatedCart) {
       const cookieStore = cookies();
       cookieStore.set("cart", updatedCart.id.toString(), {

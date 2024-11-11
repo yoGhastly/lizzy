@@ -9,7 +9,6 @@ export const ColorSection = () => {
 
   const handleClick = (color: string) => {
     setSelectedColor(color);
-    console.log("Selected Color:", color);
   };
 
   const renderColorColumns = () => {

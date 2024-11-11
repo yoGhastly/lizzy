@@ -13,14 +13,10 @@ export function UnitVariant({
   isActive: boolean;
   onSelect: () => void;
 }) {
-  console.log("UnitVariant raw:", unitVariant);
-
   // Check if unitVariant has a "-" to split or if it's just a single value
   const parts = unitVariant.split("-");
   const value = parts[0]; // Always set the first part as value
   const stock = parts.length > 1 ? parts[1] : "N/A"; // Set stock to "N/A" if not available
-
-  console.log("Split value and stock:", value, stock);
 
   const unitName =
     unit === "mililitros" ? "ml" : unit === "miligramos" ? "mg" : "cm";
