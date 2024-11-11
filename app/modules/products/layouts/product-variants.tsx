@@ -7,22 +7,19 @@ import { ProductMetadata } from "../domain/Product";
 
 interface Props {
   metadata: ProductMetadata;
+  onSelectVariant: (variant: { unit: string; value: string }) => void;
 }
 
 function VariantSection({ children }: { children: ReactNode }) {
   return <section className={cn("flex gap-2")}>{children}</section>;
 }
 
-export const ProductVariants: React.FC<Props> = ({ metadata }) => {
+export const ProductVariants: React.FC<Props> = ({
+  metadata,
+  onSelectVariant,
+}) => {
   const { colores: colors, mililitros, miligramos, longitud } = metadata;
 
-  console.log("Product metadata:", metadata);
-  console.log("Color variants:", colors);
-  console.log("Mililitros variants:", mililitros);
-  console.log("Miligramos variants:", miligramos);
-  console.log("Longitud variants:", longitud);
-
-  // Split variants and remove duplicates using Set, while filtering out "N/A"
   const colorVariants = Array.from(
     new Set(colors.split(",").map((s) => s.trim())),
   ).filter((color) => color !== "N/A");
@@ -36,26 +33,30 @@ export const ProductVariants: React.FC<Props> = ({ metadata }) => {
     new Set(longitud.split(",").map((s) => s.trim())),
   ).filter((len) => len !== "N/A");
 
-  console.log("Filtered Color variants:", colorVariants);
-  console.log("Filtered Milliliters variants:", millilitersVariants);
-  console.log("Filtered Milligrams variants:", milligramsVariants);
-  console.log("Filtered Length variants:", lengthVariants);
-
-  // Define state to hold the active variant name for each unit
+  // State to hold the active variant for each unit
   const [activeMililitros, setActiveMililitros] = useState<string>("");
   const [activeMiligramos, setActiveMiligramos] = useState<string>("");
   const [activeLongitud, setActiveLongitud] = useState<string>("");
+  const [activeColor, setActiveColor] = useState<string>("");
 
   const handleSelect = (variant: string, unit: string) => {
-    console.log(`Variant selected: ${variant} (${unit})`);
-
+    let selectedVariant = "";
     if (unit === "mililitros") {
+      selectedVariant = `${variant}-ml`; // Add unit (e.g., '10-ml')
       setActiveMililitros(variant);
     } else if (unit === "miligramos") {
+      selectedVariant = `${variant}-mg`; // Add unit (e.g., '50-mg')
       setActiveMiligramos(variant);
     } else if (unit === "longitud") {
+      selectedVariant = `${variant}-cm`; // Add unit (e.g., '30-cm')
       setActiveLongitud(variant);
+    } else if (unit === "colores") {
+      selectedVariant = variant; // For colors, just pass the color name (e.g., 'red')
+      setActiveColor(variant);
     }
+
+    // Pass the selected variant back to the parent component
+    onSelectVariant({ unit, value: selectedVariant });
   };
 
   return (
@@ -63,7 +64,12 @@ export const ProductVariants: React.FC<Props> = ({ metadata }) => {
       {colors !== "N/A" && colorVariants.length > 0 && (
         <VariantSection>
           {colorVariants.map((colorVariant, index) => (
-            <ColorVariant key={index} colorVariant={colorVariant} />
+            <ColorVariant
+              key={index}
+              colorVariant={colorVariant}
+              // isActive={activeColor === colorVariant}
+              // onSelect={() => handleSelect(colorVariant, "colores")}
+            />
           ))}
         </VariantSection>
       )}

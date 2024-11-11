@@ -6,6 +6,7 @@ import { CartLayout } from "./cart-layout";
 import { ModalDescription } from "./modal/description";
 import { CartLengthLabel } from "./modal/cart-length-label";
 import { CartFallback } from "./cart-fallback";
+import getStripe from "../../stripe/client";
 
 interface Props {
   cart: Cart | null;
@@ -17,6 +18,14 @@ interface Props {
   }[];
 }
 
+interface CreateCheckoutSessionResponse {
+  status: number;
+  json: {
+    sessionId: string;
+    clientSecret: string;
+  };
+}
+
 export const Modal: React.FC<Props> = ({
   cart,
   subcategories,
@@ -24,6 +33,7 @@ export const Modal: React.FC<Props> = ({
 }) => {
   return (
     <CartLayout
+      cart={cart}
       items={cart?.items}
       subcategories={subcategories}
       allCategories={allCategories}
@@ -37,7 +47,7 @@ export const Modal: React.FC<Props> = ({
       <div className="divider" />
       <CartLayoutBody>
         <ModalDescription>
-          {!cart?.items ? (
+          {!cart?.items.length ? (
             <CartFallback />
           ) : (
             cart?.items.map((item) => (

@@ -2,6 +2,8 @@
 import { useRouter } from "next/navigation";
 import { cn } from "@/app/utils/cn";
 import { validateCategory } from "@/app/constants";
+import { useModalStore } from "../../modal/modal.store";
+import Link from "next/link";
 
 interface Props {
   category: string;
@@ -17,6 +19,7 @@ export const CategoryCollapsibleMenu: React.FC<Props> = ({
   categories,
 }) => {
   const router = useRouter();
+  const { setModalContentType } = useModalStore();
 
   const allCategories = [
     { id: 0, name: "Ver Todo", subcategories: [] },
@@ -29,6 +32,7 @@ export const CategoryCollapsibleMenu: React.FC<Props> = ({
       `/catalogo/productos?category=${encodeURIComponent(validatedCategory)}`,
       { scroll: false },
     );
+    setModalContentType("cart");
   };
 
   const handleSubcategoryClick = (subcategoryName: string) => {
@@ -36,6 +40,7 @@ export const CategoryCollapsibleMenu: React.FC<Props> = ({
       `/catalogo/productos?category=${encodeURIComponent(subcategoryName)}`,
       { scroll: false },
     );
+    setModalContentType("cart");
   };
 
   return (
@@ -71,7 +76,7 @@ export const CategoryCollapsibleMenu: React.FC<Props> = ({
               <ul>
                 {categoryItem.subcategories?.map((subcategory) => (
                   <li key={subcategory.id}>
-                    <a
+                    <Link
                       href="#"
                       onClick={(e) => {
                         e.preventDefault();
@@ -80,7 +85,7 @@ export const CategoryCollapsibleMenu: React.FC<Props> = ({
                       className="capitalize"
                     >
                       {subcategory.name}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>

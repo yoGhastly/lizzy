@@ -1,5 +1,4 @@
-import { Facebook, Instagram, Twitter } from "./modules/common/icons";
-import { Product } from "./modules/products/domain/Product";
+import { Facebook, WhatsApp } from "./modules/common/icons";
 
 export const navItems = [
   {
@@ -13,7 +12,7 @@ export const navItems = [
   },
   {
     name: "Conócenos",
-    link: "/nosotros",
+    link: "https://www.facebook.com/profile.php?id=61566933604824&mibextid=LQQJ4d",
   },
 ];
 
@@ -48,16 +47,12 @@ export const footerLinks = {
   ],
   socials: [
     {
-      icon: Instagram,
-      href: "/hola7",
-    },
-    {
       icon: Facebook,
-      href: "/hola8",
+      href: "https://www.facebook.com/profile.php?id=61566933604824&mibextid=LQQJ4d",
     },
     {
-      icon: Twitter,
-      href: "/hola9",
+      icon: WhatsApp,
+      href: "/",
     },
   ],
 };

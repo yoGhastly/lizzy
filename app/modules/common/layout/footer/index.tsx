@@ -32,81 +32,19 @@ export const Footer = ({
       </div>
 
       <section className="w-full min-h-[300px] flex justify-center items-center">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-16 p-5">
-          <LinkSection label="¿Necesitas ayuda?">
-            <div className="flex gap-2 items-center">
-              <ChatBubbleOvalLeftEllipsisIcon className="w-5 h-5 text-xs text-muted-gray" />
-              <strong className="text-[11px] md:text-xs text-muted-gray">
-                Iniciar chat
-              </strong>
-              <span className="hidden md:block text-green-500 text-[10px] md:text-xs">
-                Disponible
-              </span>
-              <span className="block md:hidden bg-green-500 rounded-full w-1.5 h-1.5"></span>
-            </div>
-            <span className="text-muted-gray text-[10px] md:text-xs">
-              De lunes a viernes de 00:00 a 00:00.
-            </span>
-
-            <div className="flex gap-2 items-center w-full mt-5">
-              <PhoneIcon className="hidden md:block w-5 h-5 text-xs text-muted-gray" />
-              <strong className="text-[11px] md:text-xs text-muted-gray">
-                012 2345 678
-              </strong>
-              <span className="hidden md:block text-yellow-500 text-[8.3px] md:text-xs">
-                Fuera de Servicio
-              </span>
-              <span className="block md:hidden bg-yellow-500 rounded-full w-1.5 h-1.5"></span>
-            </div>
-            <span className="text-muted-gray text-[10px] md:text-xs">
-              De lunes a viernes de 00:00 a 00:00.
-            </span>
-
-            <div className="flex gap-2 items-center w-full mt-5">
-              <EnvelopeIcon className="w-5 h-5 text-xs text-muted-gray" />
-              <strong className="text-[11px] md:text-xs text-muted-gray">
-                Enviar email
-              </strong>
-            </div>
-            <span className="text-muted-gray text-xs">
-              De lunes a viernes de 00:00 a 00:00.
-            </span>
-          </LinkSection>
-
-          <LinkSection label="Ayuda">
-            {footerLinks.help.map(({ name, href }) => (
-              <Link href={href} key={`${name}-${href}`}>
-                <span
-                  className={cn(
-                    "capitalize text-xs md:text-sm",
-                    "hover:text-black/70 hover:underline transition-all duration-100 ease-in-out",
-                  )}
-                >
-                  {name}
-                </span>
-              </Link>
-            ))}
-          </LinkSection>
-
-          <LinkSection label="Nosotros">
-            {footerLinks.aboutUs.map(({ name, href }) => (
-              <Link href={href} key={`${name}-${href}`}>
-                <span
-                  className={cn(
-                    "capitalize text-xs md:text-sm",
-                    "hover:text-black/70 hover:underline transition-all duration-100 ease-in-out",
-                  )}
-                >
-                  {name}
-                </span>
-              </Link>
-            ))}
-          </LinkSection>
-
-          <LinkSection label="Síguenos">
-            <div className="flex gap-5">
+        <div className="grid grid-cols-2 gap-8 md:gap-16 p-5 w-full">
+          <LinkSection label="Síguenos en redes sociales">
+            <p className="w-full text-sm my-2">
+              ¡Síguenos en nuestras redes sociales para mantenerte al día con
+              las últimas novedades, ofertas exclusivas y mucho más!{" "}
+            </p>
+            <p className="w-full text-sm my-2">
+              Únete a nuestra comunidad y sé el primero en enterarte de todo lo
+              que tenemos para ti.
+            </p>
+            <div className="flex gap-5 mt-3">
               {footerLinks.socials.map(({ icon: Icon, href }) => (
-                <Link href={href} key={href} className="w-6 h-6">
+                <Link href={href} key={href} className="w-8 h-8">
                   <Icon />
                 </Link>
               ))}

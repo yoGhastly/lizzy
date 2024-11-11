@@ -12,6 +12,7 @@ import { NavLinks } from "./navbar/nav-links";
 import { Logo } from "../icons";
 import { AccountDropDownMenu } from "./dropdown-menu";
 import { useCartStore } from "../../cart/store/cart.store";
+import { useRouter } from "next/navigation";
 
 interface Props {
   navItems: {
@@ -29,6 +30,7 @@ export const FloatingNavbar: React.FC<Props> = ({
   className,
   cart,
 }) => {
+  const router = useRouter();
   const { cartLength } = useCartStore((state) => state);
   return (
     <div
@@ -60,13 +62,16 @@ export const FloatingNavbar: React.FC<Props> = ({
         )}
       >
         <NavLinks items={navItems} />
-        <button className="flex justify-center items-center bg-[#737373]/40 rounded-full w-8 h-8 md:w-10 md:h-10">
+        <Link
+          href={`/catalogo/productos?category=${encodeURIComponent("Ver Todo")}`}
+          className="flex justify-center items-center bg-[#737373]/40 rounded-full w-8 h-8 md:w-10 md:h-10"
+        >
           <MagnifyingGlassIcon
             name="Search Icon"
             aria-label="Search Icon Button"
             className="h-5 md:h-6 text-[#fafafa]"
           />
-        </button>
+        </Link>
         <span
           className={cn(
             "hidden md:block rounded-none w-[0.05rem] h-4 bg-muted-gray/30",

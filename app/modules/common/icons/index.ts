@@ -1,6 +1,6 @@
 import { Facebook } from "./facebook";
 import { Instagram } from "./instagram";
-import { Twitter } from "./twitter";
 import { Logo } from "./logo";
+import { WhatsApp } from "./whatsapp";
 
-export { Facebook, Instagram, Twitter, Logo };
+export { Facebook, Instagram, WhatsApp, Logo };

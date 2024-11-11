@@ -14,9 +14,11 @@ import { EditItem } from "./modal/edit-item";
 import { ProductList } from "./modal/product-list";
 import { FiltersContent } from "./modal/filters-content";
 import { UserFavoriteProducts } from "../../modal/components/user-favorite-products";
+import getStripe from "../../stripe/client";
 
 interface Props {
   items?: Cart["items"] | null;
+  cart?: Cart | null;
   subcategories?: { name: string; id: number }[];
   allCategories?: {
     id: number;
@@ -27,6 +29,7 @@ interface Props {
 
 const CartLayout: React.FC<PropsWithChildren<Props>> = ({
   children,
+  cart,
   items,
   subcategories,
   allCategories,
@@ -74,6 +77,36 @@ const CartLayout: React.FC<PropsWithChildren<Props>> = ({
     });
   };
 
+  const handleCheckoutOrder = async () => {
+    console.log("handleCheckoutOrder called"); // Debugging statement
+    try {
+      const res = await fetch("/api/create-checkout-session", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ cart }), // Ensure cart is correctly passed
+      });
+      console.log("API response:", res); // Debugging statement
+      if (!res.ok) {
+        throw new Error("Failed to create checkout session");
+      }
+      const data = await res.json();
+      console.log("Checkout session data:", data); // Debugging statement
+      const stripe = await getStripe();
+
+      if (!stripe) {
+        throw new Error("Failed to load stripe");
+      }
+
+      await stripe.redirectToCheckout({
+        sessionId: data.json.sessionId, // Correctly pass sessionId
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <Transition
       show={isModalOpen}
@@ -95,7 +128,9 @@ const CartLayout: React.FC<PropsWithChildren<Props>> = ({
         <div className="fixed inset-0 flex items-center justify-end md:p-3">
           <DialogPanel className="w-full max-w-md h-full space-y-4 md:rounded-md border bg-white p-12 shadow-lg flex flex-col">
             {contentType === "cart" ? (
-              <ProductList>{children}</ProductList>
+              <ProductList onCheckoutOrder={() => handleCheckoutOrder()}>
+                {children}
+              </ProductList>
             ) : contentType === "edit" ? (
               <EditItem
                 quantity={quantity}

@@ -20,13 +20,20 @@ const getCategories = unstable_cache(
   { revalidate: 3600, tags: ["categories"] },
 );
 
+const getSubCategories = unstable_cache(
+  async () => await categoriesRepository.getAllSubcategories(),
+  ["subcategories"],
+  { revalidate: 3600, tags: ["subcategories"] },
+);
+
 export default async function Home() {
   const allProducts = await getProducts();
   const allCategories = await getCategories();
+  const allSubCategories = await getSubCategories();
 
   return (
     <div className="flex flex-col items-center w-full gap-12 md:gap-24 mt-14 md:mt-24 mx-auto px-5">
-      <CategoriesMarquee categories={allCategories as any} />
+      <CategoriesMarquee categories={[...allCategories, ...allSubCategories]} />
       <ProductsSection
         title="Favoritos de los Clientes"
         description={{

@@ -1,20 +1,23 @@
 import { unstable_noStore as noStore, unstable_cache } from "next/cache";
-import { ProductsCarousel } from "@/app/modules/common/components/carousel";
-import { DecorativeTitle } from "@/app/modules/common/components/decorative-title";
-import { Footer } from "@/app/modules/common/layout/footer";
+import { Suspense } from "react";
+import { MySqlCartsRepository } from "@/app/modules/cart/infrastructure/CartsRepository";
+import { MySqlProductsRepository } from "@/app/modules/products/infrastructure/ProductsRepository";
 import { getProduct } from "@/app/modules/products/actions";
 import { ProductBreadcrumb } from "@/app/modules/products/components/product-breadcrumb";
 import { TileImage } from "@/app/modules/products/components/tile-image";
 import { ProductDescription } from "@/app/modules/products/layouts/product-description";
-import { Suspense } from "react";
-import { MySqlCartsRepository } from "@/app/modules/cart/infrastructure/CartsRepository";
-import { cookies } from "next/headers";
+import { DecorativeTitle } from "@/app/modules/common/components/decorative-title";
+import { ProductsCarousel } from "@/app/modules/common/components/carousel";
 import { FloatingProductInfo } from "@/app/modules/products/components/floating-product-info";
-import { MySqlProductsRepository } from "@/app/modules/products/infrastructure/ProductsRepository";
+import { Footer } from "@/app/modules/common/layout/footer";
+import { createServerSession } from "@/app/utils/createClientSesssion";
+import { cookies } from "next/headers";
+import { auth } from "@clerk/nextjs/server";
 
 const carts = new MySqlCartsRepository();
 const productsRepository = new MySqlProductsRepository();
 
+// Fetch all products
 const getProducts = unstable_cache(
   async () => await productsRepository.getAll(),
   ["products"],
@@ -26,23 +29,71 @@ export default async function ProductPage({
 }: {
   params: { productId: string };
 }) {
-  // HACK: This function can be used to declaratively opt out of static rendering.
   noStore();
-  let product = await getProduct({ id: params.productId });
+  const { userId } = auth();
+
+  console.log("user id exists", userId !== null);
+  console.log("user id", userId);
+
+  const product = await getProduct({ id: params.productId });
   const allProducts = await getProducts();
 
-  const addProductToCart = async () => {
+  const addProductToCart = async (variantId: string) => {
     "use server";
     if (!product) return;
-    await carts.addItemToCartForUser(1, {
-      product_id: product.id,
-      quantity: 1,
-      price: product.price,
-    });
 
-    const cart = await carts.getCartByUserId(1);
-    if (cart) {
-      cookies().set("cart", cart.id.toString(), {
+    let sessionId = cookies().get("session_id")?.value;
+    if (!sessionId) {
+      const { sessionId: newSessionId } = createServerSession();
+      sessionId = newSessionId;
+      console.log("New session id", sessionId);
+      cookies().set("session_id", sessionId, {
+        expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
+      });
+    } else {
+      console.log("Existing session id", sessionId);
+    }
+
+    const cart = await carts.getCartBySessionId(sessionId);
+    console.log("Fetched Cart:", cart);
+
+    if (!cart) {
+      console.log("No cart found. Creating a new cart...");
+      await carts.addItemToCartForSessionOrUser(userId || null, sessionId, {
+        product_id: product.id,
+        variant_id: variantId,
+        quantity: 1,
+        price: product.price,
+      });
+    } else {
+      // Ensure cart is refreshed after adding item
+      const existingItem = await carts.getCartItemByProductAndVariant(
+        cart.id,
+        product.id,
+        variantId,
+      );
+      console.log("Existing Item:", existingItem);
+
+      if (existingItem) {
+        const updatedQuantity = existingItem.quantity + 1;
+        console.log("Updating item quantity:", updatedQuantity);
+        await carts.updateCartItemQuantity(existingItem.id, updatedQuantity);
+      } else {
+        console.log("Adding new item to cart");
+        await carts.addItemToCart(cart.id, {
+          product_id: product.id,
+          variant_id: variantId,
+          quantity: 1,
+          price: product.price,
+        });
+      }
+    }
+
+    const updatedCart = await carts.getCartBySessionId(sessionId);
+    console.log("Updated Cart:", updatedCart);
+    if (updatedCart) {
+      const cookieStore = cookies();
+      cookieStore.set("cart", updatedCart.id.toString(), {
         expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
       });
     }
@@ -87,6 +138,7 @@ export default async function ProductPage({
           </DecorativeTitle>
           <ProductsCarousel products={allProducts} />
         </section>
+
         <Suspense>
           <FloatingProductInfo
             product={product}
@@ -94,6 +146,7 @@ export default async function ProductPage({
           />
         </Suspense>
       </div>
+
       <div className="w-full px-5">
         <Footer hideSeeCatalogueButton />
       </div>

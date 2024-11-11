@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { DecorativeTitle } from "../common/components/decorative-title";
 import { HomeMarqueeCategory } from "../common/components/marquee";
 
@@ -8,7 +8,22 @@ export const CategoriesMarquee = ({
 }: {
   categories: { id: number; name: string }[];
 }) => {
-  const [speeds] = useState(() => [35, 28, 30]);
+  const [speeds] = useState(() => [35, 23, 30]);
+  const [shuffledCategories, setShuffledCategories] = useState(categories);
+
+  useEffect(() => {
+    const shuffleArray = (array: { id: number; name: string }[]) => {
+      const shuffled = [...array];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return shuffled;
+    };
+
+    setShuffledCategories(shuffleArray(categories));
+  }, [categories]);
+
   return (
     <header className="w-full flex flex-col gap-12 md:gap-24 justify-center">
       <DecorativeTitle>Descubre Nuestras Categorías</DecorativeTitle>
@@ -17,7 +32,7 @@ export const CategoriesMarquee = ({
           <HomeMarqueeCategory
             key={idx}
             speed={speed}
-            categories={categories}
+            categories={shuffledCategories}
           />
         ))}
       </div>

@@ -5,17 +5,21 @@ import { DeleteItemButton } from "./delete-item-button";
 import { EditItemButton } from "./edit-item-button";
 import { ProductQuantityLabel } from "../../products/components/product-quantity-label";
 import Image from "next/image";
+import { formatSelectedVariant } from "@/app/utils/formatSelectedVariant";
 
 export const CartProduct = async ({
   productId,
   item,
   quantity,
+  variantId,
 }: {
   productId: string;
-  item: Omit<CartItem, "quantity" | "price">;
+  item: Omit<CartItem, "quantity" | "price" | "id">;
   quantity: number;
+  variantId: string;
 }) => {
   let product: Product = {} as Product;
+  const variant = formatSelectedVariant(variantId);
 
   if (productId) {
     const details = await getProduct({ id: productId });
@@ -42,6 +46,7 @@ export const CartProduct = async ({
           <div className="flex justify-between w-full items-center">
             <span className="uppercase font-semibold text-sm">
               MXN {product.price / 100}
+              <ProductQuantityLabel quantity={quantity} />
             </span>
             <div className="flex gap-2">
               <EditItemButton productId={product.id} />
@@ -50,8 +55,7 @@ export const CartProduct = async ({
             </div>
           </div>
           <p className="text-xs font-medium first-letter:capitalize max-w-36">
-            {product.name}
-            <ProductQuantityLabel quantity={quantity} />
+            {product.name} <span className="text-gray-400">{variant}</span>
           </p>
         </div>
         <p className="text-xs">Mover a favoritos</p>

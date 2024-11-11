@@ -8,8 +8,8 @@ interface Props {
 
 export const LinkSection: React.FC<Props> = ({ label, children }) => {
   return (
-    <div className="flex flex-col gap-5">
-      <strong className="text-xs">{label}</strong>
+    <div className="flex flex-col gap-5 w-full">
+      <strong className="text-xs md:text-lg">{label}</strong>
       <section className="flex flex-col gap-1">{children}</section>
     </div>
   );

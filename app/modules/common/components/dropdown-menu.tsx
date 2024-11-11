@@ -29,8 +29,8 @@ function AccountItems() {
 
 function InitialItems() {
   return [
-    { name: "Iniciar sesión", link: "/sign-in" },
-    { name: "Registrarse", link: "/sign-up" },
+    { name: "Iniciar sesión", link: "/" },
+    { name: "Registrarse", link: "/" },
   ];
 }
 
@@ -55,25 +55,25 @@ export const AccountDropDownMenu: React.FC<Props> = ({ triggerElement }) => {
         >
           {isSignedIn
             ? accountItems.map(({ name, link }) => (
-                <MenuItem key={name}>
-                  <Link
-                    className="flex text-muted-gray z-[100000] items-center data-[focus]:bg-[#fafafa] data-[focus]:transition-colors data-[focus]:duration-200 px-5 border-b py-3"
-                    href={link ? link : "#"}
-                  >
-                    {name}
-                  </Link>
-                </MenuItem>
-              ))
+              <MenuItem key={name}>
+                <Link
+                  className="flex text-muted-gray z-[100000] items-center data-[focus]:bg-[#fafafa] data-[focus]:transition-colors data-[focus]:duration-200 px-5 border-b py-3"
+                  href={link ? link : "#"}
+                >
+                  {name}
+                </Link>
+              </MenuItem>
+            ))
             : initialItems.map(({ name, link }) => (
-                <MenuItem key={name}>
-                  <Link
-                    className="flex text-muted-gray z-[100000] items-center data-[focus]:bg-[#fafafa] data-[focus]:transition-colors data-[focus]:duration-200 px-5 border-b py-3"
-                    href={link ? link : "#"}
-                  >
-                    {name}
-                  </Link>
-                </MenuItem>
-              ))}
+              <MenuItem key={name}>
+                <Link
+                  className="flex text-muted-gray z-[100000] items-center data-[focus]:bg-[#fafafa] data-[focus]:transition-colors data-[focus]:duration-200 px-5 border-b py-3"
+                  href={link ? link : "#"}
+                >
+                  {name}
+                </Link>
+              </MenuItem>
+            ))}
         </MenuItems>
       </Transition>
     </Menu>

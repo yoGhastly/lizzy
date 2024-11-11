@@ -2,7 +2,6 @@
 import { ShoppingBagIcon } from "@heroicons/react/24/solid";
 import { Avatar } from "../../common/components/avatar";
 import Image from "next/image";
-import { useCartStore } from "../../cart/store/cart.store";
 import { Suspense } from "react";
 import { ProductTitle } from "./product-title";
 import { Button } from "../../common/components/button";
@@ -15,14 +14,26 @@ export const FloatingProductInfo = ({
   onAddProductToCart,
 }: {
   product: Product;
-  onAddProductToCart: () => void;
+  onAddProductToCart: (variantId: string) => Promise<void>;
 }) => {
-  const { toggleModal } = useModalStore((state) => state);
+  const { toggleModal, selectedVariantId } = useModalStore((state) => state);
+
+  const hasVariants =
+    product.metadata.colores !== "N/A" ||
+    product.metadata.mililitros !== "N/A" ||
+    product.metadata.miligramos !== "N/A" ||
+    product.metadata.longitud !== "N/A";
 
   const addProduct = () => {
-    onAddProductToCart();
+    if (hasVariants && !selectedVariantId) {
+      console.error("No variant selected");
+      return;
+    }
+    onAddProductToCart(selectedVariantId || "");
     toggleModal();
   };
+
+  const isButtonDisabled = hasVariants && !selectedVariantId;
 
   return (
     <FloatingProductInfoLayout>
@@ -40,11 +51,11 @@ export const FloatingProductInfo = ({
           <Suspense>
             <ProductTitle productName={product.name} />
             <span>
-              <p className="text-md">${product.price / 100} MXN</p>
+              <p className="text-sm md:text-lg">${product.price / 100} MXN</p>
             </span>
           </Suspense>
         </div>
-        <Button onClick={addProduct}>
+        <Button onClick={addProduct} disabled={isButtonDisabled}>
           <ShoppingBagIcon className="h-4" />
           <span className="hidden md:block">Agregar</span>
         </Button>

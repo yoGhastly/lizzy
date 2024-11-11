@@ -25,13 +25,13 @@ const getSubcategories = unstable_cache(
 export const OpenCart = async () => {
   let cart: Cart | null = null;
   const c = cookies();
-  const cartId = c.get("cart")?.value;
+  const sessionId = c.get("session_id")?.value;
 
   const allCategories = await getCategories();
   const allSubcategories = await getSubcategories();
 
-  if (cartId) {
-    cart = await repository.getCartById(cartId);
+  if (sessionId) {
+    cart = await repository.getCartBySessionId(sessionId);
   }
 
   return (

@@ -9,5 +9,5 @@ export const ProductQuantityLabel = ({ quantity }: { quantity: number }) => {
     setItemQuantity(quantity);
   }, [quantity, setItemQuantity]);
 
-  return <span className="text-black/50 ml-2">x{quantity}</span>;
+  return <span className="text-black/50 ml-2 lowercase">x{quantity}</span>;
 };
