@@ -41,7 +41,6 @@ export const CategoryFilter: React.FC<Props> = ({
   const handleFilterButtonClick = () => {
     setModalContentType("filter");
     toggleModal();
-    setModalContentType("cart");
   };
 
   return (
