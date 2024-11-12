@@ -24,6 +24,7 @@ export const CategoryFilter: React.FC<Props> = ({
 
   const handleCategorySelection = (category: string) => {
     router.push(`/catalogo/productos?category=${category}`, { scroll: false });
+    setModalContentType("cart");
   };
 
   const memoizedClassName = (category: string) => {
@@ -40,6 +41,7 @@ export const CategoryFilter: React.FC<Props> = ({
   const handleFilterButtonClick = () => {
     setModalContentType("filter");
     toggleModal();
+    setModalContentType("cart");
   };
 
   return (
