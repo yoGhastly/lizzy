@@ -32,8 +32,8 @@ export const FilterButton: React.FC<Props> = ({
       `/catalogo/productos?category=${encodeURIComponent(validatedCategory)}`,
       { scroll: false },
     );
-    toggleModal();
     setModalContentType("cart");
+    toggleModal();
   };
 
   const isActive = searchParams.get("category") === filterName;

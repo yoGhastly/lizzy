@@ -9,7 +9,7 @@ export const OrderByPriceSection = () => {
   const searchParams = useSearchParams();
   const category = searchParams.get("category");
   const orderBy = searchParams.get("orderBy");
-  const { toggleModal } = useModalStore((state) => state);
+  const { toggleModal, setModalContentType } = useModalStore((state) => state);
 
   const baseClasses =
     "btn btn-sm w-fit text-black capitalize font-normal bg-white border border-black transition-colors duration-200 ease-in-out hover:bg-white hover:text-black hover:border-black";
@@ -22,6 +22,7 @@ export const OrderByPriceSection = () => {
         scroll: false,
       },
     );
+    setModalContentType("cart")
     toggleModal();
   };
 
