@@ -3,39 +3,39 @@ import Marquee from "react-fast-marquee";
 
 const reviews = [
   {
-    name: "Jack",
+    name: "Cliente Satisfecha",
     username: "@jack",
-    body: "I've never seen anything like this before. It's amazing. I love it.",
+    body: "Me encanta la calidad de los productos y la atención al cliente. ¡Recomendado!",
     img: "https://avatar.vercel.sh/jack",
   },
   {
-    name: "Jill",
+    name: "Cliente Feliz",
     username: "@jill",
-    body: "I don't know what to say. I'm speechless. This is amazing.",
+    body: "¡Excelente servicio! Los productos son de calidad y el envío fue rápido. ¡Gracias!",
     img: "https://avatar.vercel.sh/jill",
   },
   {
-    name: "John",
+    name: "Cliente Satisfecho",
     username: "@john",
-    body: "I'm at a loss for words. This is amazing. I love it.",
+    body: "Buena calidad y excelente atención al cliente. ¡Recomendado!",
     img: "https://avatar.vercel.sh/john",
   },
   {
-    name: "Jane",
+    name: "Cliente Feliz",
     username: "@jane",
-    body: "I'm at a loss for words. This is amazing. I love it.",
+    body: "¡Excelente servicio! Los productos son de calidad y el envío fue rápido. ¡Gracias!",
     img: "https://avatar.vercel.sh/jane",
   },
   {
-    name: "Jenny",
+    name: "Cliente Satisfecho",
     username: "@jenny",
-    body: "I'm at a loss for words. This is amazing. I love it.",
+    body: "Buena calidad y excelente atención al cliente. ¡Recomendado!",
     img: "https://avatar.vercel.sh/jenny",
   },
   {
-    name: "James",
+    name: "Cliente Feliz",
     username: "@james",
-    body: "I'm at a loss for words. This is amazing. I love it.",
+    body: "¡Excelente servicio! Los productos son de calidad y el envío fue rápido. ¡Gracias!",
     img: "https://avatar.vercel.sh/james",
   },
 ];

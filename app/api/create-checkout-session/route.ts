@@ -4,7 +4,7 @@ import Stripe from "stripe";
 import { Cart } from "@/app/modules/cart/domain/Cart";
 
 function generateOrderHandle(): string {
-  return randomUUID();
+  return randomUUID().substring(0, 8);
 }
 
 function capitalizeFirstLetter(string: string): string {
@@ -76,7 +76,7 @@ export async function POST(req: NextRequest) {
 
     const orderUniqueIdentifier = generateOrderHandle();
 
-    const successUrl = `${process.env.NEXT_PUBLIC_SITE_URL}?success=true&order=${orderUniqueIdentifier}`;
+    const successUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/mis-pedidos/${orderUniqueIdentifier}`;
 
     // Create a new checkout session
     const session = await stripe.checkout.sessions.create({

@@ -1,23 +1,16 @@
 "use client";
 import { Button } from "@/app/modules/common/components/button";
 import { useModalStore } from "@/app/modules/modal/modal.store";
-import { ProductCard } from "@/app/modules/products/components/card";
 import { waitUntil } from "@/app/utils/waitUntil";
 import { SignOutButton, UserProfile, useAuth } from "@clerk/nextjs";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function AccountPage() {
   const router = useRouter();
   const { isSignedIn, isLoaded } = useAuth();
-  const { setModalContentType, toggleModal, isModalOpen } = useModalStore(
-    (state) => state,
-  );
-
-  function handleOpenFavorites() {
-    setModalContentType("favorites");
-    toggleModal();
-  }
+  const { setModalContentType, isModalOpen } = useModalStore((state) => state);
 
   useEffect(() => {
     //NOTE: Set the modal content type to "cart" when the modal is closed
@@ -27,26 +20,30 @@ export default function AccountPage() {
     }
   }, [isModalOpen]);
 
-  if (!isSignedIn && isLoaded) {
-    router.push("/sign-in");
+  useEffect(() => {
+    if (!isSignedIn && isLoaded) {
+      router.push("/sign-in");
+    }
+  }, [isSignedIn, isLoaded, router]);
+
+  if (!isSignedIn || !isLoaded) {
+    return null;
   }
 
   return (
     <div className="flex flex-col md:flex-row w-full h-auto justify-center items-center md:items-start mt-12 gap-5 p-5 md:p-0">
       <UserProfile />
       <aside className="flex-grow flex flex-col gap-5 justify-between w-full">
-        <div className="flex flex-col bg-white drop-shadow-sm border p-5 rounded-xl gap-2">
-          <p className="font-semibold text-lg">Tus Favoritos</p>
-          <div className="flex flex-col gap-5">
-            {/* <ProductCard product={productsMock[0]} /> */}
-            <Button onClick={handleOpenFavorites}>Ver Todos</Button>
-          </div>
-        </div>
         <SignOutButton redirectUrl="/">
           <button className="btn bg-black text-white hover:bg-black/80 hover:text-white">
             Cerrar Sesión
           </button>
         </SignOutButton>
+        <Link
+          href={`/catalogo/productos?category=${encodeURIComponent("Ver Todo")}`}
+        >
+          <Button className="w-full">Ver Catálogo</Button>
+        </Link>
       </aside>
     </div>
   );

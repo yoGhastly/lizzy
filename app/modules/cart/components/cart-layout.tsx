@@ -5,6 +5,7 @@ import React, {
   useTransition,
   type PropsWithChildren,
 } from "react";
+import { useRouter } from "next/navigation";
 import type { Cart } from "../domain/Cart";
 import { type ModalContentType, useModalStore } from "../../modal/modal.store";
 import { Dialog, DialogPanel, Transition } from "@headlessui/react";
@@ -15,6 +16,7 @@ import { ProductList } from "./modal/product-list";
 import { FiltersContent } from "./modal/filters-content";
 import { UserFavoriteProducts } from "../../modal/components/user-favorite-products";
 import getStripe from "../../stripe/client";
+import { useAuth } from "@clerk/nextjs";
 
 interface Props {
   items?: Cart["items"] | null;
@@ -41,6 +43,9 @@ const CartLayout: React.FC<PropsWithChildren<Props>> = ({
   const [quantity, setQuantity] = useState<number>(itemQuantity);
   const [loading, setLoading] = useState<boolean>(false);
   const [isPending, startTransition] = useTransition();
+
+  const router = useRouter();
+  const { isLoaded, userId } = useAuth();
 
   useEffect(() => {
     setContent(modalContentType);
@@ -79,6 +84,12 @@ const CartLayout: React.FC<PropsWithChildren<Props>> = ({
   };
 
   const handleCheckoutOrder = async () => {
+    if (!userId) {
+      router.push("/sign-in");
+      toggleModal();
+      return;
+    }
+
     try {
       setLoading(true);
       const res = await fetch("/api/create-checkout-session", {
