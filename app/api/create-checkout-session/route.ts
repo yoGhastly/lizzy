@@ -66,15 +66,7 @@ export async function POST(req: NextRequest) {
         };
       });
 
-    let lastItemAddedId = null;
-
-    if (cart.items.length > 0) {
-      lastItemAddedId = cart.items.at(-1)?.product_id;
-    }
-
-    const cancelUrl = lastItemAddedId
-      ? `${process.env.NEXT_PUBLIC_SITE_URL}/catalogo/productos/${encodeURIComponent(lastItemAddedId)}?cancel=true`
-      : `${process.env.NEXT_PUBLIC_SITE_URL}/catalogo/productos?cancel=true`;
+    const cancelUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/catalogo/productos?cancel=true`;
 
     const intent = await stripe.paymentIntents.create({
       customer: customer.id,
@@ -84,7 +76,7 @@ export async function POST(req: NextRequest) {
 
     const orderUniqueIdentifier = generateOrderHandle();
 
-    const successUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/orders/${orderUniqueIdentifier}`;
+    const successUrl = `${process.env.NEXT_PUBLIC_SITE_URL}?success=true&order=${orderUniqueIdentifier}`;
 
     // Create a new checkout session
     const session = await stripe.checkout.sessions.create({

@@ -6,11 +6,13 @@ import { CartFooterInfo } from "./cart-footer-info";
 
 interface Props {
   onCheckoutOrder: () => void;
+  isLoading?: boolean;
 }
 
 export const ProductList: React.FC<PropsWithChildren<Props>> = ({
   children,
   onCheckoutOrder,
+  isLoading,
 }) => {
   const [showInfo, setShowInfo] = useState(true);
   const { cartLength } = useCartStore((state) => state);
@@ -27,7 +29,7 @@ export const ProductList: React.FC<PropsWithChildren<Props>> = ({
     <Fragment>
       {children}
       {showInfo && (
-        <CartFooter action={onCheckoutOrder}>
+        <CartFooter action={onCheckoutOrder} loading={isLoading}>
           <CartFooterInfo />
         </CartFooter>
       )}

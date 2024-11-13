@@ -27,7 +27,7 @@ export const CartFooter: React.FC<
             {buttonLabel
               ? buttonLabel
               : loading
-                ? "Actualizando"
+                ? "Procesando..."
                 : "Tramitar pedido"}
           </p>
         </Button>

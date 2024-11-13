@@ -39,6 +39,7 @@ const CartLayout: React.FC<PropsWithChildren<Props>> = ({
     useModalStore((state) => state);
   const [contentType, setContent] = useState<ModalContentType>(null);
   const [quantity, setQuantity] = useState<number>(itemQuantity);
+  const [loading, setLoading] = useState<boolean>(false);
   const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
@@ -79,12 +80,13 @@ const CartLayout: React.FC<PropsWithChildren<Props>> = ({
 
   const handleCheckoutOrder = async () => {
     try {
+      setLoading(true);
       const res = await fetch("/api/create-checkout-session", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ cart }), // Ensure cart is correctly passed
+        body: JSON.stringify({ cart }),
       });
       if (!res.ok) {
         throw new Error("Failed to create checkout session");
@@ -97,8 +99,9 @@ const CartLayout: React.FC<PropsWithChildren<Props>> = ({
       }
 
       await stripe.redirectToCheckout({
-        sessionId: data.json.sessionId, // Correctly pass sessionId
+        sessionId: data.json.sessionId,
       });
+      setLoading(false);
     } catch (error) {
       console.error(error);
     }
@@ -125,7 +128,10 @@ const CartLayout: React.FC<PropsWithChildren<Props>> = ({
         <div className="fixed inset-0 flex items-center justify-end md:p-3">
           <DialogPanel className="w-full max-w-md h-full space-y-4 md:rounded-md border bg-white p-12 shadow-lg flex flex-col">
             {contentType === "cart" ? (
-              <ProductList onCheckoutOrder={() => handleCheckoutOrder()}>
+              <ProductList
+                onCheckoutOrder={() => handleCheckoutOrder()}
+                isLoading={loading}
+              >
                 {children}
               </ProductList>
             ) : contentType === "edit" ? (
