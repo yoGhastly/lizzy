@@ -6,15 +6,26 @@ export class OrderRepositoryImpl implements OrderRepository {
   async create(order: Order): Promise<void> {
     "use server";
     try {
-      await sql`INSERT INTO orders (id, line_items, total, customer_details, payment_status, payment_details)
-      VALUES (
-        ${order.id}, 
-        ${JSON.stringify(order.lineItems)}, 
-        ${order.total}, 
-        ${JSON.stringify(order.customerDetails)}, 
-        ${order.paymentStatus}, 
-        ${JSON.stringify(order.paymentDetails)}
-      )`;
+      await sql`
+        INSERT INTO orders (id, session_id, line_items, total, customer_details, payment_status, payment_details)
+        VALUES (
+          ${order.id}, 
+          ${order.session_id},
+          ${JSON.stringify(order.lineItems)}::jsonb, 
+          ${order.total}, 
+          ${JSON.stringify(order.customerDetails)}::jsonb, 
+          ${order.paymentStatus}, 
+          ${JSON.stringify(order.paymentDetails)}::jsonb
+        )
+        ON CONFLICT (id) DO UPDATE
+        SET
+          session_id = EXCLUDED.session_id,
+          line_items = EXCLUDED.line_items,
+          total = EXCLUDED.total,
+          customer_details = EXCLUDED.customer_details,
+          payment_status = EXCLUDED.payment_status,
+          payment_details = EXCLUDED.payment_details;
+      `;
       console.log(`Order saved: ${order.id}`);
     } catch (error: any) {
       console.log(`Error creating order: ${error.message}`);
@@ -37,11 +48,11 @@ export class OrderRepositoryImpl implements OrderRepository {
       const order: Order = {
         id: row.id,
         session_id: row.session_id,
-        lineItems: JSON.parse(row.line_items),
+        lineItems: row.line_items,
         total: row.total,
-        customerDetails: JSON.parse(row.customer_details),
+        customerDetails: row.customer_details,
         paymentStatus: row.payment_status,
-        paymentDetails: JSON.parse(row.payment_details),
+        paymentDetails: row.payment_details,
       };
       return order;
     } catch (error: any) {

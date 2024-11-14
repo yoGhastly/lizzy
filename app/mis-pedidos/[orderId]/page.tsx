@@ -1,7 +1,8 @@
 import { Footer } from "@/app/modules/common/layout/footer";
 import { OrderRepositoryImpl } from "@/app/modules/orders/infrastructure/OrderRepository";
-import { ProductCard } from "@/app/modules/products/components/card";
 import { unstable_cache } from "next/cache";
+import Image from "next/image";
+import Link from "next/link";
 
 const ordersRepository = new OrderRepositoryImpl();
 
@@ -17,10 +18,6 @@ export default async function OrderPage({
   params: { orderId: string };
 }) {
   const order = await getOrder(orderId);
-
-  // Properly stringify the order object before logging
-  console.log(JSON.stringify(order, null, 2));
-
   if (!order) {
     return <div>Order not found</div>;
   }
@@ -34,11 +31,35 @@ export default async function OrderPage({
 
       <section className="flex flex-col gap-2 mt-20 w-full">
         <div className="flex flex-col gap-1 w-full">
-          {/* <p className="text-sm">{order.lineItems.length} Artículos</p> */}
-          <div className="flex flex-col gap-1 w-full">
-            <div className="bg-gray-500 w-24 h-32"></div>
-            {/* <ProductCard product={{}} /> */}
-            <span>10ml</span>
+          <p className="text-sm">{order.lineItems.length} Artículos</p>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-2">
+            {order.lineItems.map((item) => (
+              <Link
+                href={`/catalogo/productos/${item.id}`}
+                key={item.id}
+                className="flex flex-col gap-2 group overflow-hidden max-w-[200px]"
+              >
+                <picture className="relative aspect-[1/1.2] bg-[#fafafa]">
+                  <Image
+                    className="object-contain transition duration-300 ease-in-out group-hover:scale-105"
+                    src={item.url}
+                    loading="lazy"
+                    placeholder="blur"
+                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkAAIAAAoAAv/lPAAAAA=="
+                    alt="Product"
+                    sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
+                    fill
+                  />
+                </picture>
+                <section className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-1">
+                    <h3 className="uppercase">
+                      {item.amount_total / 100} {item.currency}
+                    </h3>
+                  </div>
+                </section>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
@@ -78,7 +99,7 @@ export default async function OrderPage({
         <div className="flex flex-col gap-5">
           <div className="flex justify-between">
             <p className="text-sm">Subtotal</p>
-            <p className="text-sm">$200.00</p>
+            {/* <p className="text-sm">{order.subtotal}</p> */}
           </div>
           <div className="flex justify-between">
             <p className="text-sm">Envío</p>
@@ -86,7 +107,7 @@ export default async function OrderPage({
           </div>
           <div className="flex justify-between">
             <p className="font-bold">Total</p>
-            <p className="font-bold">$200.00</p>
+            <p className="font-bold">{order.total / 100} MXN</p>
           </div>
         </div>
       </div>
