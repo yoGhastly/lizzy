@@ -5,7 +5,8 @@ export interface LineItem extends Stripe.LineItem {
 }
 
 export interface Order {
-  id: string;
+  id: string | null;
+  session_id: string;
   lineItems: LineItem[];
   total: number;
   customerDetails: Stripe.Checkout.Session["customer_details"];

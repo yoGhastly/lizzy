@@ -61,8 +61,20 @@ export async function POST(req: NextRequest, res: NextResponse) {
         const session = event.data.object as Stripe.Checkout.Session;
         console.log("🔔 Payment was successful!");
         const lineItems = await fetchLineItems(session);
+        if (!session.metadata?.orderId) {
+          console.error("Order ID not found in session metadata");
+          return NextResponse.json(
+            {
+              error: {
+                message: `Order ID not found in session metadata`,
+              },
+            },
+            { status: 400 },
+          );
+        }
         const order: Order = {
-          id: session.id,
+          id: session.metadata?.orderId,
+          session_id: session.id,
           lineItems,
           total: session.amount_total as number,
           customerDetails: session.customer_details,
