@@ -18,7 +18,8 @@ export default async function OrderPage({
 }) {
   const order = await getOrder(orderId);
 
-  console.log(order);
+  // Properly stringify the order object before logging
+  console.log(JSON.stringify(order, null, 2));
 
   if (!order) {
     return <div>Order not found</div>;
