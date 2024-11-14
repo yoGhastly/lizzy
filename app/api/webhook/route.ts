@@ -14,12 +14,14 @@ async function fetchLineItems(
   const checkoutItems = await stripe.checkout.sessions.listLineItems(
     checkoutSession.id,
   );
+  console.log("Checkout items:", checkoutItems.data);
 
   return Promise.all(
     checkoutItems.data.map(async (item) => {
       const product = await stripe.products.retrieve(
         item.price?.product as string,
       );
+      console.log("Product:", product);
       return {
         ...item,
         url: product.images[0],
@@ -28,7 +30,7 @@ async function fetchLineItems(
   );
 }
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest, _res: NextResponse) {
   try {
     const buf = await req.text();
     const sig = req.headers.get("stripe-signature")!;
@@ -40,7 +42,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
       console.log(`Webhook received: ${event.id}`);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "Unknown error";
-      // On error, log and return the error message.
       if (err! instanceof Error) console.log(err);
       console.log(`❌ Error message: ${errorMessage}`);
       return NextResponse.json(
@@ -55,12 +56,12 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     console.log("✅ Success:", event.id);
 
-    // get user details from the checkout
     switch (event.type) {
       case "checkout.session.completed":
         const session = event.data.object as Stripe.Checkout.Session;
         console.log("🔔 Payment was successful!");
         const lineItems = await fetchLineItems(session);
+        console.log("Line items:", lineItems);
         if (!session.metadata?.orderId) {
           console.error("Order ID not found in session metadata");
           return NextResponse.json(
@@ -81,6 +82,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
           paymentStatus: session.payment_status,
           paymentDetails: session.payment_intent,
         };
+        console.log("Order to be saved:", order);
 
         await orderRepository.create(order);
         console.log(`Order created: ${order.id}`);

@@ -16,4 +16,5 @@ export interface Order {
 
 export interface OrderRepository {
   create(order: Order): Promise<void>;
+  getById(id: string): Promise<Order>;
 }

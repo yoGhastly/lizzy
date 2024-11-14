@@ -1,21 +1,39 @@
 import { Footer } from "@/app/modules/common/layout/footer";
+import { OrderRepositoryImpl } from "@/app/modules/orders/infrastructure/OrderRepository";
 import { ProductCard } from "@/app/modules/products/components/card";
+import { unstable_cache } from "next/cache";
+
+const ordersRepository = new OrderRepositoryImpl();
+
+const getOrder = unstable_cache(
+  async (orderId: string) => await ordersRepository.getById(orderId),
+  ["order"],
+  { revalidate: 3600, tags: ["order"] },
+);
 
 export default async function OrderPage({
   params: { orderId },
 }: {
   params: { orderId: string };
 }) {
+  const order = await getOrder(orderId);
+
+  console.log(order);
+
+  if (!order) {
+    return <div>Order not found</div>;
+  }
+
   return (
     <div className="flex flex-col w-full h-auto justify-center items-center md:items-start mt-14 gap-5 p-5 md:p-0">
       <header className="flex flex-col gap-2 w-full">
-        <h1 className="text-lg md:text-xl">No. Pedido {orderId}</h1>
+        <h1 className="text-lg md:text-xl">No. Pedido {order.id}</h1>
         <p className="text-xs">Fecha de compra: 20/10/2024</p>
       </header>
 
       <section className="flex flex-col gap-2 mt-20 w-full">
         <div className="flex flex-col gap-1 w-full">
-          <p className="text-sm">{1} productos</p>
+          {/* <p className="text-sm">{order.lineItems.length} Artículos</p> */}
           <div className="flex flex-col gap-1 w-full">
             <div className="bg-gray-500 w-24 h-32"></div>
             {/* <ProductCard product={{}} /> */}
