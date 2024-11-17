@@ -2,6 +2,7 @@ import Stripe from "stripe";
 
 export interface LineItem extends Stripe.LineItem {
   url: string;
+  variantSelectionsAndQuantities: string;
 }
 
 export interface Order {

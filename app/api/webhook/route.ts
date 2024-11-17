@@ -14,6 +14,8 @@ async function fetchLineItems(
   const checkoutItems = await stripe.checkout.sessions.listLineItems(
     checkoutSession.id,
   );
+  const variantSelectionsAndQuantities =
+    checkoutSession.metadata?.variantSelectionsAndQuantities;
   console.log("Checkout items:", checkoutItems.data);
 
   return Promise.all(
@@ -25,6 +27,9 @@ async function fetchLineItems(
       return {
         ...item,
         url: product.images[0],
+        variantSelectionsAndQuantities: JSON.parse(
+          variantSelectionsAndQuantities as string,
+        ),
       };
     }),
   );

@@ -78,7 +78,13 @@ export async function POST(req: NextRequest) {
 
     const successUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/mis-pedidos/${orderUniqueIdentifier}`;
 
-    // Create a new checkout session
+    const variantSelectionsAndQuantities = cart.items.map((item) => {
+      return {
+        variant: item.variant_id,
+        quantity: item.quantity,
+      };
+    });
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: lineItems,
@@ -92,6 +98,9 @@ export async function POST(req: NextRequest) {
       metadata: {
         cartId: cart.id,
         orderId: orderUniqueIdentifier,
+        variantSelectionsAndQuantities: JSON.stringify(
+          variantSelectionsAndQuantities,
+        ),
       },
       allow_promotion_codes: true,
       shipping_address_collection: {
