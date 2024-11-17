@@ -35,7 +35,7 @@ async function fetchLineItems(
   );
 }
 
-export async function POST(req: NextRequest, _res: NextResponse) {
+export async function POST(req: NextRequest) {
   try {
     const buf = await req.text();
     const sig = req.headers.get("stripe-signature")!;
@@ -47,7 +47,7 @@ export async function POST(req: NextRequest, _res: NextResponse) {
       console.log(`Webhook received: ${event.id}`);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "Unknown error";
-      if (err! instanceof Error) console.log(err);
+      if (err instanceof Error) console.log(err);
       console.log(`❌ Error message: ${errorMessage}`);
       return NextResponse.json(
         {
@@ -79,7 +79,7 @@ export async function POST(req: NextRequest, _res: NextResponse) {
           );
         }
         const order: Order = {
-          id: session.metadata?.orderId,
+          id: session.metadata.orderId,
           session_id: session.id,
           lineItems,
           total: session.amount_total as number,
@@ -95,9 +95,9 @@ export async function POST(req: NextRequest, _res: NextResponse) {
       default:
         console.log(`Unhandled event type: ${event.type}`);
     }
-
     return NextResponse.json({ received: true });
   } catch (error) {
+    console.error("Error in webhook handler:", error);
     return NextResponse.json(
       {
         error: {
@@ -105,6 +105,6 @@ export async function POST(req: NextRequest, _res: NextResponse) {
         },
       },
       { status: 405 },
-    ).headers.set("Allow", "POST");
+    );
   }
 }
