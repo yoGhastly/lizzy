@@ -1,8 +1,9 @@
+import Image from "next/image";
+import Stripe from "stripe";
 import { Footer } from "@/app/modules/common/layout/footer";
 import { OrderRepositoryImpl } from "@/app/modules/orders/infrastructure/OrderRepository";
 import { formatSelectedVariant } from "@/app/utils/formatSelectedVariant";
 import { unstable_cache } from "next/cache";
-import Image from "next/image";
 
 const ordersRepository = new OrderRepositoryImpl();
 
@@ -12,12 +13,27 @@ const getOrder = unstable_cache(
   { revalidate: 3600, tags: ["order"] },
 );
 
+const getPaymentIntent = unstable_cache(
+  async (paymentIntentId: string | Stripe.PaymentIntent | null) => {
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
+    const paymentIntent = await stripe.paymentIntents.retrieve(
+      paymentIntentId as string,
+    );
+    return paymentIntent;
+  },
+  ["paymentIntent"],
+  { revalidate: 3600, tags: ["paymentIntent"] },
+);
+
 export default async function OrderPage({
   params: { orderId },
 }: {
   params: { orderId: string };
 }) {
   const order = await getOrder(orderId);
+  const paymentIntent = await getPaymentIntent(order.paymentDetails);
+
+  console.log(paymentIntent);
 
   if (!order) {
     return <div>Order not found</div>;
@@ -27,7 +43,10 @@ export default async function OrderPage({
     <div className="flex flex-col w-full h-auto justify-center items-center md:items-start mt-14 gap-5 p-5 md:p-0">
       <header className="flex flex-col gap-2 w-full">
         <h1 className="text-lg md:text-xl">No. Pedido {order.id}</h1>
-        <p className="text-xs">Fecha de compra: 20/10/2024</p>
+        <p className="text-xs">
+          Fecha de compra:{" "}
+          {new Date(order.createdAt).toLocaleDateString("en-GB")}
+        </p>
       </header>
 
       <section className="flex flex-col gap-2 mt-20 w-full">
@@ -79,7 +98,7 @@ export default async function OrderPage({
         <div className="flex flex-col gap-16 w-full">
           <div className="flex flex-col gap-5">
             <h2 className="md:text-lg font-bold">Método de envío</h2>
-            <p className="text-sm">Entrega a domicilio</p>
+            <p className="text-sm">Recogida en tienda</p>
           </div>
 
           <div className="flex flex-col gap-5">

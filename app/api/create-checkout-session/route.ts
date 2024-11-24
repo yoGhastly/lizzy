@@ -99,6 +99,9 @@ export async function POST(req: NextRequest) {
         shipping: "auto",
       },
       billing_address_collection: "required",
+      saved_payment_method_options: {
+        payment_method_save: "enabled",
+      },
       metadata: {
         cartId: cart.id,
         orderId: orderUniqueIdentifier,
