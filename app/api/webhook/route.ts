@@ -16,6 +16,11 @@ async function fetchLineItems(
   );
   console.log("Checkout items:", checkoutItems.data);
 
+  const metadataVariants: {
+    productId: string;
+    variantId: string | undefined;
+  }[] = JSON.parse(checkoutSession?.metadata?.variants as string);
+
   return Promise.all(
     checkoutItems.data.map(async (item) => {
       const product = await stripe.products.retrieve(
@@ -26,6 +31,8 @@ async function fetchLineItems(
         ...item,
         url: product.images[0],
         name: product.name,
+        variant: metadataVariants.find((v) => v.productId === product.id)
+          ?.variantId,
       };
     }),
   );
@@ -78,6 +85,7 @@ export async function POST(req: NextRequest) {
           id: session.metadata.orderId,
           session_id: session.id,
           lineItems,
+          variants: session.metadata.variants as unknown as string[],
           total: session.amount_total as number,
           customerDetails: session.customer_details,
           paymentStatus: session.payment_status,

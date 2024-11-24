@@ -9,6 +9,7 @@ export interface Order {
   id: string | null;
   session_id: string;
   lineItems: LineItem[];
+  variants: string[];
   total: number;
   customerDetails: Stripe.Checkout.Session["customer_details"];
   paymentStatus: Stripe.Checkout.Session["payment_status"];
