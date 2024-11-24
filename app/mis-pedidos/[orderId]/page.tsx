@@ -1,8 +1,8 @@
 import { Footer } from "@/app/modules/common/layout/footer";
 import { OrderRepositoryImpl } from "@/app/modules/orders/infrastructure/OrderRepository";
+import { formatSelectedVariant } from "@/app/utils/formatSelectedVariant";
 import { unstable_cache } from "next/cache";
 import Image from "next/image";
-import Link from "next/link";
 
 const ordersRepository = new OrderRepositoryImpl();
 
@@ -18,6 +18,7 @@ export default async function OrderPage({
   params: { orderId: string };
 }) {
   const order = await getOrder(orderId);
+
   if (!order) {
     return <div>Order not found</div>;
   }
@@ -34,8 +35,7 @@ export default async function OrderPage({
           <p className="text-sm">{order.lineItems.length} Artículos</p>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-2">
             {order.lineItems.map((item) => (
-              <Link
-                href={`/catalogo/productos/${item.id}`}
+              <div
                 key={item.id}
                 className="flex flex-col gap-2 group overflow-hidden max-w-[200px]"
               >
@@ -53,7 +53,12 @@ export default async function OrderPage({
                 </picture>
                 <section className="flex flex-col gap-2">
                   <div className="flex flex-col gap-1">
-                    <p className="capitalize text-sm">{item.name}</p>
+                    <p className="capitalize text-sm">
+                      {item.name}
+                      <span className="text-xs text-gray-400 ml-1">
+                        {formatSelectedVariant(item.variant as string)}
+                      </span>
+                    </p>
                     <h3 className="uppercase font-semibold">
                       {item.amount_total / 100} {item.currency}{" "}
                       <span className="text-xs text-gray-400">
@@ -62,7 +67,7 @@ export default async function OrderPage({
                     </h3>
                   </div>
                 </section>
-              </Link>
+              </div>
             ))}
           </div>
         </div>

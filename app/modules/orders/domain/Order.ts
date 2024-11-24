@@ -3,6 +3,7 @@ import Stripe from "stripe";
 export interface LineItem extends Stripe.LineItem {
   url: string;
   name: string;
+  variant: string | undefined;
 }
 
 export interface Order {
@@ -13,6 +14,7 @@ export interface Order {
   customerDetails: Stripe.Checkout.Session["customer_details"];
   paymentStatus: Stripe.Checkout.Session["payment_status"];
   paymentDetails: Stripe.Checkout.Session["payment_intent"];
+  createdAt: Date;
 }
 
 export interface OrderRepository {

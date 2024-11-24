@@ -92,6 +92,7 @@ export async function POST(req: NextRequest) {
           customerDetails: session.customer_details,
           paymentStatus: session.payment_status,
           paymentDetails: session.payment_intent,
+          createdAt: new Date(),
         };
         console.log("Order to be saved:", order);
 
