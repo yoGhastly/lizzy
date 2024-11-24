@@ -91,6 +91,7 @@ export async function POST(req: NextRequest) {
           lineItems,
           total: session.amount_total as number,
           customerDetails: session.customer_details,
+          user_email: session.customer_details?.email || "", // Add user_email field
           paymentStatus: session.payment_status,
           paymentDetails: session.payment_intent,
           createdAt: new Date(),

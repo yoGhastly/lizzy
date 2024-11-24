@@ -2,7 +2,11 @@
 import { cn } from "@/app/utils/cn";
 import Image from "next/image";
 
-export const CartFallback = () => {
+interface Props {
+  displayText?: string;
+}
+
+export const CartFallback: React.FC<Props> = ({ displayText }) => {
   return (
     <div
       className={cn(
@@ -19,7 +23,9 @@ export const CartFallback = () => {
         />
       </div>
       <p className="text-muted-gray text-center max-w-[200px]">
-        Parece que aún no has agregado nada a tu cesta.
+        {displayText
+          ? displayText
+          : "Parece que aún no has agregado nada a tu cesta."}
       </p>
     </div>
   );

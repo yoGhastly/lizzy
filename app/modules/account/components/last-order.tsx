@@ -2,8 +2,13 @@
 
 import { ArrowUpRightIcon } from "@heroicons/react/24/solid";
 import { DecorativeTitle } from "../../common/components/decorative-title";
+import { type LastOrder as LastOrderInterface } from "../../orders/domain/Order";
 
-export const LastOrder = () => {
+interface Props {
+  order: LastOrderInterface | null;
+}
+
+export const LastOrder: React.FC<Props> = ({ order }) => {
   return (
     <section className="flex flex-col gap-10 w-full md:px-10">
       <DecorativeTitle decorative={false} className="capitalize">

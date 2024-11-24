@@ -1,8 +1,5 @@
-"use client";
 import { AccountLayout } from "../modules/auth/account/account-layout";
 import { DecorativeTitle } from "../modules/common/components/decorative-title";
-import { useUser } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
 import { OrdersUserDetailsLayout } from "../modules/account/layouts/orders-user-details-layout";
 import { UserDetails } from "../modules/account/components/user-details";
 import { LastOrder } from "../modules/account/components/last-order";
@@ -10,13 +7,27 @@ import { MyOrdersLayout } from "../modules/account/layouts/my-orders-layout";
 import { OrderList } from "../modules/account/components/order-list";
 import { Fragment } from "react";
 import { Footer } from "../modules/common/layout/footer";
+import { currentUser } from "@clerk/nextjs/server";
+import { unstable_cache } from "next/cache";
+import { UserImpl } from "../modules/user/infrastructure/UserRepository";
+import { type LastOrder as LastOrderInterface } from "../modules/orders/domain/Order";
 
-export default function AccountPage() {
-  const router = useRouter();
-  const { isLoaded, isSignedIn } = useUser();
+const userRepository = new UserImpl();
 
-  if (isLoaded && !isSignedIn) {
-    return router.push("/sign-in");
+const getLastOrder = unstable_cache(
+  async (email: string) => await userRepository.getLastOrder(email),
+  ["last-order"],
+  { revalidate: 3600, tags: ["last-order"] },
+);
+
+export default async function AccountPage() {
+  const user = await currentUser();
+  let order: LastOrderInterface | null = null;
+  const userEmail = user?.emailAddresses[0].emailAddress;
+
+  if (user) {
+    order = await getLastOrder(userEmail as string);
+    console.log(order);
   }
 
   return (
@@ -24,7 +35,7 @@ export default function AccountPage() {
       <AccountLayout>
         <OrdersUserDetailsLayout>
           <UserDetails />
-          <LastOrder />
+          <LastOrder order={order} />
         </OrdersUserDetailsLayout>
         <MyOrdersLayout>
           <OrderList orders={[0, 1, 2]} />

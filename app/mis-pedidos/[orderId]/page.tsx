@@ -4,6 +4,9 @@ import { Footer } from "@/app/modules/common/layout/footer";
 import { OrderRepositoryImpl } from "@/app/modules/orders/infrastructure/OrderRepository";
 import { formatSelectedVariant } from "@/app/utils/formatSelectedVariant";
 import { unstable_cache } from "next/cache";
+import { VisaIcon } from "@/app/modules/common/icons/visa";
+import { MastercardIcon } from "@/app/modules/common/icons/mastercard";
+import { CartFallback } from "@/app/modules/cart/components/cart-fallback";
 
 const ordersRepository = new OrderRepositoryImpl();
 
@@ -25,18 +28,38 @@ const getPaymentIntent = unstable_cache(
   { revalidate: 3600, tags: ["paymentIntent"] },
 );
 
+const getPaymentMethod = unstable_cache(
+  async (paymentMethodId: string | Stripe.PaymentMethod | null) => {
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
+    const paymentMethod = await stripe.paymentMethods.retrieve(
+      paymentMethodId as string,
+    );
+    return paymentMethod;
+  },
+  ["paymentMethod"],
+  { revalidate: 3600, tags: ["paymentMethod"] },
+);
+
 export default async function OrderPage({
   params: { orderId },
 }: {
   params: { orderId: string };
 }) {
   const order = await getOrder(orderId);
-  const paymentIntent = await getPaymentIntent(order.paymentDetails);
+  let paymentIntent: Stripe.PaymentIntent | null = null;
+  let paymentMethod: Stripe.PaymentMethod | null = null;
 
-  console.log(paymentIntent);
+  if (order) {
+    paymentIntent = await getPaymentIntent(order.paymentDetails);
+    paymentMethod = await getPaymentMethod(paymentIntent.payment_method);
+  }
 
   if (!order) {
-    return <div>Order not found</div>;
+    return (
+      <div className="flex flex-col w-full h-auto justify-center items-center mt-14 gap-5 p-5 md:p-0">
+        <CartFallback displayText="Ooops! El pedido que buscas no existe." />
+      </div>
+    );
   }
 
   return (
@@ -103,19 +126,49 @@ export default async function OrderPage({
 
           <div className="flex flex-col gap-5">
             <h2 className="md:text-lg font-bold">Dirección de Envío</h2>
+            <p className="text-sm text-gray-500">
+              {order.customerDetails?.address?.line1}{" "}
+              {order.customerDetails?.address?.line2} <br />
+              {order.customerDetails?.address?.city},{" "}
+              {order.customerDetails?.address?.state}{" "}
+              {order.customerDetails?.address?.postal_code}
+              <br />
+              {order.customerDetails?.name} {order.customerDetails?.phone}
+            </p>
           </div>
         </div>
 
         <div className="flex flex-col gap-16 w-full">
           <div className="flex flex-col gap-5">
             <h2 className="md:text-lg font-bold">Método de pago</h2>
-            <p className="text-sm">Entrega a domicilio</p>
+            <div className="flex items-center gap-2">
+              <div className="w-10 h-10 flex items-center justify-center">
+                {paymentMethod.card?.brand === "visa" ? (
+                  <VisaIcon />
+                ) : (
+                  <MastercardIcon />
+                )}
+              </div>
+              <p className="text-sm text-gray-500">
+                ****{paymentMethod.card?.last4}
+              </p>
+            </div>
           </div>
 
           <div className="flex flex-col gap-5">
             <h2 className="md:text-lg font-bold">
               Dirección de la Facturación
             </h2>
+            <p className="text-sm text-gray-500">
+              {paymentMethod.billing_details.address?.line1}{" "}
+              {paymentMethod.billing_details.address?.line2} <br />
+              {paymentMethod.billing_details.address?.city},{" "}
+              {paymentMethod.billing_details.address?.state}{" "}
+              {paymentMethod.billing_details.address?.postal_code}
+              <br />
+              {paymentMethod.billing_details.name}{" "}
+              {paymentMethod.billing_details.phone}
+            </p>
           </div>
         </div>
       </div>
@@ -127,12 +180,18 @@ export default async function OrderPage({
         <div className="flex flex-col gap-5">
           <div className="flex justify-between">
             <p className="text-sm">Subtotal</p>
-            {/* <p className="text-sm">{order.subtotal}</p> */}
+            <p className="text-sm">
+              {order.lineItems.reduce(
+                (acc, item) => acc + item.amount_total,
+                0,
+              ) / 100}{" "}
+              MXN
+            </p>
           </div>
-          <div className="flex justify-between">
+          {/* <div className="flex justify-between">
             <p className="text-sm">Envío</p>
             <p className="text-sm">$200.00</p>
-          </div>
+          </div> */}
           <div className="flex justify-between">
             <p className="font-bold">Total</p>
             <p className="font-bold">{order.total / 100} MXN</p>

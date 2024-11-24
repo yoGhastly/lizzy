@@ -7,13 +7,14 @@ export class OrderRepositoryImpl implements OrderRepository {
     "use server";
     try {
       await sql`
-        INSERT INTO orders (id, session_id, line_items, total, customer_details, payment_status, payment_details)
+        INSERT INTO orders (id, session_id, line_items, total, customer_details, user_email, payment_status, payment_details)
         VALUES (
           ${order.id}, 
           ${order.session_id},
           ${JSON.stringify(order.lineItems)}::jsonb, 
           ${order.total}, 
           ${JSON.stringify(order.customerDetails)}::jsonb, 
+          ${order.user_email},
           ${order.paymentStatus}, 
           ${JSON.stringify(order.paymentDetails)}::jsonb
         )
@@ -23,6 +24,7 @@ export class OrderRepositoryImpl implements OrderRepository {
           line_items = EXCLUDED.line_items,
           total = EXCLUDED.total,
           customer_details = EXCLUDED.customer_details,
+          user_email = EXCLUDED.user_email,
           payment_status = EXCLUDED.payment_status,
           payment_details = EXCLUDED.payment_details;
       `;
@@ -33,7 +35,7 @@ export class OrderRepositoryImpl implements OrderRepository {
     }
   }
 
-  async getById(id: string): Promise<Order> {
+  async getById(id: string): Promise<Order | null> {
     "use server";
     try {
       const result = await sql`SELECT * FROM orders WHERE id = ${id}`;
@@ -51,14 +53,15 @@ export class OrderRepositoryImpl implements OrderRepository {
         lineItems: row.line_items,
         total: row.total,
         customerDetails: row.customer_details,
+        user_email: row.user_email,
         paymentStatus: row.payment_status,
         paymentDetails: row.payment_details,
         createdAt: row.createdat,
       };
       return order;
     } catch (error: any) {
-      console.log(`Error getting order: ${error.message}`);
-      throw new Error(`Error getting order: ${error.message}`);
+      console.error(`Error getting order: ${error.message}`);
+      return null;
     }
   }
 }
