@@ -33,8 +33,9 @@ async function fetchLineItems(
         ...item,
         url: product.images[0],
         name: product.name,
-        variant: metadataVariants.find((v) => v.productId === product.id)
-          ?.variantId,
+        variant: metadataVariants.find(
+          (v) => v.productId === item.price?.product,
+        )?.variantId,
       };
     }),
   );
