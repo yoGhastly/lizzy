@@ -10,14 +10,8 @@ export const MastercardIcon = () => (
   >
     <desc>Created with Sketch.</desc>
     <defs></defs>
-    <g
-      id="Page-1"
-      stroke="none"
-      stroke-width="1"
-      fill="none"
-      fill-rule="evenodd"
-    >
-      <g id="mastercard" fill-rule="nonzero">
+    <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+      <g id="mastercard" fillRule="nonzero">
         <rect
           id="Rectangle-1"
           fill="#000000"

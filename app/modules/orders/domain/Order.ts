@@ -21,6 +21,8 @@ export interface Order {
 export interface LastOrder {
   items: string[]; // item images
   quantity: number;
+  id: string;
+  status: string;
 }
 
 export interface OrderRepository {

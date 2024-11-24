@@ -1,13 +1,17 @@
 "use client";
 import { cn } from "@/app/utils/cn";
-import { SignOutButton, useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { PencilSquareIcon } from "@heroicons/react/24/solid";
 
-export const UserDetails = () => {
+interface Props {
+  address: string;
+}
+
+export const UserDetails: React.FC<Props> = ({ address }) => {
   const { isLoaded, isSignedIn, user } = useUser();
 
-  if (!isLoaded || !isSignedIn) {
-    return null;
+  if (!isLoaded || !isSignedIn || address === "") {
+    return <p>Cargando...</p>;
   }
 
   return (
@@ -23,13 +27,7 @@ export const UserDetails = () => {
         )}
       </h2>
       <div className="flex gap-3 items-center">
-        <p className="text-black max-w-xs text-xs md:text-sm">
-          Calle 123, culpa sint labore ut ipsum San Nicolás de Los Garza, Nuevo
-          León
-        </p>
-        <button className="btn btn-sm btn-circle bg-[#C5C5C5]">
-          <PencilSquareIcon className="h-4 text-[#fafafa]" />
-        </button>
+        <p className="text-black max-w-xs text-xs md:text-sm">{address}</p>
       </div>
     </section>
   );
