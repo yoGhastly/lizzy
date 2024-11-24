@@ -53,6 +53,7 @@ export class OrderRepositoryImpl implements OrderRepository {
         customerDetails: row.customer_details,
         paymentStatus: row.payment_status,
         paymentDetails: row.payment_details,
+        createdAt: row.createdat,
       };
       return order;
     } catch (error: any) {
