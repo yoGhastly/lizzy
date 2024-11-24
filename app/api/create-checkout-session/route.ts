@@ -61,7 +61,6 @@ export async function POST(req: NextRequest) {
               description: productData[index].description as string,
               metadata: {
                 productId: item.product_id,
-                variantId: selectedVariant,
               },
             },
             unit_amount: Math.round(itemPrice * 100),
