@@ -53,8 +53,14 @@ export default async function OrderPage({
                 </picture>
                 <section className="flex flex-col gap-2">
                   <div className="flex flex-col gap-1">
+                    <p className="text-sm">
+                      {item.description}
+                    </p>
                     <h3 className="uppercase">
-                      {item.amount_total / 100} {item.currency}
+                      {item.amount_total / 100} {item.currency}{" "}
+                      <span className="text-xs text-gray-400">
+                        x{item.quantity}
+                      </span>
                     </h3>
                   </div>
                 </section>
