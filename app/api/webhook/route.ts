@@ -85,7 +85,6 @@ export async function POST(req: NextRequest) {
           id: session.metadata.orderId,
           session_id: session.id,
           lineItems,
-          variants: session.metadata.variants as unknown as string[],
           total: session.amount_total as number,
           customerDetails: session.customer_details,
           paymentStatus: session.payment_status,
