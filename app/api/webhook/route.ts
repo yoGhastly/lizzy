@@ -67,6 +67,7 @@ export async function POST(req: NextRequest) {
     switch (event.type) {
       case "checkout.session.completed":
         const session = event.data.object as Stripe.Checkout.Session;
+        console.log("Metadata", session.metadata);
         console.log("🔔 Payment was successful!");
         const lineItems = await fetchLineItems(session);
         console.log("Line items:", lineItems);
