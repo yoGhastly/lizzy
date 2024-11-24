@@ -19,7 +19,7 @@ async function fetchLineItems(
   const metadataVariants: {
     productId: string;
     variantId: string | undefined;
-  }[] = JSON.parse(checkoutSession?.metadata?.variants as string);
+  }[] = JSON.parse(checkoutSession?.metadata?.selectedVariants as string);
 
   return Promise.all(
     checkoutItems.data.map(async (item) => {
