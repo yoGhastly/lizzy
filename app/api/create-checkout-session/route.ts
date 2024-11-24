@@ -81,12 +81,12 @@ export async function POST(req: NextRequest) {
 
     const successUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/mis-pedidos/${orderUniqueIdentifier}`;
 
-    const variants = cart.items.map((item) => {
-      return {
-        productId: item.product_id,
-        variantId: item.variant_id,
-      };
-    });
+    const variants = lineItems.flatMap((item) =>
+      cart.items.map((cartItem) => ({
+        productId: item.price_data?.product_data?.name as string,
+        variantId: cartItem.variant_id,
+      })),
+    );
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
