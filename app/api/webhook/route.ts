@@ -21,6 +21,8 @@ async function fetchLineItems(
     variantId: string | undefined;
   }[] = JSON.parse(checkoutSession?.metadata?.selectedVariants as string);
 
+  console.log("metadataVariants", metadataVariants);
+
   return Promise.all(
     checkoutItems.data.map(async (item) => {
       const product = await stripe.products.retrieve(
