@@ -139,37 +139,40 @@ export default async function OrderPage({
         </div>
 
         <div className="flex flex-col gap-16 w-full">
-          <div className="flex flex-col gap-5">
-            <h2 className="md:text-lg font-bold">Método de pago</h2>
-            <div className="flex items-center gap-2">
-              <div className="w-10 h-10 flex items-center justify-center">
-                {paymentMethod.card?.brand === "visa" ? (
-                  <VisaIcon />
-                ) : (
-                  <MastercardIcon />
-                )}
+          {paymentMethod && (
+            <div className="flex flex-col gap-5">
+              <h2 className="md:text-lg font-bold">Método de pago</h2>
+              <div className="flex items-center gap-2">
+                <div className="w-10 h-10 flex items-center justify-center">
+                  {paymentMethod.card?.brand === "visa" ? (
+                    <VisaIcon />
+                  ) : (
+                    <MastercardIcon />
+                  )}
+                </div>
+                <p className="text-sm text-gray-500">
+                  ****{paymentMethod.card?.last4}
+                </p>
               </div>
+            </div>
+          )}
+          {paymentMethod && (
+            <div className="flex flex-col gap-5">
+              <h2 className="md:text-lg font-bold">
+                Dirección de la Facturación
+              </h2>
               <p className="text-sm text-gray-500">
-                ****{paymentMethod.card?.last4}
+                {paymentMethod.billing_details.address?.line1}{" "}
+                {paymentMethod.billing_details.address?.line2} <br />
+                {paymentMethod.billing_details.address?.city},{" "}
+                {paymentMethod.billing_details.address?.state}{" "}
+                {paymentMethod.billing_details.address?.postal_code}
+                <br />
+                {paymentMethod.billing_details.name}{" "}
+                {paymentMethod.billing_details.phone}
               </p>
             </div>
-          </div>
-
-          <div className="flex flex-col gap-5">
-            <h2 className="md:text-lg font-bold">
-              Dirección de la Facturación
-            </h2>
-            <p className="text-sm text-gray-500">
-              {paymentMethod.billing_details.address?.line1}{" "}
-              {paymentMethod.billing_details.address?.line2} <br />
-              {paymentMethod.billing_details.address?.city},{" "}
-              {paymentMethod.billing_details.address?.state}{" "}
-              {paymentMethod.billing_details.address?.postal_code}
-              <br />
-              {paymentMethod.billing_details.name}{" "}
-              {paymentMethod.billing_details.phone}
-            </p>
-          </div>
+          )}
         </div>
       </div>
 
