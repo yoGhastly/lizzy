@@ -1,5 +1,5 @@
 "use client";
-import { SignOutButton, useAuth } from "@clerk/nextjs";
+import { useAuth } from "@clerk/nextjs";
 import {
   Menu,
   MenuButton,
@@ -20,25 +20,38 @@ interface Props {
   triggerElement: JSX.Element;
 }
 
-function AccountItems() {
-  return [
+function AccountItems(isAdmin: boolean): DropDownItem[] {
+  const items: DropDownItem[] = [
     { name: "Mi cuenta", link: "/mi-cuenta" },
     { name: "Mis pedidos", link: "/mis-pedidos" },
   ];
+
+  if (isAdmin) {
+    items.push({ name: "Administrar", link: "/admin" });
+  }
+
+  return items;
 }
 
-function InitialItems() {
-  return [
-    { name: "Iniciar sesión", link: "/" },
-    { name: "Registrarse", link: "/" },
+function InitialItems(): DropDownItem[] {
+  const items: DropDownItem[] = [
+    { name: "Iniciar sesión", link: "/sign-in" },
+    { name: "Registrarse", link: "/sign-up" },
   ];
+  return items;
 }
 
 export const AccountDropDownMenu: React.FC<Props> = ({ triggerElement }) => {
-  const { isSignedIn } = useAuth();
-  const accountItems = AccountItems();
+  const { isSignedIn, has } = useAuth();
   const initialItems = InitialItems();
 
+  if (!has) return null;
+
+  const hasAccess = has({
+    permission: "org:feature:permission",
+  });
+
+  const accountItems = AccountItems(hasAccess);
   return (
     <Menu>
       <MenuButton>{triggerElement}</MenuButton>
@@ -55,25 +68,25 @@ export const AccountDropDownMenu: React.FC<Props> = ({ triggerElement }) => {
         >
           {isSignedIn
             ? accountItems.map(({ name, link }) => (
-              <MenuItem key={name}>
-                <Link
-                  className="flex text-muted-gray z-[100000] items-center data-[focus]:bg-[#fafafa] data-[focus]:transition-colors data-[focus]:duration-200 px-5 border-b py-3"
-                  href={link ? link : "#"}
-                >
-                  {name}
-                </Link>
-              </MenuItem>
-            ))
+                <MenuItem key={name}>
+                  <Link
+                    className="flex text-muted-gray z-[100000] items-center data-[focus]:bg-[#fafafa] data-[focus]:transition-colors data-[focus]:duration-200 px-5 border-b py-3"
+                    href={link ? link : "#"}
+                  >
+                    {name}
+                  </Link>
+                </MenuItem>
+              ))
             : initialItems.map(({ name, link }) => (
-              <MenuItem key={name}>
-                <Link
-                  className="flex text-muted-gray z-[100000] items-center data-[focus]:bg-[#fafafa] data-[focus]:transition-colors data-[focus]:duration-200 px-5 border-b py-3"
-                  href={link ? link : "#"}
-                >
-                  {name}
-                </Link>
-              </MenuItem>
-            ))}
+                <MenuItem key={name}>
+                  <Link
+                    className="flex text-muted-gray z-[100000] items-center data-[focus]:bg-[#fafafa] data-[focus]:transition-colors data-[focus]:duration-200 px-5 border-b py-3"
+                    href={link ? link : "#"}
+                  >
+                    {name}
+                  </Link>
+                </MenuItem>
+              ))}
         </MenuItems>
       </Transition>
     </Menu>

@@ -20,6 +20,9 @@ const config: Config = {
         base: "#A1A1A1",
         novi: {
           primary: "#F5DD92",
+          "50": "#fffbeb",
+          "100": "#fef3c7",
+          "300": "#fbd24e",
           "400": "#EBB134",
           "500": "#E4921C",
           "600": "#CA6F15",
