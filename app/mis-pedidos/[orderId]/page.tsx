@@ -7,6 +7,9 @@ import { unstable_cache } from "next/cache";
 import { VisaIcon } from "@/app/modules/common/icons/visa";
 import { MastercardIcon } from "@/app/modules/common/icons/mastercard";
 import { CartFallback } from "@/app/modules/cart/components/cart-fallback";
+import { auth } from "@clerk/nextjs/server";
+import { Button } from "@/app/modules/common/components/button";
+import { cn } from "@/app/utils/cn";
 
 const ordersRepository = new OrderRepositoryImpl();
 
@@ -45,9 +48,14 @@ export default async function OrderPage({
 }: {
   params: { orderId: string };
 }) {
+  const { has } = auth();
   const order = await getOrder(orderId);
   let paymentIntent: Stripe.PaymentIntent | null = null;
   let paymentMethod: Stripe.PaymentMethod | null = null;
+
+  const hasAccess = has({
+    permission: "org:feature:permission",
+  });
 
   if (order) {
     paymentIntent = await getPaymentIntent(order.paymentDetails);
@@ -65,7 +73,15 @@ export default async function OrderPage({
   return (
     <div className="flex flex-col w-full h-auto justify-center items-center md:items-start mt-14 gap-5 p-5 md:p-0">
       <header className="flex flex-col gap-2 w-full">
-        <h1 className="text-lg md:text-xl">No. Pedido {order.id}</h1>
+        <div className="w-full flex justify-between">
+          <h1 className="text-lg md:text-xl">No. Pedido {order.id}</h1>
+          <Button
+            className={cn(hasAccess ? "block" : "hidden", "btn-sm")}
+            secondary
+          >
+            Cambiar estatus
+          </Button>
+        </div>
         <p className="text-xs">
           Fecha de compra:{" "}
           {new Date(order.createdAt).toLocaleDateString("en-GB")}

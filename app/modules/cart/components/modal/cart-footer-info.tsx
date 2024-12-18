@@ -7,10 +7,7 @@ export const CartFooterInfo = () => {
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
-    const taxRate = 0.05;
-    const tax = subtotal * taxRate;
-    const total = subtotal + tax;
-    setTotal(total);
+    setTotal(subtotal);
 
     return () => {
       setTotal(0);

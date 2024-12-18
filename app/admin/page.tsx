@@ -9,22 +9,22 @@ export default function AdminPage() {
   const items = [
     {
       label: "Recientes",
-      count: 10,
+      count: 0,
       icon: <ClockIcon className={cn("h-6 w-6 text-novi-950")} />,
     },
     {
       label: "En proceso",
-      count: 5,
+      count: 0,
       icon: <GiftIcon className={cn("h-6 w-6 text-novi-950")} />,
     },
     {
       label: "Completadas",
-      count: 20,
+      count: 0,
       icon: <CheckCircleIcon className={cn("h-6 w-6 text-novi-950")} />,
     },
     {
       label: "Canceladas",
-      count: 3,
+      count: 0,
       icon: <XCircleIcon className={cn("h-6 w-6 text-novi-950")} />,
     },
   ];

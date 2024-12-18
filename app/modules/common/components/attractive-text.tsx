@@ -10,7 +10,7 @@ export const AttractiveText = ({
 }) => {
   return (
     <div className="relative block">
-      <span>{element}</span>
+      {element}
       {active && (
         <span className="bg-novi-500 rounded-full w-1.5 h-1.5 absolute top-[0.13rem] -right-[0.3rem]" />
       )}

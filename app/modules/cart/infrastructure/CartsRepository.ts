@@ -82,9 +82,7 @@ export class MySqlCartsRepository implements CartRepository {
     sessionId: string,
     item: NewCartItem,
   ): Promise<void> {
-    let cart = userId
-      ? await this.getCartByUserId(userId)
-      : await this.getCartBySessionId(sessionId);
+    let cart = await this.getCartBySessionId(sessionId);
 
     if (!cart) {
       // Create a new cart if none exists
